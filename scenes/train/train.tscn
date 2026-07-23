@@ -1,8 +1,57 @@
-[gd_scene load_steps=2 format=3 uid="uid://c4p68dbulc7g7"]
+[gd_scene load_steps=6 format=3 uid="uid://c4p68dbulc7g7"]
 
 [ext_resource type="Texture2D" uid="uid://cbbsc6lb8lhjj" path="res://assets/train/train.png" id="1_tnona"]
+[ext_resource type="Script" uid="uid://r4n3g8gcnds2" path="res://scripts/train/driverSeat.gd" id="2_fxk1r"]
+[ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="3_4bqpq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0oxr"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0drc4"]
+load_path = "res://.godot/imported/interactButtonDown.png-74bda32813be2c65eafc555e5915cac3.ctex"
 
 [node name="train" type="Node2D"]
+texture_filter = 1
+
+[node name="driverSeat" type="Node2D" parent="."]
+position = Vector2(-32, -420)
+
+[node name="driverSeatPoint" type="Node2D" parent="driverSeat"]
+
+[node name="driverSeatCameraPoint" type="Node2D" parent="driverSeat"]
+
+[node name="driverSeatExitPoint" type="Node2D" parent="driverSeat"]
+
+[node name="driverSeatArea" type="Area2D" parent="driverSeat" node_paths=PackedStringArray("camera_point", "seat_point", "exit_point")]
+script = ExtResource("2_fxk1r")
+camera_point = NodePath("../driverSeatCameraPoint")
+seat_point = NodePath("../driverSeatPoint")
+exit_point = NodePath("../driverSeatExitPoint")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="driverSeat/driverSeatArea"]
+shape = SubResource("RectangleShape2D_b0oxr")
+
+[node name="Control" type="Control" parent="driverSeat/driverSeatArea"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="buttonUp" type="TextureRect" parent="driverSeat/driverSeatArea/Control"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_4bqpq")
+
+[node name="buttonDown" type="TextureRect" parent="driverSeat/driverSeatArea/Control"]
+visible = false
+texture_filter = 1
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("CompressedTexture2D_0drc4")
 
 [node name="Train" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -12,4 +61,7 @@ texture = ExtResource("1_tnona")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
 position = Vector2(0, -315)
-polygon = PackedVector2Array(-1, -171, -95, -167, -110, -154, -107, 388, 110, 386, 110, -159, 82, -169)
+polygon = PackedVector2Array(0, -177, -90, -171, -110, -155, -107, 388, 110, 386, 110, -159, 87, -173)
+
+[connection signal="body_entered" from="driverSeat/driverSeatArea" to="driverSeat/driverSeatArea" method="_on_body_entered"]
+[connection signal="body_exited" from="driverSeat/driverSeatArea" to="driverSeat/driverSeatArea" method="_on_body_exited"]

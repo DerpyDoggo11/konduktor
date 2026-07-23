@@ -1,12 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://b4fyvjv07r66u"]
+[gd_scene load_steps=4 format=3 uid="uid://b4fyvjv07r66u"]
 
 [ext_resource type="PackedScene" uid="uid://c83de8vfv1e0c" path="res://scenes/player/player.tscn" id="1_o5qli"]
-[ext_resource type="Texture2D" uid="uid://cbbsc6lb8lhjj" path="res://assets/train/train.png" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://c4p68dbulc7g7" path="res://scenes/train/train.tscn" id="3_jyhfs"]
+[ext_resource type="PackedScene" uid="uid://dw5funjw4sfyv" path="res://scenes/player/camera.tscn" id="3_sugp2"]
 
 [node name="Main" type="Node2D"]
+texture_filter = 1
 
 [node name="Player" parent="." instance=ExtResource("1_o5qli")]
 
-[node name="Train" type="Sprite2D" parent="."]
-position = Vector2(2, 316)
-texture = ExtResource("2_0wfyh")
+[node name="Camera" parent="." node_paths=PackedStringArray("default_target") instance=ExtResource("3_sugp2")]
+default_target = NodePath("../Player")
+
+[node name="train" parent="." instance=ExtResource("3_jyhfs")]

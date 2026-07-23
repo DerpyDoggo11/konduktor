@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2k5oxn1auduo"]
+
+[ext_resource type="Texture2D" uid="uid://dy7vct56h61m6" path="res://assets/player/tools/wrench.png" id="1_inqfr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_inqfr"]
+size = Vector2(6, 13)
+
+[node name="wrench" type="Node2D"]
+
+[node name="Wrench" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, 1)
+texture = ExtResource("1_inqfr")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -4.5)
+shape = SubResource("RectangleShape2D_inqfr")
