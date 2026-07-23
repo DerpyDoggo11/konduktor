@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://b4fyvjv07r66u"]
+
+[ext_resource type="PackedScene" uid="uid://c83de8vfv1e0c" path="res://scenes/player/player.tscn" id="1_o5qli"]
+[ext_resource type="Texture2D" uid="uid://cbbsc6lb8lhjj" path="res://assets/train/train.png" id="2_0wfyh"]
+
+[node name="Main" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_o5qli")]
+
+[node name="Train" type="Sprite2D" parent="."]
+position = Vector2(2, 316)
+texture = ExtResource("2_0wfyh")

@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4p68dbulc7g7"]
+
+[ext_resource type="Texture2D" uid="uid://cbbsc6lb8lhjj" path="res://assets/train/train.png" id="1_tnona"]
+
+[node name="train" type="Node2D"]
+
+[node name="Train" type="Sprite2D" parent="."]
+texture_filter = 1
+texture = ExtResource("1_tnona")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
+position = Vector2(0, -315)
+polygon = PackedVector2Array(-1, -171, -95, -167, -110, -154, -107, 388, 110, 386, 110, -159, 82, -169)
