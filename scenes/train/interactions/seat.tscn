@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dr741hg1rg686"]
+[gd_scene format=3 uid="uid://dr741hg1rg686"]
 
 [ext_resource type="Script" uid="uid://6urgkt0iicki" path="res://scripts/train/interactions/seat.gd" id="1_bcky6"]
 [ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="2_tjfxe"]
@@ -8,20 +8,20 @@
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xoh0e"]
 load_path = "res://.godot/imported/interactButtonDown.png-74bda32813be2c65eafc555e5915cac3.ctex"
 
-[node name="Seat" type="Area2D"]
+[node name="Seat" type="Area2D" unique_id=725261560]
 script = ExtResource("1_bcky6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=689202320]
 shape = SubResource("RectangleShape2D_tjfxe")
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=537981343]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 metadata/_edit_use_anchors_ = true
 
-[node name="buttonUp" type="TextureRect" parent="Control"]
+[node name="buttonUp" type="TextureRect" parent="Control" unique_id=1886709100]
 texture_filter = 1
 layout_mode = 0
 offset_left = -21.0
@@ -30,7 +30,7 @@ offset_right = 19.0
 offset_bottom = 18.0
 texture = ExtResource("2_tjfxe")
 
-[node name="buttonDown" type="TextureRect" parent="Control"]
+[node name="buttonDown" type="TextureRect" parent="Control" unique_id=554745199]
 texture_filter = 1
 layout_mode = 0
 offset_left = -21.0
