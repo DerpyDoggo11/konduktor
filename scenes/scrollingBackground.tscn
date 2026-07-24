@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=4 uid="uid://d04gj1kmjv3my"]
+[gd_scene format=4 uid="uid://d04gj1kmjv3my"]
 
 [ext_resource type="Script" uid="uid://d1auh0sh4m8kh" path="res://scripts/scrolling_background.gd" id="1_3gteo"]
 [ext_resource type="Texture2D" uid="uid://djf2cwdvi0chj" path="res://assets/tempTileset.png" id="2_qvqj7"]
