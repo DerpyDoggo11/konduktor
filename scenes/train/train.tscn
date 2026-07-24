@@ -1,16 +1,20 @@
-[gd_scene load_steps=6 format=3 uid="uid://c4p68dbulc7g7"]
+[gd_scene load_steps=8 format=3 uid="uid://c4p68dbulc7g7"]
 
+[ext_resource type="Script" uid="uid://chwqq4dog0qar" path="res://scripts/train/train.gd" id="1_4bqpq"]
 [ext_resource type="Texture2D" uid="uid://cbbsc6lb8lhjj" path="res://assets/train/train.png" id="1_tnona"]
-[ext_resource type="Script" uid="uid://r4n3g8gcnds2" path="res://scripts/train/driverSeat.gd" id="2_fxk1r"]
-[ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="3_4bqpq"]
+[ext_resource type="PackedScene" uid="uid://dr741hg1rg686" path="res://scenes/train/interactions/seat.tscn" id="2_b0oxr"]
+[ext_resource type="PackedScene" uid="uid://cdtle6aa7h5t6" path="res://scenes/train/interactions/throttle.tscn" id="4_4bqpq"]
+[ext_resource type="PackedScene" uid="uid://nf5clfrsuri" path="res://scenes/train/interactions/speedometer.tscn" id="5_b0oxr"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0oxr"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fxk1r"]
+size = Vector2(9, 144.75)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0drc4"]
-load_path = "res://.godot/imported/interactButtonDown.png-74bda32813be2c65eafc555e5915cac3.ctex"
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4bqpq"]
+size = Vector2(34.808327, 46)
 
 [node name="train" type="Node2D"]
 texture_filter = 1
+script = ExtResource("1_4bqpq")
 
 [node name="driverSeat" type="Node2D" parent="."]
 position = Vector2(-32, -420)
@@ -18,40 +22,14 @@ position = Vector2(-32, -420)
 [node name="driverSeatPoint" type="Node2D" parent="driverSeat"]
 
 [node name="driverSeatCameraPoint" type="Node2D" parent="driverSeat"]
+position = Vector2(-19, -38)
 
 [node name="driverSeatExitPoint" type="Node2D" parent="driverSeat"]
 
-[node name="driverSeatArea" type="Area2D" parent="driverSeat" node_paths=PackedStringArray("camera_point", "seat_point", "exit_point")]
-script = ExtResource("2_fxk1r")
+[node name="Seat" parent="driverSeat" node_paths=PackedStringArray("camera_point", "seat_point", "exit_point") instance=ExtResource("2_b0oxr")]
 camera_point = NodePath("../driverSeatCameraPoint")
 seat_point = NodePath("../driverSeatPoint")
 exit_point = NodePath("../driverSeatExitPoint")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="driverSeat/driverSeatArea"]
-shape = SubResource("RectangleShape2D_b0oxr")
-
-[node name="Control" type="Control" parent="driverSeat/driverSeatArea"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-metadata/_edit_use_anchors_ = true
-
-[node name="buttonUp" type="TextureRect" parent="driverSeat/driverSeatArea/Control"]
-visible = false
-texture_filter = 1
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = ExtResource("3_4bqpq")
-
-[node name="buttonDown" type="TextureRect" parent="driverSeat/driverSeatArea/Control"]
-visible = false
-texture_filter = 1
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-texture = SubResource("CompressedTexture2D_0drc4")
 
 [node name="Train" type="Sprite2D" parent="."]
 texture_filter = 1
@@ -59,9 +37,21 @@ texture = ExtResource("1_tnona")
 
 [node name="RigidBody2D" type="RigidBody2D" parent="."]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
-position = Vector2(0, -315)
-polygon = PackedVector2Array(0, -177, -90, -171, -110, -155, -107, 388, 110, 386, 110, -159, 87, -173)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(-110, -422)
+shape = SubResource("RectangleShape2D_fxk1r")
 
-[connection signal="body_entered" from="driverSeat/driverSeatArea" to="driverSeat/driverSeatArea" method="_on_body_entered"]
-[connection signal="body_exited" from="driverSeat/driverSeatArea" to="driverSeat/driverSeatArea" method="_on_body_exited"]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(110, -420)
+shape = SubResource("RectangleShape2D_fxk1r")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(-2, -472)
+scale = Vector2(6.1000285, 1)
+shape = SubResource("RectangleShape2D_4bqpq")
+
+[node name="Throttle" parent="." instance=ExtResource("4_4bqpq")]
+position = Vector2(-69, -455)
+
+[node name="speedometer" parent="." instance=ExtResource("5_b0oxr")]
+position = Vector2(-22, -459)

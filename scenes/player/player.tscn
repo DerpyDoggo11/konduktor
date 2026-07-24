@@ -7,18 +7,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8afob"]
 size = Vector2(26, 22)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_dovo2")
 item_scenes = Array[PackedScene]([ExtResource("2_gmlin")])
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." groups=["player"]]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_8afob")
 
-[node name="Player1" type="Sprite2D" parent="."]
+[node name="Player1" type="Sprite2D" parent="." groups=["player"]]
 texture_filter = 1
 texture = ExtResource("1_8afob")
 
-[node name="Hand" type="Node2D" parent="."]
+[node name="Hand" type="Node2D" parent="." groups=["player"]]
 position = Vector2(8, -13)

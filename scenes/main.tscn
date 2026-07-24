@@ -1,15 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://b4fyvjv07r66u"]
+[gd_scene load_steps=5 format=3 uid="uid://b4fyvjv07r66u"]
 
 [ext_resource type="PackedScene" uid="uid://c83de8vfv1e0c" path="res://scenes/player/player.tscn" id="1_o5qli"]
 [ext_resource type="PackedScene" uid="uid://c4p68dbulc7g7" path="res://scenes/train/train.tscn" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dw5funjw4sfyv" path="res://scenes/player/camera.tscn" id="3_sugp2"]
+[ext_resource type="PackedScene" uid="uid://d04gj1kmjv3my" path="res://scenes/scrollingBackground.tscn" id="3_tbgi4"]
 
 [node name="Main" type="Node2D"]
 texture_filter = 1
 
 [node name="Player" parent="." instance=ExtResource("1_o5qli")]
+position = Vector2(-1, -373)
 
 [node name="Camera" parent="." node_paths=PackedStringArray("default_target") instance=ExtResource("3_sugp2")]
 default_target = NodePath("../Player")
+
+[node name="scrollingBackground" parent="." instance=ExtResource("3_tbgi4")]
+z_index = -1
+train_path = NodePath("../train")
 
 [node name="train" parent="." instance=ExtResource("3_jyhfs")]
