@@ -9,7 +9,12 @@ size = Vector2(27, 32)
 [node name="Throttle" type="Area2D" unique_id=1688446062]
 script = ExtResource("1_v0442")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=371876260]
+[node name="visibleIcon" type="Sprite2D" parent="." unique_id=45099339]
+texture_filter = 1
+texture = ExtResource("1_k27mv")
+hframes = 8
+
+[node name="detailedIcon" type="Sprite2D" parent="." unique_id=371876260]
 texture_filter = 1
 texture = ExtResource("1_k27mv")
 hframes = 8

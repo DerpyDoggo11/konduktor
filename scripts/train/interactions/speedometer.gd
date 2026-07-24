@@ -5,7 +5,8 @@ extends Area2D
 @export var invert_frames: bool = false
 @export var needle_smoothing: float = 6.0
 
-@onready var gauge: Sprite2D = $Sprite2D
+@onready var tempGauge: Sprite2D = $visibleSpeedometer
+@onready var detailedGauge: Sprite2D = $detailedSpeedometer
 
 var target_ratio: float = 0.0
 var displayed_ratio: float = 0.0
@@ -26,7 +27,7 @@ func _on_mouse_entered() -> void:
 	
 	if active:
 		var cam = _get_camera()
-		cam.push_target(gauge, cam.control_zoom, true)
+		cam.push_target(detailedGauge, cam.control_zoom, true)
 	
 func _on_mouse_exited() -> void:
 	hovered = false
@@ -43,13 +44,14 @@ func set_active(value: bool) -> void:
 	_refresh()
 	
 func _refresh() -> void:
-	gauge.visible = active and hovered
+	detailedGauge.visible = active and hovered
+	tempGauge.visible = not detailedGauge.visible
 
 func _ready() -> void:
 	_apply_frame()
-	
-	gauge.visible = false
-	gauge.frame = 0
+	tempGauge.visible = true
+	detailedGauge.visible = false
+	detailedGauge.frame = 0
 
 	var train := get_node_or_null(train_path)
 	if train == null:
@@ -71,4 +73,4 @@ func _process(delta: float) -> void:
 func _apply_frame() -> void:
 	var idx: int = int(round(displayed_ratio * (frame_count - 1)))
 	idx = clampi(idx, 0, frame_count - 1)
-	gauge.frame = (frame_count - 1 - idx) if invert_frames else idx
+	detailedGauge.frame = (frame_count - 1 - idx) if invert_frames else idx

@@ -9,7 +9,8 @@
 texture_filter = 1
 
 [node name="Player" parent="." unique_id=1053001766 instance=ExtResource("1_o5qli")]
-position = Vector2(-1, -373)
+z_index = 1
+position = Vector2(-1, -221.255)
 
 [node name="Camera" parent="." unique_id=1725386832 node_paths=PackedStringArray("default_target") instance=ExtResource("3_sugp2")]
 default_target = NodePath("../Player")

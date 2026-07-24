@@ -15,6 +15,24 @@ var seat_anchor: Node2D = null
 var equipped_slot: int = 0 
 var equipped_item: Node2D = null
 
+signal fuel_changed(fuel: float, normalized: float)
+
+@export var max_fuel: float = 100.0
+var fuel: float
+
+func _ready() -> void:
+	fuel = max_fuel
+	
+func consume_fuel(amount: float) -> float:
+	var used: float = minf(amount, fuel)
+	fuel -= used
+	fuel_changed.emit(fuel, fuel / max_fuel)
+	return used
+
+func add_fuel(amount: float) -> void:
+	fuel = clampf(fuel + amount, 0.0, max_fuel)
+	fuel_changed.emit(fuel, fuel / max_fuel)
+	
 func _unhandled_input(event: InputEvent) -> void:
 	for slot in range(1, item_scenes.size() + 1):
 		if event.is_action_pressed("equip_%d" % slot):
@@ -46,6 +64,9 @@ func _physics_process(delta: float) -> void:
 			global_position = seat_anchor.global_position
 			global_rotation = seat_anchor.global_rotation
 		return
+	
+	if equipped_item and equipped_item.has_method("set_firing"):
+		equipped_item.set_firing(Input.is_action_pressed("attack"))
 
 	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var speed := walk_speed

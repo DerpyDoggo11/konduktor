@@ -1,22 +1,29 @@
 [gd_scene format=3 uid="uid://nf5clfrsuri"]
 
 [ext_resource type="Script" uid="uid://wdgo57akrflr" path="res://scripts/train/interactions/speedometer.gd" id="1_6v3pv"]
-[ext_resource type="Texture2D" uid="uid://c81vui5sjpvl8" path="res://assets/train/interactions/speedometer.png" id="1_cv6ra"]
+[ext_resource type="Texture2D" uid="uid://dq8uf72aqk5hc" path="res://assets/train/interactions/speedometer.png" id="1_cv6ra"]
+[ext_resource type="Texture2D" uid="uid://co61icscecsjj" path="res://assets/train/interactions/detailedSpeedometer.png" id="2_kbgu0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6v3pv"]
-size = Vector2(24.5, 24)
+size = Vector2(14.25, 15)
 
 [node name="speedometer" type="Area2D" unique_id=438638921]
 script = ExtResource("1_6v3pv")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=505865894]
+[node name="detailedSpeedometer" type="Sprite2D" parent="." unique_id=505865894]
 texture_filter = 1
-scale = Vector2(0.2, 0.2)
-texture = ExtResource("1_cv6ra")
+scale = Vector2(0.15, 0.15)
+texture = ExtResource("2_kbgu0")
 vframes = 14
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1396273384]
 shape = SubResource("RectangleShape2D_6v3pv")
+
+[node name="visibleSpeedometer" type="Sprite2D" parent="." unique_id=809811633]
+texture_filter = 1
+position = Vector2(-9.536743e-07, 0)
+scale = Vector2(0.21875, 0.21874999)
+texture = ExtResource("1_cv6ra")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

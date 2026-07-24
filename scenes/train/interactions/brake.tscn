@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://sojwb5dy0xsl"]
+
+[ext_resource type="Script" uid="uid://bt2xomwj7xarw" path="res://scripts/train/interactions/brake.gd" id="1_mgubu"]
+[ext_resource type="Texture2D" uid="uid://wxfayaejpq24" path="res://assets/train/interactions/throttle.png" id="1_xi7ed"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mgubu"]
+size = Vector2(27, 32)
+
+[node name="brake" type="Area2D" unique_id=1118501466]
+script = ExtResource("1_mgubu")
+
+[node name="visibleIcon" type="Sprite2D" parent="." unique_id=546910586]
+modulate = Color(0, 0, 0, 1)
+texture_filter = 1
+texture = ExtResource("1_xi7ed")
+hframes = 8
+
+[node name="detailedIcon" type="Sprite2D" parent="." unique_id=25780084]
+texture_filter = 1
+texture = ExtResource("1_xi7ed")
+hframes = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=255074982]
+shape = SubResource("RectangleShape2D_mgubu")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
