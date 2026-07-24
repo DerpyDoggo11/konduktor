@@ -14,13 +14,27 @@ var level: int = 0
 var active: bool = false
 var hovered: bool = false
 
+func _get_camera() -> Camera2D:
+	var cam := get_viewport().get_camera_2d()
+	if cam and cam.has_method("set_target"):
+		return cam
+	return null
+	
 func _on_mouse_entered() -> void:
 	hovered = true
 	_refresh()
 	
+	if active:
+		var cam = _get_camera()
+		cam.push_target(gauge, cam.control_zoom, true)
+	
 func _on_mouse_exited() -> void:
 	hovered = false
 	_refresh()
+	
+	if active:
+		var cam = _get_camera()
+		cam.pop_target()
 	
 func set_active(value: bool) -> void:
 	active = value

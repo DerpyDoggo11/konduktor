@@ -28,7 +28,13 @@ func _on_body_exited(body: Node) -> void:
 		return
 	player_in_range = null
 	prompt.visible = false
-
+	
+func _get_camera() -> Camera2D:
+	var cam := get_viewport().get_camera_2d()
+	if cam and cam.has_method("set_target"):
+		return cam
+	return null
+	
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed("interact"):
 		return
@@ -49,8 +55,9 @@ func _enter_seat(player: Node) -> void:
 	
 	get_parent().get_parent().throttle.set_active(true)
 	get_parent().get_parent().speedometer.set_active(true)
-
 	
+	var cam = _get_camera()
+	cam.set_target(camera_point, cam.seated_zoom, false)
 
 func _exit_seat() -> void:
 	var player = occupant
@@ -62,7 +69,9 @@ func _exit_seat() -> void:
 	get_parent().get_parent().throttle.set_active(false)
 	get_parent().get_parent().speedometer.set_active(false)
 	
-	#cam.set_target(camera_point, cam.seated_zoom, false)
+	var cam = _get_camera()
+	cam.set_target(player, cam.walk_zoom, false) 
+	
 	if player_in_range != null:
 		prompt.visible = true
 

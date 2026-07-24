@@ -22,14 +22,22 @@ func _get_camera() -> Camera2D:
 	if cam and cam.has_method("set_target"):
 		return cam
 	return null
-	
+
 func _on_mouse_entered() -> void:
 	hovered = true
 	_refresh()
 	
+	if active:
+		var cam = _get_camera()
+		cam.push_target(lever, cam.control_zoom, true)
+	
 func _on_mouse_exited() -> void:
 	hovered = false
 	_refresh()
+	
+	if active:
+		var cam = _get_camera()
+		cam.pop_target()
 	
 func set_active(value: bool) -> void:
 	active = value

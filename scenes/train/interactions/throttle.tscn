@@ -1,20 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdtle6aa7h5t6"]
+[gd_scene format=3 uid="uid://cdtle6aa7h5t6"]
 
 [ext_resource type="Texture2D" uid="uid://wxfayaejpq24" path="res://assets/train/interactions/throttle.png" id="1_k27mv"]
 [ext_resource type="Script" uid="uid://d1hekmrep0npf" path="res://scripts/train/interactions/throttle.gd" id="1_v0442"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0442"]
-size = Vector2(8, 32)
+size = Vector2(27, 32)
 
-[node name="Throttle" type="Area2D"]
+[node name="Throttle" type="Area2D" unique_id=1688446062]
 script = ExtResource("1_v0442")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=371876260]
 texture_filter = 1
 texture = ExtResource("1_k27mv")
 hframes = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1120391455]
 shape = SubResource("RectangleShape2D_v0442")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
