@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://b4fyvjv07r66u"]
 
 [ext_resource type="PackedScene" uid="uid://c83de8vfv1e0c" path="res://scenes/player/player.tscn" id="1_o5qli"]
+[ext_resource type="Script" uid="uid://fx4xmhn7sao1" path="res://scripts/main.gd" id="1_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://c4p68dbulc7g7" path="res://scenes/train/train.tscn" id="3_jyhfs"]
 [ext_resource type="PackedScene" uid="uid://dw5funjw4sfyv" path="res://scenes/player/camera.tscn" id="3_sugp2"]
-[ext_resource type="PackedScene" uid="uid://d04gj1kmjv3my" path="res://scenes/scrollingBackground.tscn" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://d04gj1kmjv3my" path="res://scenes/map/map.tscn" id="3_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://otjom6kgqfim" path="res://scenes/gameoverScreen.tscn" id="6_tefeu"]
 
 [node name="Main" type="Node2D" unique_id=2071199095]
 texture_filter = 1
+script = ExtResource("1_tbgi4")
+
+[node name="map" parent="." unique_id=1483682242 instance=ExtResource("3_tbgi4")]
+position = Vector2(0, 1)
 
 [node name="Player" parent="." unique_id=1053001766 instance=ExtResource("1_o5qli")]
 z_index = 1
@@ -15,8 +21,6 @@ position = Vector2(-1, -221.255)
 [node name="Camera" parent="." unique_id=1725386832 node_paths=PackedStringArray("default_target") instance=ExtResource("3_sugp2")]
 default_target = NodePath("../Player")
 
-[node name="scrollingBackground" parent="." unique_id=975981616 instance=ExtResource("3_tbgi4")]
-z_index = -1
-train_path = NodePath("../train")
-
 [node name="train" parent="." unique_id=49399859 instance=ExtResource("3_jyhfs")]
+
+[node name="gameoverScreen" parent="." unique_id=113212214 instance=ExtResource("6_tefeu")]

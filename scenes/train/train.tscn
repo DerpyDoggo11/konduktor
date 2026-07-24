@@ -5,8 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://dr741hg1rg686" path="res://scenes/train/interactions/seat.tscn" id="2_b0oxr"]
 [ext_resource type="PackedScene" uid="uid://cdtle6aa7h5t6" path="res://scenes/train/interactions/throttle.tscn" id="4_4bqpq"]
 [ext_resource type="PackedScene" uid="uid://nf5clfrsuri" path="res://scenes/train/interactions/speedometer.tscn" id="5_b0oxr"]
-[ext_resource type="PackedScene" uid="uid://j6mmxrb1yhv7" path="res://scenes/train/interactions/map.tscn" id="6_0drc4"]
+[ext_resource type="PackedScene" uid="uid://j6mmxrb1yhv7" path="res://scenes/train/interactions/mapInteraction.tscn" id="6_0drc4"]
 [ext_resource type="PackedScene" uid="uid://sojwb5dy0xsl" path="res://scenes/train/interactions/brake.tscn" id="7_xnb1e"]
+[ext_resource type="PackedScene" uid="uid://bfrid3q35ap2c" path="res://scenes/train/interactions/switchPanel.tscn" id="8_iuhv6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxk1r"]
 size = Vector2(8.5, 600.375)
@@ -62,9 +63,13 @@ size = Vector2(61, 30)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pws7h"]
 size = Vector2(82, 8)
 
-[node name="train" type="Node2D" unique_id=1364655378]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mci2a"]
+size = Vector2(230, 599)
+
+[node name="train" type="Node2D" unique_id=1364655378 groups=["train"]]
 texture_filter = 1
 script = ExtResource("1_4bqpq")
+ride_area_path = NodePath("RideArea")
 
 [node name="driverSeat" type="Node2D" parent="." unique_id=1376438207]
 position = Vector2(-32, -329.405)
@@ -219,3 +224,12 @@ position = Vector2(-84, -376)
 
 [node name="brake" parent="." unique_id=1118501466 instance=ExtResource("7_xnb1e")]
 position = Vector2(-64, -332)
+
+[node name="SwitchPanel" parent="." unique_id=1792046410 groups=["switchPanel"] instance=ExtResource("8_iuhv6")]
+position = Vector2(-31, -367)
+
+[node name="RideArea" type="Area2D" parent="." unique_id=23219139]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RideArea" unique_id=696598884]
+position = Vector2(0, -141.5)
+shape = SubResource("RectangleShape2D_mci2a")

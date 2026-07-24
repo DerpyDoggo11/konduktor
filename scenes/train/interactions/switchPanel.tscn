@@ -1,0 +1,79 @@
+[gd_scene format=3 uid="uid://bfrid3q35ap2c"]
+
+[ext_resource type="Script" uid="uid://8w7p8wdnnhyk" path="res://scripts/train/interactions/switchPanel.gd" id="1_7vixi"]
+[ext_resource type="Texture2D" uid="uid://cb71irwov0svk" path="res://assets/train/interactions/arrow.png" id="1_o75l2"]
+[ext_resource type="Script" uid="uid://b3tp08jff1ewo" path="res://scripts/train/interactions/arrowButton.gd" id="1_rrvni"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_24o6i"]
+size = Vector2(21, 11)
+
+[node name="SwitchPanel" type="Node2D" unique_id=1792046410]
+script = ExtResource("1_7vixi")
+
+[node name="LeftArrow" type="Area2D" parent="." unique_id=1813369780]
+position = Vector2(-20, 0)
+script = ExtResource("1_rrvni")
+direction = 0
+
+[node name="visibleIcon" type="Sprite2D" parent="LeftArrow" unique_id=1985463186]
+texture_filter = 1
+texture = ExtResource("1_o75l2")
+hframes = 2
+
+[node name="detailedIcon" type="Sprite2D" parent="LeftArrow" unique_id=1649973216]
+texture_filter = 1
+texture = ExtResource("1_o75l2")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftArrow" unique_id=69918843]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_24o6i")
+
+[node name="RightArrow" type="Area2D" parent="." unique_id=1837367906]
+position = Vector2(20, 0)
+rotation = 3.1415927
+script = ExtResource("1_rrvni")
+direction = 2
+
+[node name="visibleIcon" type="Sprite2D" parent="RightArrow" unique_id=747702574]
+texture_filter = 1
+texture = ExtResource("1_o75l2")
+hframes = 2
+
+[node name="detailedIcon" type="Sprite2D" parent="RightArrow" unique_id=1634371318]
+texture_filter = 1
+texture = ExtResource("1_o75l2")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightArrow" unique_id=803635409]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_24o6i")
+
+[node name="UpArrow" type="Area2D" parent="." unique_id=1781624355]
+position = Vector2(-0.5, -10)
+rotation = 1.5707964
+script = ExtResource("1_rrvni")
+
+[node name="visibleIcon" type="Sprite2D" parent="UpArrow" unique_id=2007595204]
+texture_filter = 1
+texture = ExtResource("1_o75l2")
+hframes = 2
+
+[node name="detailedIcon" type="Sprite2D" parent="UpArrow" unique_id=715933785]
+texture_filter = 1
+texture = ExtResource("1_o75l2")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UpArrow" unique_id=2045344637]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_24o6i")
+
+[connection signal="input_event" from="LeftArrow" to="LeftArrow" method="_on_input_event"]
+[connection signal="mouse_entered" from="LeftArrow" to="LeftArrow" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="LeftArrow" to="LeftArrow" method="_on_mouse_exited"]
+[connection signal="input_event" from="RightArrow" to="RightArrow" method="_on_input_event"]
+[connection signal="mouse_entered" from="RightArrow" to="RightArrow" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="RightArrow" to="RightArrow" method="_on_mouse_exited"]
+[connection signal="input_event" from="UpArrow" to="UpArrow" method="_on_input_event"]
+[connection signal="mouse_entered" from="UpArrow" to="UpArrow" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="UpArrow" to="UpArrow" method="_on_mouse_exited"]

@@ -27,6 +27,9 @@ window/size/viewport_height=600
 [global_group]
 
 player=""
+train=""
+switchPanel=""
+gameOver=""
 
 [input]
 
