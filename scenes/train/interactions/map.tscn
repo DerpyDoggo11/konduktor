@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://co8ifi7fiuk6t" path="res://scripts/train/interactions/mapInteraction.gd" id="1_aelby"]
 [ext_resource type="Texture2D" uid="uid://clvbgoefu2rtu" path="res://assets/player/Player1.png" id="2_s3lup"]
-[ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="3_s3lup"]
+[ext_resource type="Texture2D" uid="uid://b50sak6haad7t" path="res://assets/train/interactions/mapIcon.png" id="3_s3lup"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o78xc"]
 
@@ -30,6 +30,7 @@ texture = ExtResource("2_s3lup")
 [node name="Bezel" type="Sprite2D" parent="ScreenNode" unique_id=1561937385]
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=1410801028]
+texture_filter = 1
 texture = ExtResource("3_s3lup")
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

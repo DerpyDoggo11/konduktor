@@ -1,10 +1,9 @@
 extends Area2D
 
-signal throttle_changed(level: int, normalized: float)
+signal brake_changed(level: int, normalized: float)
 
 @export var max_level: int = 7
-@export var invert_frames: bool = true
-
+@export var invert_frames: bool = false      # flip if your sheet runs the other way
 @export var glow_when_active: Color = Color(1.3, 1.3, 1.3)
 
 @onready var tempIcon: Sprite2D = $visibleIcon
@@ -13,12 +12,12 @@ signal throttle_changed(level: int, normalized: float)
 var level: int = 0
 var active: bool = false
 var hovered: bool = false
+var _pushed: bool = false
 
 func _ready() -> void:
 	tempIcon.visible = true
 	detailedIcon.visible = false
-	detailedIcon.frame = 7
-	tempIcon.frame = 7
+	_apply_frames()
 
 func _get_camera() -> Camera2D:
 	var cam := get_viewport().get_camera_2d()
@@ -26,26 +25,39 @@ func _get_camera() -> Camera2D:
 		return cam
 	return null
 
+func _push_cam() -> void:
+	if _pushed:
+		return
+	var cam := _get_camera()
+	if cam:
+		cam.push_target(detailedIcon, cam.control_zoom, true)
+		_pushed = true
+
+func _pop_cam() -> void:
+	if not _pushed:
+		return
+	_pushed = false
+	var cam := _get_camera()
+	if cam:
+		cam.pop_target()
+
 func _on_mouse_entered() -> void:
+	if not active:
+		return
 	hovered = true
 	_refresh()
-	
-	if active:
-		var cam = _get_camera()
-		cam.push_target(detailedIcon, cam.control_zoom, true)
-	
+	_push_cam()
+
 func _on_mouse_exited() -> void:
 	hovered = false
 	_refresh()
-	
-	if active:
-		var cam = _get_camera()
-		cam.pop_target()
-	
+	_pop_cam()
+
 func set_active(value: bool) -> void:
 	active = value
 	if not active:
 		hovered = false
+		_pop_cam()
 	_refresh()
 
 func _refresh() -> void:
@@ -54,27 +66,27 @@ func _refresh() -> void:
 	detailedIcon.modulate = glow_when_active if active else Color.WHITE
 
 func _on_input_event(_viewport, event: InputEvent, _shape_idx: int) -> void:
-
 	if not active or not (event is InputEventMouseButton) or not event.pressed:
 		return
-		
-	
+
 	match event.button_index:
 		MOUSE_BUTTON_LEFT:
-			_set_level(level + 1)
+			_set_level(level - 1)
 		MOUSE_BUTTON_RIGHT:
-			_set_level(level - 1)
-		MOUSE_BUTTON_WHEEL_UP:
 			_set_level(level + 1)
-		MOUSE_BUTTON_WHEEL_DOWN:
+		MOUSE_BUTTON_WHEEL_UP:
 			_set_level(level - 1)
-			
+		MOUSE_BUTTON_WHEEL_DOWN:
+			_set_level(level + 1)
+
 func _set_level(value: int) -> void:
 	var new_level: int = clampi(value, 0, max_level)
 	if new_level == level:
 		return
 	level = new_level
-	
+	_apply_frames()
+	brake_changed.emit(level, float(level) / float(max_level))
+
+func _apply_frames() -> void:
 	detailedIcon.frame = (max_level - level) if invert_frames else level
 	tempIcon.frame = detailedIcon.frame
-	throttle_changed.emit(level, float(level) / float(max_level))

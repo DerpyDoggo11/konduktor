@@ -15,8 +15,6 @@ signal rpm_changed(rpm: float)
 @export var rolling_b: float = 300.0
 @export var drag_c: float = 45.0 
 
-@export var brake_force: float = 180000.0
-
 var throttle_level: int = 0
 var throttle_normalized: float = 0.0
 var brake_normalized: float = 0.0
@@ -30,12 +28,26 @@ var distance_m: float = 0.0
 @onready var speedometer: Area2D = $speedometer
 @onready var map: Area2D = $map
 
+@export var brake_force: float = 900000.0        # ~5x, stops hard
+@export var brake_cuts_power: bool = true         # brake overrides throttle
+
+@onready var brake: Area2D = $brake
+
+var brake_level: int = 0
+
+
 func _ready() -> void:
 	throttle.throttle_changed.connect(_on_throttle_changed)
+	brake.brake_changed.connect(_on_brake_changed)
 	throttle.set_active(false)
+	brake.set_active(false)
 	speedometer.set_active(false)
 	map.set_active(false)
 	rpm = idle_rpm
+
+func _on_brake_changed(level: int, normalized: float) -> void:
+	brake_level = level
+	brake_normalized = normalized
 
 func _on_throttle_changed(level: int, normalized: float) -> void:
 	throttle_level = level

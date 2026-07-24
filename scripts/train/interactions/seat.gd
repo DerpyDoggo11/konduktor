@@ -56,6 +56,7 @@ func _enter_seat(player: Node) -> void:
 	get_parent().get_parent().throttle.set_active(true)
 	get_parent().get_parent().speedometer.set_active(true)
 	get_parent().get_parent().map.set_active(true)
+	get_parent().get_parent().brake.set_active(true)
 	
 	var cam = _get_camera()
 	cam.set_target(camera_point, cam.seated_zoom, false)
@@ -70,6 +71,7 @@ func _exit_seat() -> void:
 	get_parent().get_parent().throttle.set_active(false)
 	get_parent().get_parent().speedometer.set_active(false)
 	get_parent().get_parent().map.set_active(false)
+	get_parent().get_parent().brake.set_active(false)
 	
 	var cam = _get_camera()
 	cam.set_target(player, cam.walk_zoom, false) 

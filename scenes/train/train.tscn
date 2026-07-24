@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cdtle6aa7h5t6" path="res://scenes/train/interactions/throttle.tscn" id="4_4bqpq"]
 [ext_resource type="PackedScene" uid="uid://nf5clfrsuri" path="res://scenes/train/interactions/speedometer.tscn" id="5_b0oxr"]
 [ext_resource type="PackedScene" uid="uid://j6mmxrb1yhv7" path="res://scenes/train/interactions/map.tscn" id="6_0drc4"]
+[ext_resource type="PackedScene" uid="uid://sojwb5dy0xsl" path="res://scenes/train/interactions/brake.tscn" id="7_xnb1e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxk1r"]
 size = Vector2(8.5, 600.375)
@@ -206,10 +207,15 @@ position = Vector2(66, 155)
 shape = SubResource("RectangleShape2D_pws7h")
 
 [node name="Throttle" parent="." unique_id=1170980154 instance=ExtResource("4_4bqpq")]
-position = Vector2(-33, -378)
+position = Vector2(0, -333)
 
 [node name="speedometer" parent="." unique_id=1643755587 instance=ExtResource("5_b0oxr")]
-position = Vector2(-7, -386)
+visible = false
+position = Vector2(-5, -372)
 
 [node name="map" parent="." unique_id=761399225 instance=ExtResource("6_0drc4")]
+visible = false
 position = Vector2(-84, -376)
+
+[node name="brake" parent="." unique_id=1118501466 instance=ExtResource("7_xnb1e")]
+position = Vector2(-64, -332)
