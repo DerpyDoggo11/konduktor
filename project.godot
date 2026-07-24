@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Konduktor"
-run/main_scene="uid://b4fyvjv07r66u"
+run/main_scene="uid://ysmgfwys4ukc"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 

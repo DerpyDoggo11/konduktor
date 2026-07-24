@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://ysmgfwys4ukc"]
+
+[ext_resource type="Script" uid="uid://dgaxgfpyenru" path="res://scenes/button.gd" id="1_tt55a"]
+[ext_resource type="AudioStream" uid="uid://j431jl2b6yar" path="res://assets/ui/UIButtonClicked.mp3" id="2_t7v6v"]
+[ext_resource type="AudioStream" uid="uid://i3hqnrd2fho8" path="res://assets/ui/UIHoverSound.mp3" id="3_vhbaf"]
+
+[node name="Titlescreen" type="Node2D" unique_id=2133657056]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1973701135]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=255615763]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=1926456269]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1656876769]
+layout_mode = 2
+theme_override_font_sizes/font_size = 64
+text = "Konduktor"
+horizontal_alignment = 1
+
+[node name="Button" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=2096533036]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 48
+text = "   Play   "
+script = ExtResource("1_tt55a")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Button" unique_id=1492233625]
+stream = ExtResource("2_t7v6v")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Button" unique_id=1874818131]
+stream = ExtResource("3_vhbaf")
+
+[connection signal="focus_entered" from="CanvasLayer/HBoxContainer/VBoxContainer/Button" to="CanvasLayer/HBoxContainer/VBoxContainer/Button" method="_on_mouse_entered"]
+[connection signal="pressed" from="CanvasLayer/HBoxContainer/VBoxContainer/Button" to="CanvasLayer/HBoxContainer/VBoxContainer/Button" method="_on_pressed"]
