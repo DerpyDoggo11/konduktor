@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://j6mmxrb1yhv7"]
+
+[ext_resource type="Script" uid="uid://co8ifi7fiuk6t" path="res://scripts/train/interactions/mapInteraction.gd" id="1_aelby"]
+[ext_resource type="Texture2D" uid="uid://clvbgoefu2rtu" path="res://assets/player/Player1.png" id="2_s3lup"]
+[ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="3_s3lup"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o78xc"]
+
+[node name="map" type="Area2D" unique_id=761399225]
+script = ExtResource("1_aelby")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1434525179]
+shape = SubResource("RectangleShape2D_o78xc")
+
+[node name="MapView" type="SubViewport" parent="." unique_id=1014533679]
+
+[node name="MapCam" type="Camera2D" parent="MapView" unique_id=1653909331]
+
+[node name="ScreenNode" type="Node2D" parent="." unique_id=891020320]
+
+[node name="Screen" type="Sprite2D" parent="ScreenNode" unique_id=559421823]
+
+[node name="Marker" type="Sprite2D" parent="ScreenNode" unique_id=1155467375]
+visible = false
+texture_filter = 1
+texture = ExtResource("2_s3lup")
+
+[node name="Bezel" type="Sprite2D" parent="ScreenNode" unique_id=1561937385]
+
+[node name="Icon" type="Sprite2D" parent="." unique_id=1410801028]
+texture = ExtResource("3_s3lup")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

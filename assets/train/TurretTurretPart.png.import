@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blwqg4q5j7u41"
-path="res://.godot/imported/train.png-0808ae0a59d1ace84ece849ee26b8317.ctex"
+uid="uid://t8xq068fgcrr"
+path="res://.godot/imported/TurretTurretPart.png-927cd4626d64fa743922f42cc45a86e0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/train/train.png"
-dest_files=["res://.godot/imported/train.png-0808ae0a59d1ace84ece849ee26b8317.ctex"]
+source_file="res://assets/train/TurretTurretPart.png"
+dest_files=["res://.godot/imported/TurretTurretPart.png-927cd4626d64fa743922f42cc45a86e0.ctex"]
 
 [params]
 

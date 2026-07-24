@@ -24,13 +24,17 @@ var brake_normalized: float = 0.0
 var rpm: float = 0.0
 var speed_ms: float = 0.0  
 
+var distance_m: float = 0.0
+
 @onready var throttle: Area2D = $Throttle
 @onready var speedometer: Area2D = $speedometer
+@onready var map: Area2D = $map
 
 func _ready() -> void:
 	throttle.throttle_changed.connect(_on_throttle_changed)
 	throttle.set_active(false)
 	speedometer.set_active(false)
+	map.set_active(false)
 	rpm = idle_rpm
 
 func _on_throttle_changed(level: int, normalized: float) -> void:
@@ -55,6 +59,7 @@ func _physics_process(delta: float) -> void:
 	var accel: float = net_force / mass
 
 	speed_ms = maxf(0.0, speed_ms + accel * delta)
+	distance_m += speed_ms * delta
 
 	speed_changed.emit(speed_ms, clampf(speed_ms / max_speed_ms, 0.0, 1.0))
 	rpm_changed.emit(rpm)
