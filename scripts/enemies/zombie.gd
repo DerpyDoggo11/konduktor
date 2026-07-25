@@ -15,6 +15,7 @@ const STATS := {
 @export var despawn_distance: float = 2500.0
 @export var rotation_speed: float = 8.0
 @export var sprite_angle_offset: float = 90.0
+@export var door_preference: float = 1.5   # <1 makes doors more attractive than the player
 
 @export var fuse_time: float = 0.7
 @export var trigger_range: float = 45.0
@@ -33,6 +34,7 @@ var speed: float = 45.0
 var damage: int = 8
 
 var player: Node2D = null
+var target: Node2D = null
 var _touching: Array = []
 var _damage_timer: float = 0.0
 var _knockback: Vector2 = Vector2.ZERO
@@ -43,7 +45,6 @@ func _ready() -> void:
 	add_to_group("enemy")
 	player = get_tree().get_first_node_in_group("player")
 	if healthbar:
-		healthbar.top_level = false
 		healthbar.max_value = max_health
 		healthbar.value = health
 		healthbar.visible = false
@@ -62,27 +63,51 @@ func configure(new_kind: int, difficulty: float = 1.0) -> void:
 		healthbar.max_value = max_health
 		healthbar.value = health
 
+func _pick_target() -> Node2D:
+	var best: Node2D = null
+	var best_dist: float = INF
+
+	if player and is_instance_valid(player):
+		best = player
+		best_dist = global_position.distance_to(player.global_position)
+
+	for d in get_tree().get_nodes_in_group("door"):
+		if not is_instance_valid(d) or d.is_broken:
+			continue
+		var dist: float = global_position.distance_to(d.global_position) * door_preference
+		if dist < best_dist:
+			best_dist = dist
+			best = d
+
+	return best
+
 func _physics_process(delta: float) -> void:
 	if player == null or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
+
+	target = _pick_target()
+	if target == null:
 		return
 
-	var to_player: Vector2 = player.global_position - global_position
-	var dist: float = to_player.length()
+	# Despawn is measured from the player, not the target, so a zombie
+	# chewing on a door still cleans up once the train pulls away.
+	if player and is_instance_valid(player):
+		if global_position.distance_to(player.global_position) > despawn_distance:
+			queue_free()
+			return
 
-	if dist > despawn_distance:
-		queue_free()
-		return
+	var to_target: Vector2 = target.global_position - global_position
+	var dist: float = to_target.length()
 
 	if _knockback.length() > 5.0:
 		_knockback = _knockback.lerp(Vector2.ZERO, delta * 8.0)
 		velocity = _knockback
 	else:
 		_knockback = Vector2.ZERO
-		velocity = velocity.move_toward(to_player.normalized() * speed, acceleration * delta)
+		velocity = velocity.move_toward(to_target.normalized() * speed, acceleration * delta)
 
 	if dist > 0.01:
-		var want_angle: float = to_player.angle() + deg_to_rad(sprite_angle_offset)
+		var want_angle: float = to_target.angle() + deg_to_rad(sprite_angle_offset)
 		sprite.global_rotation = lerp_angle(
 			sprite.global_rotation, want_angle, 1.0 - exp(-rotation_speed * delta)
 		)
@@ -169,7 +194,7 @@ func take_damage(amount: float, hit_from = null) -> void:
 			queue_free()
 
 func _on_damage_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("player") and not _touching.has(body):
+	if (body.is_in_group("player") or body.is_in_group("door")) and not _touching.has(body):
 		_touching.append(body)
 		_damage_timer = 0.0
 

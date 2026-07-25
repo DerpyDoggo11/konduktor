@@ -2,12 +2,16 @@
 
 [ext_resource type="Script" uid="uid://c0k3ji7tbvyms" path="res://scripts/train/interactions/largeDoor.gd" id="1_fjsb0"]
 [ext_resource type="Texture2D" uid="uid://5q0rlyhrjm7i" path="res://assets/train/door.png" id="2_fjsb0"]
+[ext_resource type="Texture2D" uid="uid://clpufjb1hc15q" path="res://assets/zombies/BarMpty.png" id="3_i184c"]
+[ext_resource type="Texture2D" uid="uid://bxei2ajdvbqt2" path="res://assets/train/brokenDoor.png" id="3_p1bmn"]
+[ext_resource type="Texture2D" uid="uid://c2dqoek656lfs" path="res://assets/zombies/BarrFull.png" id="4_p1bmn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3kir"]
 size = Vector2(7, 64)
 
 [node name="LargeDoor" type="AnimatableBody2D" unique_id=1354069265]
 collision_layer = 7
+collision_mask = 9
 script = ExtResource("1_fjsb0")
 
 [node name="Door" type="Sprite2D" parent="." unique_id=1418416036]
@@ -15,6 +19,26 @@ texture_filter = 1
 position = Vector2(29, 0)
 texture = ExtResource("2_fjsb0")
 
+[node name="Door2" type="Sprite2D" parent="." unique_id=1682715301]
+texture_filter = 1
+position = Vector2(29, 0)
+texture = ExtResource("3_p1bmn")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1780559206]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_n3kir")
+
+[node name="Healthbar" type="TextureProgressBar" parent="." unique_id=1346410715]
+texture_filter = 1
+offset_left = 24.0
+offset_top = -15.0
+offset_right = 59.0
+offset_bottom = 19.0
+rotation = 1.5707964
+value = 100.0
+texture_under = ExtResource("3_i184c")
+texture_progress = ExtResource("4_p1bmn")
+
+[node name="RepairShape" type="CollisionShape2D" parent="." unique_id=1737813388]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_n3kir")

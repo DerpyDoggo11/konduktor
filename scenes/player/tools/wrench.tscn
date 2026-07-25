@@ -9,7 +9,6 @@ size = Vector2(10, 28.5)
 [node name="wrench" type="Node2D" unique_id=1502849507]
 texture_filter = 1
 script = ExtResource("1_y02r2")
-wall_mask = 4
 
 [node name="Wrench" type="Sprite2D" parent="." unique_id=244579151]
 texture_filter = 1

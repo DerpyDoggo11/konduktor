@@ -1,37 +1,42 @@
 extends Node2D
 
-var firing: bool = false
-var _swinging: bool = false
-var _cooldown: float = 0.0
-var _hit_this_swing: Array = []
-var _rest_rotation: float = 0.0
-
-@export_flags_2d_physics var wall_mask: int = 3
-
-@onready var wrench_sprite: Sprite2D = $Wrench
-@onready var hit_area: Area2D = $Area2D
-
 @export var damage: int = 30
 @export var swing_arc_deg: float = 60.0
 @export var swing_time: float = 0.10
 @export var recover_time: float = 0.16
 @export var cooldown: float = 0.08
 
-@export var arc_variance_deg: float = 25.0 
-@export var aim_variance_deg: float = 12.0 
+@export var arc_variance_deg: float = 25.0
+@export var aim_variance_deg: float = 12.0
 @export var time_variance: float = 0.25
 @export var damage_variance: float = 0.5
-@export var overshoot: float = 0.12 
+@export var overshoot: float = 0.12
 
-var _swing_sign: float = 1.0
+@onready var wrench_sprite: Sprite2D = $Wrench
+@onready var hit_area: Area2D = $Area2D
 
+var firing: bool = false
 var ownerPlayer: Node = null
+
+var _swinging: bool = false
+var _cooldown: float = 0.0
+var _hit_this_swing: Array = []
+var _rest_rotation: float = 0.0
+var _swing_sign: float = 1.0
 
 func _ready() -> void:
 	_rest_rotation = rotation
 	hit_area.monitoring = false
 	ownerPlayer = _find_owner()
-	
+
+func _find_owner() -> Node:
+	var n: Node = self
+	while n:
+		if n.has_method("consume_fuel"):
+			return n
+		n = n.get_parent()
+	return null
+
 func set_firing(value: bool) -> void:
 	firing = value
 
@@ -46,7 +51,7 @@ func _physics_process(delta: float) -> void:
 
 func _set_swing_angle(angle: float) -> void:
 	rotation = angle
-	
+
 func _swing() -> void:
 	_swinging = true
 	_hit_this_swing.clear()
@@ -71,11 +76,9 @@ func _swing() -> void:
 	hit_area.set_deferred("monitoring", true)
 
 	var tween := create_tween()
-
 	tween.set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 	tween.tween_method(_set_swing_angle, start_a, past, st)
 	tween.tween_callback(func(): hit_area.monitoring = false)
-
 	tween.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 	tween.tween_method(_set_swing_angle, past, _rest_rotation, rt)
 	tween.tween_callback(func():
@@ -86,27 +89,28 @@ func _swing() -> void:
 func _try_hit(body: Node) -> void:
 	if _hit_this_swing.has(body) or not is_instance_valid(body):
 		return
+
+	if body.is_in_group("door") and body.has_method("repair"):
+		if body.needs_repair():
+			_hit_this_swing.append(body)
+			body.repair()
+		return
+
 	if not body.is_in_group("enemy") or not body.has_method("take_damage"):
 		return
 	if not _has_los(body):
 		return
+
 	_hit_this_swing.append(body)
 	var dmg: int = int(round(damage * randf_range(1.0 - damage_variance, 1.0 + damage_variance)))
 	body.take_damage(dmg, global_position)
-
-func _find_owner() -> Node:
-	var n: Node = self
-	while n:
-		if n.has_method("consume_fuel"):
-			return n
-		n = n.get_parent()
-	return null
 
 func _has_los(target: Node2D) -> bool:
 	var from: Vector2 = ownerPlayer.global_position if ownerPlayer else global_position
 	var space := get_world_2d().direct_space_state
 	var query := PhysicsRayQueryParameters2D.create(from, target.global_position)
 	query.collide_with_areas = false
+
 	var skip: Array = [target.get_rid()]
 	if ownerPlayer:
 		skip.append(ownerPlayer.get_rid())
@@ -115,6 +119,4 @@ func _has_los(target: Node2D) -> bool:
 	var hit := space.intersect_ray(query)
 	if hit.is_empty():
 		return true
-
-	var collider = hit.get("collider")
-	return not (collider is RigidBody2D)
+	return not (hit.get("collider") is RigidBody2D)

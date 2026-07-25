@@ -9,7 +9,7 @@
 size = Vector2(20, 19)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24o6i"]
-size = Vector2(30, 11)
+size = Vector2(30, 14)
 
 [node name="Zombie" type="CharacterBody2D" unique_id=116774448 groups=["enemy"]]
 z_index = 1
@@ -29,7 +29,7 @@ hframes = 9
 [node name="DamageArea" type="Area2D" parent="." unique_id=500271763]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DamageArea" unique_id=849904133]
-position = Vector2(0, -9.5)
+position = Vector2(0, -11)
 shape = SubResource("RectangleShape2D_24o6i")
 
 [node name="Healthbar" type="TextureProgressBar" parent="." unique_id=452017292]
