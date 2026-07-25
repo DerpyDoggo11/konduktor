@@ -29,7 +29,7 @@ func show_game_over(reason: String = "", title: String = "") -> void:
 	title_label.text = default_title if title == "" else title
 	reason_label.text = reason
 	reason_label.visible = reason != ""
-
+	
 	var tween := create_tween()
 	tween.tween_property(fade, "color:a", 1.0, fade_time)
 	tween.tween_property(text, "modulate:a", 1.0, text_fade_time)

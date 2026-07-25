@@ -1,28 +1,19 @@
 [gd_scene format=3 uid="uid://coq2ea6gvbvqb"]
 
 [ext_resource type="Texture2D" uid="uid://bsqvqvqfh3kg2" path="res://assets/train/door2.png" id="1_48lot"]
+[ext_resource type="Script" uid="uid://c0k3ji7tbvyms" path="res://scripts/train/interactions/largeDoor.gd" id="1_y44ok"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_24o6i"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y44ok"]
 size = Vector2(7, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_c65h7"]
-size = Vector2(20, 32)
+[node name="smallDoor" type="AnimatableBody2D" unique_id=276632658]
+script = ExtResource("1_y44ok")
 
-[node name="SmallDoor" type="Node2D" unique_id=1868575402]
-
-[node name="Door2" type="Sprite2D" parent="." unique_id=1235060130]
+[node name="Door" type="Sprite2D" parent="." unique_id=816690331]
 texture_filter = 1
-position = Vector2(29, -1)
+position = Vector2(29, 0)
 texture = ExtResource("1_48lot")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=465944555]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=2096616755]
-position = Vector2(0.5, -1)
-shape = SubResource("RectangleShape2D_24o6i")
-
-[node name="Area2D" type="Area2D" parent="." unique_id=1041058168]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1064467387]
-position = Vector2(7, -1)
-shape = SubResource("RectangleShape2D_c65h7")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=5949939]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_y44ok")

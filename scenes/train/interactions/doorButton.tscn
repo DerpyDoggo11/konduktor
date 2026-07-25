@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://clajsjfutwxr"]
+
+[ext_resource type="Texture2D" uid="uid://j2w7u827spqq" path="res://assets/ui/UiButton1.png" id="1_n3kir"]
+[ext_resource type="Script" uid="uid://ck44to2sg6qg4" path="res://scripts/train/interactions/doorButton.gd" id="1_x6nf2"]
+[ext_resource type="Texture2D" uid="uid://drdw7vcv6ef1h" path="res://assets/ui/UiButton2.png" id="2_8tf0n"]
+[ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="4_aslf1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_24o6i"]
+size = Vector2(40.5, 70)
+
+[node name="DoorButton" type="Area2D" unique_id=474871628]
+script = ExtResource("1_x6nf2")
+
+[node name="ButtonUp" type="Sprite2D" parent="." unique_id=357307158]
+position = Vector2(1.1920929e-07, 1.9073486e-06)
+rotation = 1.5707964
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_n3kir")
+
+[node name="ButtonDown" type="Sprite2D" parent="." unique_id=494304243]
+visible = false
+position = Vector2(1.1920929e-07, 1.9073486e-06)
+rotation = 1.5707964
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_8tf0n")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1862912475]
+position = Vector2(0, -22)
+shape = SubResource("RectangleShape2D_24o6i")
+
+[node name="Control" type="Control" parent="." unique_id=1997865346]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 35.0
+offset_bottom = 35.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control" unique_id=616115050]
+z_index = 100
+z_as_relative = false
+layout_mode = 0
+offset_left = -12.000001
+offset_top = -11.0
+offset_right = 686.0
+offset_bottom = 149.0
+scale = Vector2(0.09950238, 0.1)
+theme_override_fonts/font = ExtResource("4_aslf1")
+theme_override_font_sizes/font_size = 150
+text = "[ E ]"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

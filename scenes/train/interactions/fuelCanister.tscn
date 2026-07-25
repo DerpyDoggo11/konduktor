@@ -5,18 +5,19 @@
 [ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="3_j5uxy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpyrc"]
-size = Vector2(38, 38)
+size = Vector2(36, 76)
 
 [node name="TrainFuelTank" type="Area2D" unique_id=1960291640]
 script = ExtResource("1_0tjdu")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=666252071]
+z_index = 2
 texture_filter = 1
 position = Vector2(-1, 6)
 texture = ExtResource("2_rsqw1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=371777349]
-position = Vector2(0, -32)
+position = Vector2(-1, -4)
 shape = SubResource("RectangleShape2D_vpyrc")
 
 [node name="Control" type="Control" parent="." unique_id=1540128018]
@@ -33,10 +34,10 @@ metadata/_edit_use_anchors_ = true
 z_index = 100
 z_as_relative = false
 layout_mode = 0
-offset_left = -27.0
-offset_top = -23.0
-offset_right = 444.0
-offset_bottom = 137.0
+offset_left = -38.0
+offset_top = -28.0
+offset_right = 660.0
+offset_bottom = 132.0
 scale = Vector2(0.1, 0.1)
 theme_override_fonts/font = ExtResource("3_j5uxy")
 theme_override_font_sizes/font_size = 150

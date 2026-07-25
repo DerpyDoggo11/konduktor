@@ -31,14 +31,12 @@ func _on_pressed() -> void:
 	canvas.add_child(overlay)
 	get_tree().root.add_child(canvas)
 
-	# Fade to black
 	var tween = get_tree().create_tween()
 	tween.tween_property(overlay, "color:a", 1.0, 0.5)
 	tween.tween_callback(func():
 
 		ResourceLoader.load_threaded_request("res://scenes/main.tscn")
 
-		# async load
 		var timer = Timer.new()
 		canvas.add_child(timer)
 		timer.wait_time = 0.05
@@ -49,7 +47,6 @@ func _on_pressed() -> void:
 				var scene = ResourceLoader.load_threaded_get("res://scenes/main.tscn")
 				get_tree().call_deferred("change_scene_to_packed", scene)
 
-				# Use dict so lambda captures by reference
 				var state = { "elapsed": 0.0 }
 				var fade_time = 0.5
 				var dt = 1.0 / 60.0
@@ -72,4 +69,4 @@ func _on_pressed() -> void:
 	)
 
 func _on_focus_entered() -> void:
-	$AudioStreamPlayer.play() # HOVER SOUND
+	$AudioStreamPlayer.play()

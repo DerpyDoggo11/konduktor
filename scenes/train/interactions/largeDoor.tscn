@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://cbwwoss20a0pc"]
+
+[ext_resource type="Script" uid="uid://c0k3ji7tbvyms" path="res://scripts/train/interactions/largeDoor.gd" id="1_fjsb0"]
+[ext_resource type="Texture2D" uid="uid://5q0rlyhrjm7i" path="res://assets/train/door.png" id="2_fjsb0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n3kir"]
+size = Vector2(7, 64)
+
+[node name="LargeDoor" type="AnimatableBody2D" unique_id=1354069265]
+collision_layer = 7
+script = ExtResource("1_fjsb0")
+
+[node name="Door" type="Sprite2D" parent="." unique_id=1418416036]
+texture_filter = 1
+position = Vector2(29, 0)
+texture = ExtResource("2_fjsb0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1780559206]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_n3kir")
