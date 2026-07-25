@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://bsqvqvqfh3kg2" path="res://assets/train/door2.png" id="14_sugde"]
 [ext_resource type="Texture2D" uid="uid://5q0rlyhrjm7i" path="res://assets/train/door.png" id="15_xqujb"]
 [ext_resource type="Texture2D" uid="uid://bri73pxmd1uxd" path="res://assets/player/flashlight.png" id="17_ty2mg"]
+[ext_resource type="AudioStream" uid="uid://cgheo5awqibpg" path="res://assets/train/freesound_community-room-tone-empty-train-station-quiet-59827.mp3" id="18_7epb7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mci2a"]
 size = Vector2(227, 575.5)
@@ -478,3 +479,24 @@ position = Vector2(60, -429)
 texture = ExtResource("17_ty2mg")
 offset = Vector2(0, -80)
 texture_scale = 0.1
+
+[node name="AudioStreamPlayer2D3" type="AudioStreamPlayer2D" parent="." unique_id=1789957105]
+position = Vector2(0, 378)
+stream = ExtResource("18_7epb7")
+autoplay = true
+attenuation = 10.92829
+parameters/looping = true
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="." unique_id=1555378635]
+position = Vector2(0, -284)
+stream = ExtResource("18_7epb7")
+autoplay = true
+attenuation = 10.55604
+parameters/looping = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1458199469]
+position = Vector2(1, 88)
+stream = ExtResource("18_7epb7")
+autoplay = true
+attenuation = 10.556034
+parameters/looping = true

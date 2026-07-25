@@ -24,3 +24,4 @@ default_target = NodePath("../Player")
 [node name="train" parent="." unique_id=49399859 instance=ExtResource("3_jyhfs")]
 
 [node name="gameoverScreen" parent="." unique_id=113212214 instance=ExtResource("6_tefeu")]
+visible = false
