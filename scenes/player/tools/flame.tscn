@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://b7qgi34lfgjbs"]
+
+[ext_resource type="Texture2D" uid="uid://bvo836cyxbxll" path="res://assets/particles/flame.png" id="1_cc24y"]
+[ext_resource type="Script" uid="uid://c8ne3x4kikcwr" path="res://scripts/player/tools/flame.gd" id="1_rtrso"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rtrso"]
+size = Vector2(19, 20)
+
+[node name="flame" type="Area2D" unique_id=317619684]
+texture_filter = 1
+collision_layer = 6
+script = ExtResource("1_rtrso")
+wall_mask = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1503031068]
+texture = ExtResource("1_cc24y")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=526209871]
+position = Vector2(-14.5, 0)
+shape = SubResource("RectangleShape2D_rtrso")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
