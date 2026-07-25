@@ -6,6 +6,10 @@ extends CharacterBody2D
 @export var friction: float = 1800.0
 @export var rotation_speed: float = 10.0
 
+@export var walk_sound: AudioStream
+@export var sprint_pitch: float = 1.25
+var walk_player: AudioStreamPlayer2D
+
 @export var item_scenes: Array[PackedScene] = []
 
 @onready var hand: Node2D = $Hand
@@ -18,8 +22,8 @@ var equipped_item: Node2D = null
 signal fuel_changed(fuel: float, normalized: float)
 
 @export var max_fuel: float = 100.0
-@export var fuel_frame_count: int = 15
-@export var invert_fuel_frames: bool = true
+@export var fuel_frame_count: int = 8
+@export var invert_fuel_frames: bool = false
 
 @onready var body_sprite: Sprite2D = $Player1
 
@@ -31,6 +35,10 @@ func _ready() -> void:
 	body_sprite.hframes = fuel_frame_count
 	body_sprite.vframes = 1
 	_apply_fuel_frame()
+	
+	walk_player = AudioStreamPlayer2D.new()
+	walk_player.stream = walk_sound
+	add_child(walk_player)
 
 func consume_fuel(amount: float) -> float:
 	var used: float = minf(amount, fuel)
@@ -77,6 +85,7 @@ func _equip(slot: int) -> void:
 	
 func _physics_process(delta: float) -> void:
 	if seated:
+		_update_walk_sound(false, false)
 		if seat_anchor:
 			global_position = seat_anchor.global_position
 			global_rotation = seat_anchor.global_rotation
@@ -86,9 +95,12 @@ func _physics_process(delta: float) -> void:
 		equipped_item.set_firing(Input.is_action_pressed("attack"))
 
 	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
+	var sprinting := Input.is_action_pressed("sprint")
 	var speed := walk_speed
-	if Input.is_action_pressed("sprint"):
+	if sprinting:
 		speed *= sprint_multiplier
+	_update_walk_sound(input_dir != Vector2.ZERO, sprinting)
+	
 
 	if input_dir != Vector2.ZERO:
 		velocity = velocity.move_toward(input_dir * speed, acceleration * delta)
@@ -115,3 +127,13 @@ func stand(point: Node2D) -> void:
 	seat_anchor = null
 	global_position = point.global_position
 	$CollisionShape2D.set_deferred("disabled", false)
+
+func _update_walk_sound(moving: bool, sprinting: bool) -> void:
+	if walk_player.stream == null:
+		return
+	walk_player.pitch_scale = sprint_pitch if sprinting else 1.0
+	if moving:
+		if not walk_player.playing:
+			walk_player.play()
+	elif walk_player.playing:
+		walk_player.stop()

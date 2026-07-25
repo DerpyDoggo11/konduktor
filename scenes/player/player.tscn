@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dtxq06bet4084" path="res://scenes/player/tools/flamethrower.tscn" id="3_lvxji"]
 [ext_resource type="Texture2D" uid="uid://ddqsawq7tc8hg" path="res://assets/player/Player1-sheet.png" id="4_p47bc"]
 [ext_resource type="Texture2D" uid="uid://bri73pxmd1uxd" path="res://assets/player/flashlight.png" id="5_p47bc"]
+[ext_resource type="AudioStream" uid="uid://i2b6haukw1cm" path="res://assets/train/freesound_community-metal-footsteps-14727.mp3" id="6_75vfm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8afob"]
 size = Vector2(26, 22)
@@ -21,6 +22,7 @@ fill_from = Vector2(0.5, 0.5)
 [node name="Player" type="CharacterBody2D" unique_id=1912144935 groups=["player"]]
 motion_mode = 1
 script = ExtResource("1_dovo2")
+walk_sound = ExtResource("6_75vfm")
 item_scenes = Array[PackedScene]([ExtResource("2_gmlin"), ExtResource("3_lvxji")])
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1117444927 groups=["player"]]
@@ -42,3 +44,7 @@ texture_scale = 0.1
 
 [node name="PointLight2D2" type="PointLight2D" parent="." unique_id=409263446]
 texture = SubResource("GradientTexture2D_24o6i")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1193022151]
+stream = ExtResource("6_75vfm")
+parameters/looping = true
