@@ -104,6 +104,7 @@ func _ready() -> void:
 		segment_changed.emit(segment)
 
 	if back_cart:
+		coupling_px = global_position.distance_to(back_cart.global_position)
 		back_cart.top_level = true
 
 func _on_throttle_changed(level: int, normalized: float) -> void:
@@ -240,6 +241,7 @@ func _crash() -> void:
 	if gameOver:
 		gameOver.show_game_over("Stay on track, your train hit a barrier")
 		
+		
 @export var heading_sample_px: float = 24.0
 @export var rotation_smoothing: float = 12.0
 
@@ -309,8 +311,22 @@ func _update_back_cart(delta: float) -> void:
 		d = _history[idx].curve.get_baked_length()
 
 	var seg: TrackSegment = _history[idx]
-	var at: float = clampf(d - back, 0.0, seg.curve.get_baked_length())
+	var seg_len: float = seg.curve.get_baked_length()
+	var at: float = d - back
 
+	if at < 0.0 and idx == 0:
+		var p0: Vector2 = seg.to_global(seg.curve.sample_baked(0.0))
+		var p1: Vector2 = seg.to_global(seg.curve.sample_baked(minf(heading_sample_px, seg_len)))
+		var dir_v: Vector2 = (p1 - p0).normalized()
+		back_cart.global_position = p0 - dir_v * absf(at)
+		back_cart.global_rotation = dir_v.angle() + deg_to_rad(90)
+		_carry_bodies(_back_riders,
+			back_cart.global_position - prev_pos,
+			back_cart.global_rotation - prev_rot,
+			prev_pos)
+		return
+
+	at = clampf(at, 0.0, seg_len)
 	back_cart.global_position = seg.to_global(seg.curve.sample_baked(at))
 
 	var length: float = seg.curve.get_baked_length()

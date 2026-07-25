@@ -369,6 +369,7 @@ texture = ExtResource("12_n5jb8")
 
 [node name="RigidBody2D2" type="RigidBody2D" parent="BackTrainCart" unique_id=1942843688]
 position = Vector2(0, -580)
+freeze = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=1967262708]
 position = Vector2(-69, 179.11711)
@@ -480,7 +481,6 @@ texture = SubResource("GradientTexture2D_xqujb")
 texture_scale = 3.0
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=820808964]
-visible = false
 energy = 0.7
 blend_mode = 1
 
