@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://dw5funjw4sfyv" path="res://scenes/player/camera.tscn" id="3_sugp2"]
 [ext_resource type="PackedScene" uid="uid://d04gj1kmjv3my" path="res://scenes/map/map.tscn" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://otjom6kgqfim" path="res://scenes/gameoverScreen.tscn" id="6_tefeu"]
+[ext_resource type="PackedScene" uid="uid://d1hvqtq5cf7eb" path="res://assets/ui/gui.tscn" id="7_o6xl0"]
 
 [node name="Main" type="Node2D" unique_id=2071199095]
 texture_filter = 1
@@ -25,3 +26,5 @@ default_target = NodePath("../Player")
 
 [node name="gameoverScreen" parent="." unique_id=113212214 instance=ExtResource("6_tefeu")]
 visible = false
+
+[node name="Gui" parent="." unique_id=150676867 instance=ExtResource("7_o6xl0")]

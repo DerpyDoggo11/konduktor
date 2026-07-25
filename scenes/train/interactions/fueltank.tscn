@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cuk5htmh3bj8p" path="res://scripts/train/interactions/fuelTank.gd" id="1_qkwt4"]
 [ext_resource type="Texture2D" uid="uid://f5lt6wu4scfd" path="res://assets/map/fuelTank.png" id="1_y4qsc"]
+[ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="3_kpc5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4qsc"]
 size = Vector2(38, 38)
@@ -28,12 +29,17 @@ offset_bottom = 35.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="Control" unique_id=357868014]
+z_index = 100
+z_as_relative = false
 layout_mode = 0
-offset_left = -49.0
-offset_top = -16.0
-offset_right = 45.0
-offset_bottom = 7.0
-text = "[E] to empty"
+offset_left = -30.000002
+offset_top = -37.0
+offset_right = 518.0
+offset_bottom = 112.0
+scale = Vector2(0.1, 0.1)
+theme_override_fonts/font = ExtResource("3_kpc5o")
+theme_override_font_sizes/font_size = 140
+text = "[ E ] to empty"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -8,6 +8,7 @@ extends Area2D
 @onready var button_up: Node = $Control/buttonUp
 @onready var button_down: Node = $Control/buttonDown
 
+@onready var exit_tip: Control = get_tree().get_first_node_in_group("exit_tip")
 var player_in_range: Node = null
 var occupant: Node = null
 
@@ -51,6 +52,10 @@ func _unhandled_input(event: InputEvent) -> void:
 func _enter_seat(player: Node) -> void:
 	occupant = player
 	prompt.visible = false
+	if exit_tip:
+		exit_tip.show_tip()
+	else:
+		push_warning("exit_tip is NULL")
 	_press_feedback()
 
 	var point: Node2D = seat_point if seat_point else self
@@ -66,6 +71,8 @@ func _enter_seat(player: Node) -> void:
 func _exit_seat() -> void:
 	var player = occupant
 	occupant = null
+	if exit_tip:
+		exit_tip.hide_tip()
 
 	var point: Node2D = exit_point if exit_point else self
 	player.stand(point)

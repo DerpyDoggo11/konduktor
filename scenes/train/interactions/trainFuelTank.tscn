@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cuk5htmh3bj8p" path="res://scripts/train/interactions/fuelTank.gd" id="1_g7c02"]
 [ext_resource type="Texture2D" uid="uid://1elc7w2hvjom" path="res://assets/train/interactions/trainFuelTank.png" id="1_vpyrc"]
+[ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="3_mpbca"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpyrc"]
 size = Vector2(38, 38)
@@ -30,12 +31,17 @@ offset_bottom = 35.0
 metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="Control" unique_id=392953574]
+z_index = 100
+z_as_relative = false
 layout_mode = 0
-offset_left = -35.0
-offset_top = -36.0
-offset_right = 59.0
-offset_bottom = -13.0
-text = "[E] to fill"
+offset_left = -27.0
+offset_top = -23.0
+offset_right = 444.0
+offset_bottom = 137.0
+scale = Vector2(0.1, 0.1)
+theme_override_fonts/font = ExtResource("3_mpbca")
+theme_override_font_sizes/font_size = 150
+text = "[ E ] to fill"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]
