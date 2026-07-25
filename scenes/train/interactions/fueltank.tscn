@@ -8,9 +8,6 @@ size = Vector2(38, 38)
 
 [node name="FuelTank" type="Area2D" unique_id=565628124]
 script = ExtResource("1_qkwt4")
-mode = 1
-frame_count = 15
-invert_frames = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=856395103]
 texture_filter = 1

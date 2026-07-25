@@ -3,6 +3,8 @@
 [ext_resource type="Script" uid="uid://wi6uhqlsdw4a" path="res://scripts/map/trackSegment.gd" id="2_a2pkv"]
 [ext_resource type="Texture2D" uid="uid://djf2cwdvi0chj" path="res://assets/map/tempTileset.png" id="2_qvqj7"]
 [ext_resource type="PackedScene" uid="uid://c51ei41b0c87h" path="res://scenes/train/interactions/trainFuelTank.tscn" id="3_a2pkv"]
+[ext_resource type="Script" uid="uid://dh8vkw76lff3f" path="res://scripts/map/enemySpawner.gd" id="4_ph54e"]
+[ext_resource type="PackedScene" uid="uid://cq3qk6rspn3r1" path="res://scenes/enemies/zombie.tscn" id="5_fcby6"]
 
 [sub_resource type="GDScript" id="GDScript_nnsk1"]
 
@@ -178,3 +180,41 @@ metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 
 [node name="TrainFuelTank" parent="." unique_id=1960291640 instance=ExtResource("3_a2pkv")]
 position = Vector2(360, 45)
+
+[node name="EnemySpawnpoints" type="Node2D" parent="." unique_id=309112797]
+script = ExtResource("4_ph54e")
+zombie_scene = ExtResource("5_fcby6")
+ramp_seconds = 5.0
+
+[node name="Marker2D" type="Marker2D" parent="EnemySpawnpoints" unique_id=1078223147]
+position = Vector2(279, -152)
+
+[node name="Marker2D2" type="Marker2D" parent="EnemySpawnpoints" unique_id=88596148]
+position = Vector2(-230, -131)
+
+[node name="Marker2D3" type="Marker2D" parent="EnemySpawnpoints" unique_id=1152963487]
+position = Vector2(-224, -417)
+
+[node name="Marker2D4" type="Marker2D" parent="EnemySpawnpoints" unique_id=404089858]
+position = Vector2(290, -337)
+
+[node name="Marker2D5" type="Marker2D" parent="EnemySpawnpoints" unique_id=740885566]
+position = Vector2(454, -253)
+
+[node name="Marker2D6" type="Marker2D" parent="EnemySpawnpoints" unique_id=1854419269]
+position = Vector2(300, -506)
+
+[node name="Marker2D7" type="Marker2D" parent="EnemySpawnpoints" unique_id=1425262726]
+position = Vector2(-230, -613)
+
+[node name="Marker2D8" type="Marker2D" parent="EnemySpawnpoints" unique_id=52880324]
+position = Vector2(-253, -790)
+
+[node name="Marker2D9" type="Marker2D" parent="EnemySpawnpoints" unique_id=2103877515]
+position = Vector2(-315, -613)
+
+[node name="Marker2D10" type="Marker2D" parent="EnemySpawnpoints" unique_id=91370765]
+position = Vector2(-354, -393)
+
+[node name="Marker2D11" type="Marker2D" parent="EnemySpawnpoints" unique_id=1043707914]
+position = Vector2(-313, -284)

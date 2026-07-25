@@ -9,7 +9,6 @@ size = Vector2(38, 38)
 [node name="TrainFuelTank" type="Area2D" unique_id=1960291640]
 script = ExtResource("1_g7c02")
 frame_count = 1
-infinite = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=666252071]
 texture_filter = 1

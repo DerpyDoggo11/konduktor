@@ -18,6 +18,10 @@ var _prev_target: Node2D = null
 var _prev_zoom: Vector2
 var _prev_focus: bool = false
 
+var _shake_amount: float = 0.0
+var _shake_decay: float = 0.0
+
+	
 func _ready() -> void:
 	process_physics_priority = 100
 	process_priority = 100
@@ -68,3 +72,16 @@ func _physics_process(delta: float) -> void:
 		desired += (screen_offset / zoom) * mouse_lead
 
 	global_position = global_position.lerp(desired, 1.0 - exp(-follow_speed * delta))
+	
+	if _shake_amount > 0.0:
+		_shake_amount = maxf(0.0, _shake_amount - _shake_decay * delta)
+		offset = Vector2(
+			randf_range(-_shake_amount, _shake_amount),
+			randf_range(-_shake_amount, _shake_amount)
+		)
+	else:
+		offset = Vector2.ZERO
+		
+func shake(amount: float, duration: float) -> void:
+	_shake_amount = maxf(_shake_amount, amount)
+	_shake_decay = amount / maxf(duration, 0.01)

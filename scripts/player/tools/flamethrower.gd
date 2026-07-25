@@ -1,15 +1,20 @@
 extends Node2D
 
-# configure
-var flameColliderMaxLength: float = 90.0
-var flameColliderWidth: float = 30.0
-var flameGrowSpeed: float = 4.0
-var flameDamage: int = 5
-var flameDamageInterval: float = 0.1
-var fuelPerSecond: float = 9.0
-var frameCount: int = 13
-var invertFrames: bool = false
-var particleAngleOffset: float = 270.0
+@export var flameColliderMaxLength: float = 90.0
+@export var flameColliderWidth: float = 30.0
+@export var flameGrowSpeed: float = 4.0
+@export var flameDamage: int = 5
+@export var flameDamageInterval: float = 0.1
+@export var fuelPerSecond: float = 9.0
+@export var frameCount: int = 13
+@export var invertFrames: bool = false
+@export var particleAngleOffset: float = 270.0
+@export_flags_2d_physics var wall_mask: int = 1
+
+@export var particleSpeed: float = 300.0 
+@export var wallMargin: float = 6.0
+
+var _reach: float = 0.0
 
 var firing: bool = false
 var flameIntensity: float = 0.0
@@ -17,6 +22,7 @@ var flameDamageTimer: float = 0.0
 var bodiesInFlames: Array = []
 var ownerPlayer: Node = null
 var _shape: RectangleShape2D
+
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var nozzle: Marker2D = $nozzle
@@ -28,7 +34,6 @@ func _ready() -> void:
 	sprite.hframes = frameCount
 	sprite.vframes = 1
 
-	# duplicate so resizing doesn't mutate the shared resource
 	_shape = flameCollider.shape.duplicate()
 	flameCollider.shape = _shape
 
@@ -39,7 +44,7 @@ func _ready() -> void:
 	ownerPlayer = _find_owner()
 	if ownerPlayer and ownerPlayer.has_signal("fuel_changed"):
 		ownerPlayer.fuel_changed.connect(_on_fuel_changed)
-		_on_fuel_changed(ownerPlayer.fuel, float(ownerPlayer.fuel) / ownerPlayer.max_fuel)
+		_on_fuel_changed(ownerPlayer.fuel, ownerPlayer.fuel / ownerPlayer.max_fuel)
 
 func _find_owner() -> Node:
 	var n: Node = self
@@ -59,15 +64,16 @@ func _physics_process(delta: float) -> void:
 		if ownerPlayer.consume_fuel(needed) < needed * 0.99:
 			wants = false
 
-	var intensityTarget = 1.0 if wants else 0.0
+	var intensityTarget: float = 1.0 if wants else 0.0
 	flameIntensity = move_toward(flameIntensity, intensityTarget, delta * flameGrowSpeed)
+	_reach = _wall_distance()
 	_apply_flame_intensity(flameIntensity)
 
 	flameParticles.emitting = wants
 	flameArea.monitoring = flameIntensity > 0.05
 
 	if flameIntensity > 0.05:
-		var flame_deg = (rad_to_deg(global_rotation) * -1) + particleAngleOffset
+		var flame_deg: float = (rad_to_deg(global_rotation) * -1) + particleAngleOffset
 		flameParticles.angle_min = flame_deg
 		flameParticles.angle_max = flame_deg
 
@@ -79,11 +85,11 @@ func _physics_process(delta: float) -> void:
 		flameDamageTimer = 0.0
 
 func _apply_flame_intensity(t: float) -> void:
-	var length: float = flameColliderMaxLength * t
+	var length: float = minf(flameColliderMaxLength * t, _reach)
 	_shape.size = Vector2(flameColliderWidth, maxf(length, 0.1))
-	# art faces up, so forward is -Y; grow out from the nozzle
 	flameCollider.position = nozzle.position + Vector2(0, -length * 0.5)
-
+	flameParticles.lifetime = maxf(0.05, length / maxf(particleSpeed, 1.0))
+	
 func _burn() -> void:
 	for body in bodiesInFlames:
 		if not is_instance_valid(body):
@@ -94,30 +100,37 @@ func _burn() -> void:
 			body.take_damage(flameDamage, global_position)
 
 func hasLineOfSightTo(target: Node2D) -> bool:
-	var space = get_world_2d().direct_space_state
-	var query = PhysicsRayQueryParameters2D.create(
-		nozzle.global_position, target.global_position
+	var space := get_world_2d().direct_space_state
+	var query := PhysicsRayQueryParameters2D.create(
+		nozzle.global_position, target.global_position, wall_mask
 	)
+	query.collide_with_areas = false
 	query.exclude = [self, ownerPlayer]
-	var result = space.intersect_ray(query)
-
-	if result.is_empty():
-		return true
-
-	var collider = result.get("collider")
-	if collider and collider.name == "TileMapLayer":
-		return false
-
-	return true
+	return space.intersect_ray(query).is_empty()
 
 func _on_fuel_changed(_fuel: float, normalized: float) -> void:
-	var idx: int = int(round((1.0 - normalized) * (frameCount - 1)))
-	idx = clampi(idx, 0, frameCount - 1)
+	var idx: int = clampi(int(round((1.0 - normalized) * (frameCount - 1))), 0, frameCount - 1)
 	sprite.frame = (frameCount - 1 - idx) if invertFrames else idx
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
+
+func _forward() -> Vector2:
+	return Vector2(0, -1).rotated(global_rotation)
+
+func _wall_distance() -> float:
+	var from: Vector2 = nozzle.global_position
+	var to: Vector2 = from + _forward() * flameColliderMaxLength
+	var space := get_world_2d().direct_space_state
+	var query := PhysicsRayQueryParameters2D.create(from, to, wall_mask)
+	query.collide_with_areas = false
+	query.exclude = [self, ownerPlayer]
+	var hit := space.intersect_ray(query)
+	if hit.is_empty():
+		return flameColliderMaxLength
+	return maxf(0.0, from.distance_to(hit["position"]) - wallMargin)
+	
+func _on_flames_body_entered(body: Node2D) -> void:
 	if body != ownerPlayer and not bodiesInFlames.has(body):
 		bodiesInFlames.append(body)
 
-func _on_area_2d_body_exited(body: Node2D) -> void:
+func _on_flames_body_exited(body: Node2D) -> void:
 	bodiesInFlames.erase(body)

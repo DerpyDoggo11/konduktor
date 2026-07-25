@@ -356,3 +356,9 @@ func _on_back_ride_area_body_entered(body: Node2D) -> void:
 
 func _on_back_ride_area_body_exited(body: Node2D) -> void:
 	_back_riders.erase(body)
+	
+func consume_fuel(amount: float) -> float:
+	var used: float = minf(amount, fuel)
+	fuel -= used
+	fuel_changed.emit(fuel, fuel / max_fuel)
+	return used

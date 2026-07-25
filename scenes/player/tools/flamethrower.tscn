@@ -9,13 +9,16 @@ size = Vector2(20, 80)
 
 [node name="flamethrower" type="Node2D" unique_id=1261027616]
 script = ExtResource("1_mhnsl")
+wall_mask = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=734054931]
+z_index = 2
 texture_filter = 1
 texture = ExtResource("1_i4tht")
 hframes = 13
 
 [node name="Flames" type="Area2D" parent="." unique_id=759117073]
+collision_layer = 2
 
 [node name="FlameParticles" type="CPUParticles2D" parent="Flames" unique_id=7723134]
 texture_filter = 1
@@ -40,3 +43,6 @@ shape = SubResource("RectangleShape2D_24o6i")
 
 [node name="nozzle" type="Marker2D" parent="." unique_id=519384105]
 position = Vector2(0, -32)
+
+[connection signal="body_entered" from="Flames" to="." method="_on_flames_body_entered"]
+[connection signal="body_exited" from="Flames" to="." method="_on_flames_body_exited"]

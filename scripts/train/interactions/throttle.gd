@@ -10,7 +10,7 @@ signal throttle_changed(level: int, normalized: float)
 @onready var tempIcon: Sprite2D = $visibleIcon
 @onready var detailedIcon: Sprite2D = $detailedIcon
 
-var level: int = 0
+var level: int = 2
 var active: bool = false
 var hovered: bool = false
 
@@ -70,7 +70,7 @@ func _on_input_event(_viewport, event: InputEvent, _shape_idx: int) -> void:
 			_set_level(level - 1)
 			
 func _set_level(value: int) -> void:
-	var new_level: int = clampi(value, 0, max_level)
+	var new_level: int = clampi(value, 2, max_level)
 	if new_level == level:
 		return
 	level = new_level

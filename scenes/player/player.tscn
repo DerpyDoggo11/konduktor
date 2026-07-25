@@ -20,21 +20,22 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [node name="Player" type="CharacterBody2D" unique_id=1912144935 groups=["player"]]
+collision_layer = 5
 motion_mode = 1
 script = ExtResource("1_dovo2")
-walk_sound = ExtResource("6_75vfm")
 item_scenes = Array[PackedScene]([ExtResource("2_gmlin"), ExtResource("3_lvxji")])
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1117444927 groups=["player"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1117444927]
 position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_8afob")
 
-[node name="Player1" type="Sprite2D" parent="." unique_id=1636335862 groups=["player"]]
+[node name="Player1" type="Sprite2D" parent="." unique_id=1636335862]
+z_index = 1
 texture_filter = 1
 texture = ExtResource("4_p47bc")
 hframes = 9
 
-[node name="Hand" type="Node2D" parent="." unique_id=1911546976 groups=["player"]]
+[node name="Hand" type="Node2D" parent="." unique_id=1911546976]
 position = Vector2(8, -13)
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=288441397]
