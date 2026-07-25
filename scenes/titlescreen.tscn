@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ysmgfwys4ukc"]
 
+[ext_resource type="Texture2D" uid="uid://dy23pythhox4w" path="res://assets/ui/Useless.....png" id="1_t7v6v"]
 [ext_resource type="Script" uid="uid://dgaxgfpyenru" path="res://scenes/button.gd" id="1_tt55a"]
 [ext_resource type="AudioStream" uid="uid://j431jl2b6yar" path="res://assets/ui/UIButtonClicked.mp3" id="2_t7v6v"]
 [ext_resource type="AudioStream" uid="uid://i3hqnrd2fho8" path="res://assets/ui/UIHoverSound.mp3" id="3_vhbaf"]
@@ -7,6 +8,14 @@
 [node name="Titlescreen" type="Node2D" unique_id=2133657056]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1973701135]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=505366322]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_t7v6v")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=255615763]
 anchors_preset = 15
