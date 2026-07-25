@@ -3,6 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://dy23pythhox4w" path="res://assets/ui/Useless.....png" id="1_t7v6v"]
 [ext_resource type="Script" uid="uid://dgaxgfpyenru" path="res://scenes/button.gd" id="1_tt55a"]
 [ext_resource type="AudioStream" uid="uid://j431jl2b6yar" path="res://assets/ui/UIButtonClicked.mp3" id="2_t7v6v"]
+[ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="2_v6ms7"]
+[ext_resource type="FontFile" uid="uid://drwasg070kig1" path="res://assets/ui/PixelPurl.ttf" id="3_rpvs4"]
 [ext_resource type="AudioStream" uid="uid://i3hqnrd2fho8" path="res://assets/ui/UIHoverSound.mp3" id="3_vhbaf"]
 
 [node name="Titlescreen" type="Node2D" unique_id=2133657056]
@@ -27,21 +29,61 @@ alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/HBoxContainer" unique_id=1926456269]
 layout_mode = 2
-size_flags_horizontal = 6
+size_flags_horizontal = 10
 size_flags_vertical = 4
+offset_transform_enabled = true
+offset_transform_position = Vector2(-100, 0)
 theme_override_constants/separation = 20
 
 [node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=1656876769]
 layout_mode = 2
-theme_override_font_sizes/font_size = 64
+theme_override_fonts/font = ExtResource("2_v6ms7")
+theme_override_font_sizes/font_size = 128
+text = "Konduktor"
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Label" unique_id=1029015100]
+layout_mode = 0
+offset_right = 474.0
+offset_bottom = 137.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 70)
+theme_override_colors/font_color = Color(1, 1, 1, 0.48235294)
+theme_override_fonts/font = ExtResource("2_v6ms7")
+theme_override_font_sizes/font_size = 128
+text = "-------"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Label" unique_id=2004224779]
+layout_mode = 0
+offset_right = 474.0
+offset_bottom = 137.0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 6)
+theme_override_colors/font_color = Color(1, 1, 1, 0.1764706)
+theme_override_fonts/font = ExtResource("2_v6ms7")
+theme_override_font_sizes/font_size = 128
+text = "Konduktor"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Label" unique_id=919454783]
+layout_mode = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 3)
+theme_override_colors/font_color = Color(1, 1, 1, 0.48235294)
+theme_override_fonts/font = ExtResource("2_v6ms7")
+theme_override_font_sizes/font_size = 128
 text = "Konduktor"
 horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=2096533036]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 48
-text = "   Play   "
+offset_transform_scale = Vector2(2, 2)
+theme_override_colors/font_color = Color(0.8745098, 0.8745098, 0.8745098, 1)
+theme_override_fonts/font = ExtResource("3_rpvs4")
+theme_override_font_sizes/font_size = 84
+text = "  Play  "
 script = ExtResource("1_tt55a")
 
 [node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="CanvasLayer/HBoxContainer/VBoxContainer/Button" unique_id=1492233625]
