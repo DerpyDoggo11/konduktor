@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://c51ei41b0c87h"]
+
+[ext_resource type="Texture2D" uid="uid://1elc7w2hvjom" path="res://assets/train/interactions/trainFuelTank.png" id="1_vpyrc"]
+
+[node name="TrainFuelTank" type="Node2D" unique_id=1770364488]
+
+[node name="TrainFuelTankSprite" type="Sprite2D" parent="." unique_id=666252071]
+texture_filter = 1
+position = Vector2(-1, 6)
+texture = ExtResource("1_vpyrc")

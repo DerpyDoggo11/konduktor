@@ -26,13 +26,19 @@ func _ready() -> void:
 		train.junction_approaching.connect(_on_junction_approaching)
 		train.junction_cleared.connect(_on_junction_cleared)
 		
-func _on_junction_approaching(seg: TrackSegment) -> void:
+func _on_junction_approaching(good_dirs: Array, bad_dirs: Array) -> void:
 	for b in buttons:
-		b.set_flashing(seg.has_exit(b.direction) and b.direction != TrackSegment.Dir.STRAIGHT)
+		if good_dirs.has(b.direction):
+			b.set_flashing(true, true)
+		elif bad_dirs.has(b.direction):
+			b.set_flashing(true, false)
+		else:
+			b.set_flashing(false)
 
 func _on_junction_cleared() -> void:
 	for b in buttons:
 		b.set_flashing(false)
+		
 		
 func set_active(value: bool) -> void:
 	for b in buttons:

@@ -246,10 +246,11 @@ position = Vector2(-19, -38)
 [node name="driverSeatExitPoint" type="Node2D" parent="FrontTrainCart/rightSeat" unique_id=1256122369]
 position = Vector2(0, 38.345)
 
-[node name="RightSeat" parent="FrontTrainCart/rightSeat" unique_id=725261560 node_paths=PackedStringArray("camera_point", "seat_point", "exit_point") instance=ExtResource("9_v58c7")]
+[node name="RightSeat" parent="FrontTrainCart/rightSeat" unique_id=725261560 node_paths=PackedStringArray("camera_point", "seat_point", "exit_point", "map_node") instance=ExtResource("9_v58c7")]
 camera_point = NodePath("../driverSeatCameraPoint")
 seat_point = NodePath("../driverSeatPoint")
 exit_point = NodePath("../driverSeatExitPoint")
+map_node = NodePath("../../map")
 
 [node name="Throttle" parent="FrontTrainCart" unique_id=1170980154 instance=ExtResource("4_4bqpq")]
 z_index = 1
@@ -266,8 +267,6 @@ z_index = 1
 position = Vector2(31.545, -376)
 train = NodePath("../..")
 track_root_path = NodePath("../..")
-view_size = Vector2i(2000, 2000)
-detail_zoom = 0.2
 
 [node name="brake" parent="FrontTrainCart" unique_id=1118501466 instance=ExtResource("7_xnb1e")]
 z_index = 1

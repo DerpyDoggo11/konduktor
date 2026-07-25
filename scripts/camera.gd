@@ -8,7 +8,7 @@ extends Camera2D
 @export var walk_zoom: Vector2 = Vector2(4, 4)
 @export var seated_zoom: Vector2 = Vector2(4, 4)
 @export var control_zoom: Vector2 = Vector2(4, 4) 
-@export var map_zoom: Vector2 = Vector2(1.5, 1.5)
+@export var map_zoom: Vector2 = Vector2(0.5, 0.5)
 
 var target: Node2D
 var target_zoom: Vector2

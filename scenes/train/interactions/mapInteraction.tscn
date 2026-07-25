@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://co8ifi7fiuk6t" path="res://scripts/train/interactions/mapInteraction.gd" id="1_aelby"]
 [ext_resource type="Texture2D" uid="uid://clvbgoefu2rtu" path="res://assets/player/Player1.png" id="2_s3lup"]
-[ext_resource type="Texture2D" uid="uid://b50sak6haad7t" path="res://assets/train/interactions/mapIcon.png" id="3_s3lup"]
+[ext_resource type="Texture2D" uid="uid://c2sfrpg5mkbxl" path="res://assets/train/interactions/computer.png" id="3_72a45"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o78xc"]
 size = Vector2(32, 32)
@@ -18,7 +18,6 @@ fill_from = Vector2(0.5, 0.5)
 
 [node name="map" type="Area2D" unique_id=761399225]
 script = ExtResource("1_aelby")
-open_scale = 8.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1434525179]
 shape = SubResource("RectangleShape2D_o78xc")
@@ -41,11 +40,26 @@ texture = ExtResource("2_s3lup")
 [node name="Bezel" type="Sprite2D" parent="ScreenNode" unique_id=1561937385]
 
 [node name="Icon" type="Sprite2D" parent="." unique_id=1410801028]
+visible = false
 texture_filter = 1
-texture = ExtResource("3_s3lup")
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("3_72a45")
 
 [node name="PointLight2D2" type="PointLight2D" parent="." unique_id=174522082]
 texture = SubResource("GradientTexture2D_72a45")
 
+[node name="MapUI" type="CanvasLayer" parent="." unique_id=1909119592]
+layer = 50
+
+[node name="CloseButton" type="Button" parent="MapUI" unique_id=1899691343]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -8.0
+offset_bottom = 8.0
+grow_horizontal = 0
+text = "  x  "
+
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="MapUI/CloseButton" to="." method="_on_close_button_pressed"]

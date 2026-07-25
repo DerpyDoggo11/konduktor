@@ -5,10 +5,12 @@ signal rpm_changed(rpm: float)
 signal segment_changed(segment: TrackSegment)
 signal dead_end_reached()
 
-signal junction_approaching(segment: TrackSegment)
+signal junction_approaching(good_dirs: Array, bad_dirs: Array)
 signal junction_cleared()
 
-@export var junction_warn_px: float = 600.0
+signal fuel_changed(fuel: float, normalized: float)
+
+@export var junction_warn_px: float = 1200.0
 
 var _warned: bool = false
 
@@ -41,6 +43,12 @@ var _warned: bool = false
 @onready var map: Area2D = $FrontTrainCart/map
 @onready var switchPanel: Node2D = $FrontTrainCart/SwitchPanel
 
+
+@export var max_fuel: float = 500.0
+@export var idle_burn: float = 0.4
+@export var full_burn: float = 6.0
+
+var fuel: float
 var throttle_level: int = 0
 var throttle_normalized: float = 0.0
 var brake_level: int = 0
@@ -58,14 +66,16 @@ var _riders: Array = []
 func _ready() -> void:
 	add_to_group("train")
 	add_to_group("train_marker")
-
+	
+	fuel = max_fuel
+	
 	throttle.throttle_changed.connect(_on_throttle_changed)
 	brake.brake_changed.connect(_on_brake_changed)
 
 	throttle.set_active(false)
 	brake.set_active(false)
 	speedometer.set_active(false)
-	map.set_active(false)
+	#map.set_active(false)
 	switchPanel.set_active(false)
 
 	rpm = idle_rpm
@@ -154,11 +164,21 @@ func _advance_track(delta: float) -> void:
 		segment.has_exit(TrackSegment.Dir.LEFT)
 		or segment.has_exit(TrackSegment.Dir.RIGHT)
 	)
-
+	
 	if has_choice and remaining <= junction_warn_px:
 		if not _warned:
 			_warned = true
-			junction_approaching.emit(segment)
+			var good: Array = []
+			var bad: Array = []
+			for d in [TrackSegment.Dir.LEFT, TrackSegment.Dir.STRAIGHT, TrackSegment.Dir.RIGHT]:
+				if not segment.has_exit(d):
+					continue
+				var next: TrackSegment = segment.get_exit(d)
+				if next != null and not next.all_exits().is_empty():
+					good.append(d)
+				else:
+					bad.append(d)
+			junction_approaching.emit(good, bad)
 	elif _warned:
 		_warned = false
 		junction_cleared.emit()

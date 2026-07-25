@@ -15,10 +15,13 @@ var selected: bool = false
 var available: bool = true
 var _pushed: bool = false
 
-@export var flash_color: Color = Color(2.0, 0.5, 0.5)
-@export var flash_hz: float = 3.0
+@export var flash_good_color: Color = Color(0.4, 2.0, 0.5)
+@export var flash_bad_color: Color = Color(2.0, 0.4, 0.4)
 
 var flashing: bool = false
+var flash_good: bool = true
+
+@export var flash_hz: float = 3.0
 var _flash_t: float = 0.0
 
 func _ready() -> void:
@@ -28,10 +31,11 @@ func _ready() -> void:
 	_refresh()
 
 
-func set_flashing(value: bool) -> void:
-	if flashing == value:
+func set_flashing(value: bool, good: bool = true) -> void:
+	if flashing == value and flash_good == good:
 		return
 	flashing = value
+	flash_good = good
 	_flash_t = 0.0
 	set_process(flashing)
 	if not flashing:
@@ -41,7 +45,7 @@ func _process(delta: float) -> void:
 	_flash_t += delta
 	var pulse: float = 0.5 + 0.5 * sin(_flash_t * TAU * flash_hz)
 	var base: Color = selected_color if selected else Color.WHITE
-	var tint: Color = base.lerp(flash_color, pulse)
+	var tint: Color = base.lerp(flash_good_color if flash_good else flash_bad_color, pulse)
 	detailedIcon.modulate = tint
 	tempIcon.modulate = tint
 	

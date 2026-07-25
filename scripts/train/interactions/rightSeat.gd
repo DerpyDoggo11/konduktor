@@ -11,6 +11,9 @@ extends Area2D
 var player_in_range: Node = null
 var occupant: Node = null
 
+@export var map_node: Node2D
+
+		
 func _ready() -> void:
 	prompt.visible = false
 	button_up.visible = true
@@ -52,11 +55,13 @@ func _enter_seat(player: Node) -> void:
 
 	var point: Node2D = seat_point if seat_point else self
 	player.sit(point)
-	
-	get_parent().get_parent().get_parent().map.set_active(true)
 
-	var cam = _get_camera()
-	cam.set_target(camera_point, cam.seated_zoom, false)
+	if map_node:
+		map_node.open()
+	else:
+		var cam := _get_camera()
+		if cam:
+			cam.set_target(camera_point, cam.seated_zoom, false)
 
 func _exit_seat() -> void:
 	var player = occupant
@@ -64,12 +69,14 @@ func _exit_seat() -> void:
 
 	var point: Node2D = exit_point if exit_point else self
 	player.stand(point)
-	
-	get_parent().get_parent().get_parent().map.set_active(false)
-	
-	var cam = _get_camera()
-	cam.set_target(player, cam.walk_zoom, false) 
-	
+
+	if map_node and map_node.is_open:
+		map_node.close()
+
+	var cam := _get_camera()
+	if cam:
+		cam.set_target(player, cam.walk_zoom, false)
+
 	if player_in_range != null:
 		prompt.visible = true
 

@@ -3,8 +3,8 @@ extends Area2D
 @export var train: Node2D
 @export var track_root_path: NodePath
 @export var view_size: Vector2i = Vector2i(400, 400)
-@export var idle_zoom: float = 0.2
-@export var open_scale: float = 6.0
+@export var idle_zoom: float = 0.01
+@export var open_scale: float = 10.0
 @export var fit_padding: float = 200.0
 @export var zoom_speed: float = 8.0
 @export var minimap_cull_layer: int = 2
@@ -14,7 +14,7 @@ extends Area2D
 @onready var icon: Sprite2D = $Icon
 @onready var detail: Node2D = $ScreenNode
 @onready var screen: Sprite2D = $ScreenNode/Screen
-@onready var close_button: Area2D = $ScreenNode/CloseButton
+@onready var close_button: Button = $MapUI/CloseButton
 
 var is_open: bool = false
 var _target_zoom: float = 0.2
@@ -45,11 +45,9 @@ func _ready() -> void:
 	detail.visible = false
 	detail.scale = Vector2.ONE
 	icon.visible = true
-	close_button.input_pickable = false
+	close_button.visible = false
+	#close_button.pressed.connect(close)
 	set_process(false)
-
-	if close_button.has_signal("input_event"):
-		close_button.input_event.connect(_on_close_input)
 
 	await get_tree().process_frame
 	_compute_fit()
@@ -92,7 +90,7 @@ func open() -> void:
 
 	detail.visible = true
 	icon.visible = false
-	close_button.input_pickable = true
+	close_button.visible = true
 	view.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 	set_process(true)
 
@@ -108,7 +106,7 @@ func close() -> void:
 		return
 	is_open = false
 
-	close_button.input_pickable = false
+	close_button.visible = false
 	_target_zoom = idle_zoom
 	_target_scale = 1.0
 
@@ -122,14 +120,6 @@ func close() -> void:
 		icon.visible = true
 		view.render_target_update_mode = SubViewport.UPDATE_DISABLED
 		set_process(false)
-
-func _on_close_input(_viewport, event: InputEvent, _shape_idx: int) -> void:
-	if not is_open:
-		return
-	if event is InputEventMouseButton and event.pressed \
-	and event.button_index == MOUSE_BUTTON_LEFT:
-		close()
-		get_viewport().set_input_as_handled()
 
 func _process(delta: float) -> void:
 	var w: float = 1.0 - exp(-zoom_speed * delta)
@@ -150,3 +140,7 @@ func _get_camera() -> Camera2D:
 	if cam and cam.has_method("set_target"):
 		return cam
 	return null
+
+
+func _on_close_button_pressed() -> void:
+	close()

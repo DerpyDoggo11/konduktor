@@ -49,7 +49,14 @@ func heading_at_start() -> float:
 
 func heading_at_end() -> float:
 	return _heading_at(curve.get_baked_length())
-
+	
+func all_exits() -> Array:
+	var out: Array = []
+	for d in [Dir.LEFT, Dir.STRAIGHT, Dir.RIGHT]:
+		if _by_dir.has(d) and not out.has(_by_dir[d]):
+			out.append(_by_dir[d])
+	return out
+	
 func _heading_at(d: float) -> float:
 	var length: float = curve.get_baked_length()
 	var a: float = clampf(d - 4.0, 0.0, length)
