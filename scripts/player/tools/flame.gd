@@ -31,7 +31,6 @@ func _ready() -> void:
 	visible = false
 	monitoring = true
 	sprite.scale = Vector2.ONE * start_scale
-	body_entered.connect(_on_body_entered)
 
 func _physics_process(delta: float) -> void:
 	if _dead:
