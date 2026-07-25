@@ -9,7 +9,7 @@ size = Vector2(38, 38)
 [node name="FuelTank" type="Area2D" unique_id=565628124]
 script = ExtResource("1_qkwt4")
 
-[node name="FuelTankSprite" type="Sprite2D" parent="." unique_id=856395103]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=856395103]
 texture_filter = 1
 texture = ExtResource("1_y4qsc")
 hframes = 15

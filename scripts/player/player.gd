@@ -18,20 +18,37 @@ var equipped_item: Node2D = null
 signal fuel_changed(fuel: float, normalized: float)
 
 @export var max_fuel: float = 100.0
+@export var fuel_frame_count: int = 8
+@export var invert_fuel_frames: bool = false
+
+@onready var body_sprite: Sprite2D = $Player1
+
 var fuel: float
+
 
 func _ready() -> void:
 	fuel = max_fuel
-	
+	body_sprite.hframes = fuel_frame_count
+	body_sprite.vframes = 1
+	_apply_fuel_frame()
+
 func consume_fuel(amount: float) -> float:
 	var used: float = minf(amount, fuel)
 	fuel -= used
+	_apply_fuel_frame()
 	fuel_changed.emit(fuel, fuel / max_fuel)
 	return used
 
 func add_fuel(amount: float) -> void:
 	fuel = clampf(fuel + amount, 0.0, max_fuel)
+	_apply_fuel_frame()
 	fuel_changed.emit(fuel, fuel / max_fuel)
+
+func _apply_fuel_frame() -> void:
+	var n: float = fuel / max_fuel
+	var idx: int = int(round(n * (fuel_frame_count - 1)))
+	idx = clampi(idx, 0, fuel_frame_count - 1)
+	body_sprite.frame = (fuel_frame_count - 1 - idx) if invert_fuel_frames else idx
 	
 func _unhandled_input(event: InputEvent) -> void:
 	for slot in range(1, item_scenes.size() + 1):

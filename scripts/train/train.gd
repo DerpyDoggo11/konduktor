@@ -108,12 +108,24 @@ func _physics_process(delta: float) -> void:
 func _update_physics(delta: float) -> void:
 	var target_rpm: float = lerpf(idle_rpm, max_rpm, throttle_normalized)
 	rpm = move_toward(rpm, target_rpm, rpm_spool_rate * delta)
+	
+	var burn: float = lerpf(idle_burn, full_burn, throttle_normalized) * delta
+	var used: float = minf(burn, fuel)
+	fuel -= used
+	fuel_changed.emit(fuel, fuel / max_fuel)
 
+	var has_fuel: bool = used >= burn * 0.99
+	if not has_fuel:
+		rpm = move_toward(rpm, 0.0, rpm_spool_rate * delta)
+		
 	var rpm_fraction: float = inverse_lerp(idle_rpm, max_rpm, rpm)
 	var speed_falloff: float = 1.0 / (1.0 + speed_ms * 0.06)
 	var tractive: float = max_tractive_force * rpm_fraction * speed_falloff
+	if not has_fuel:
+		tractive = 0.0
 	if brake_cuts_power and brake_normalized > 0.0:
 		tractive *= 1.0 - brake_normalized
+		
 
 	var resistance: float = rolling_a + rolling_b * speed_ms + drag_c * speed_ms * speed_ms
 	if speed_ms <= 0.01:
@@ -131,7 +143,14 @@ func _update_physics(delta: float) -> void:
 
 	speed_changed.emit(speed_ms, clampf(speed_ms / max_speed_ms, 0.0, 1.0))
 	rpm_changed.emit(rpm)
-
+	
+func add_fuel(amount: float) -> float:
+	var space: float = max_fuel - fuel
+	var taken: float = minf(amount, space)
+	fuel += taken
+	fuel_changed.emit(fuel, fuel / max_fuel)
+	return taken
+	
 func _advance_track(delta: float) -> void:
 	if segment == null or segment.curve == null:
 		return

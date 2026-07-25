@@ -2,9 +2,34 @@
 
 [ext_resource type="Texture2D" uid="uid://1elc7w2hvjom" path="res://assets/train/interactions/trainFuelTank.png" id="1_vpyrc"]
 
-[node name="TrainFuelTank" type="Node2D" unique_id=1770364488]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vpyrc"]
+size = Vector2(38, 38)
 
-[node name="TrainFuelTankSprite" type="Sprite2D" parent="." unique_id=666252071]
+[node name="TrainFuelTank" type="Area2D" unique_id=1960291640]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=666252071]
 texture_filter = 1
 position = Vector2(-1, 6)
 texture = ExtResource("1_vpyrc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=371777349]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_vpyrc")
+
+[node name="Control" type="Control" parent="." unique_id=1540128018]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 35.0
+offset_bottom = 35.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control" unique_id=392953574]
+layout_mode = 0
+offset_left = -35.0
+offset_top = -36.0
+offset_right = 59.0
+offset_bottom = -13.0
+text = "[E] to fill"
