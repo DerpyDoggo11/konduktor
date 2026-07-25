@@ -4,7 +4,7 @@ signal fuel_changed(fuel: float, normalized: float)
 signal died()
 
 @export var walk_speed: float = 150.0
-@export var sprint_multiplier: float = 1.8
+@export var sprint_multiplier: float = 1.1
 @export var acceleration: float = 1200.0
 @export var friction: float = 1800.0
 @export var rotation_speed: float = 10.0
@@ -26,6 +26,14 @@ var _train: Node = null
 var _invuln: float = 0.0
 var _dead: bool = false
 
+@export var carry_speed_multiplier: float = 0.55
+@export var carry_rotation_speed: float = 14.0
+
+@onready var carry_point: Node2D = $CarryPoint
+
+var carried: Node2D = null
+
+
 var fuel: float:
 	get:
 		return _train.fuel if _train else 0.0
@@ -42,7 +50,6 @@ func _ready() -> void:
 	await get_tree().process_frame
 	_train = get_tree().get_first_node_in_group("train")
 	if _train == null:
-		push_error("player: no node in group 'train' — fuel will not work")
 		return
 	_train.fuel_changed.connect(_on_train_fuel_changed)
 	_on_train_fuel_changed(_train.fuel, _train.fuel / _train.max_fuel)
@@ -50,12 +57,6 @@ func _ready() -> void:
 func _on_train_fuel_changed(f: float, normalized: float) -> void:
 	_apply_fuel_frame(normalized)
 	fuel_changed.emit(f, normalized)
-	if f <= 0.0 and not _dead:
-		_dead = true
-		died.emit()
-		var go := get_tree().get_first_node_in_group("gameOver")
-		if go:
-			go.show_game_over("You ran out of fuel.")
 
 func _apply_fuel_frame(normalized: float) -> void:
 	var idx: int = clampi(int(round(normalized * (fuel_frame_count - 1))), 0, fuel_frame_count - 1)
@@ -117,7 +118,9 @@ func _physics_process(delta: float) -> void:
 
 	var input_dir := Input.get_vector("move_left", "move_right", "move_up", "move_down")
 	var speed := walk_speed
-	if Input.is_action_pressed("sprint"):
+	if is_carrying():
+		speed *= carry_speed_multiplier
+	elif Input.is_action_pressed("sprint"):
 		speed *= sprint_multiplier
 
 	if input_dir != Vector2.ZERO:
@@ -144,3 +147,18 @@ func stand(point: Node2D) -> void:
 	seat_anchor = null
 	global_position = point.global_position
 	$CollisionShape2D.set_deferred("disabled", false)
+	
+
+func is_carrying() -> bool:
+	return carried != null and is_instance_valid(carried)
+
+func pick_up(item: Node2D) -> bool:
+	if is_carrying() or seated:
+		return false
+	carried = item
+	return true
+
+func release() -> Node2D:
+	var item := carried
+	carried = null
+	return item

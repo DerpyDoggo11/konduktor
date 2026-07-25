@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://wi6uhqlsdw4a" path="res://scripts/map/trackSegment.gd" id="2_a2pkv"]
 [ext_resource type="Texture2D" uid="uid://djf2cwdvi0chj" path="res://assets/map/tempTileset.png" id="2_qvqj7"]
-[ext_resource type="PackedScene" uid="uid://c51ei41b0c87h" path="res://scenes/train/interactions/trainFuelTank.tscn" id="3_a2pkv"]
+[ext_resource type="PackedScene" uid="uid://c51ei41b0c87h" path="res://scenes/train/interactions/fuelCanister.tscn" id="3_a2pkv"]
 [ext_resource type="Script" uid="uid://dh8vkw76lff3f" path="res://scripts/map/enemySpawner.gd" id="4_ph54e"]
 [ext_resource type="PackedScene" uid="uid://cq3qk6rspn3r1" path="res://scenes/enemies/zombie.tscn" id="5_fcby6"]
 
@@ -179,7 +179,7 @@ script = ExtResource("2_a2pkv")
 metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 
 [node name="TrainFuelTank" parent="." unique_id=1960291640 instance=ExtResource("3_a2pkv")]
-position = Vector2(360, 45)
+position = Vector2(-205, -230)
 
 [node name="EnemySpawnpoints" type="Node2D" parent="." unique_id=309112797]
 script = ExtResource("4_ph54e")

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://otjom6kgqfim"]
 
 [ext_resource type="Script" uid="uid://whghverjmpyr" path="res://scripts/gameOver.gd" id="1_wrbdc"]
-[ext_resource type="Script" uid="uid://ce2jyc5t5b5bi" path="res://scenes/restart.gd" id="2_3bbq3"]
+[ext_resource type="Script" uid="uid://ce2jyc5t5b5bi" path="res://scripts/ui/restart.gd" id="2_3bbq3"]
 [ext_resource type="AudioStream" uid="uid://j431jl2b6yar" path="res://assets/ui/UIButtonClicked.mp3" id="3_3640v"]
 [ext_resource type="AudioStream" uid="uid://i3hqnrd2fho8" path="res://assets/ui/UIHoverSound.mp3" id="4_pf6d1"]
 

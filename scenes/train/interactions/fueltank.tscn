@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dssp05f1v2a65"]
 
-[ext_resource type="Script" uid="uid://cuk5htmh3bj8p" path="res://scripts/train/interactions/fuelTank.gd" id="1_qkwt4"]
+[ext_resource type="Script" uid="uid://cuk5htmh3bj8p" path="res://scripts/train/interactions/fuelGauge.gd" id="1_qkwt4"]
 [ext_resource type="Texture2D" uid="uid://f5lt6wu4scfd" path="res://assets/map/fuelTank.png" id="1_y4qsc"]
 [ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="3_kpc5o"]
 
@@ -32,14 +32,28 @@ metadata/_edit_use_anchors_ = true
 z_index = 100
 z_as_relative = false
 layout_mode = 0
-offset_left = -30.000002
-offset_top = -37.0
-offset_right = 518.0
-offset_bottom = 112.0
+offset_left = -27.0
+offset_top = -44.0
+offset_right = 521.0
+offset_bottom = 105.0
 scale = Vector2(0.1, 0.1)
 theme_override_fonts/font = ExtResource("3_kpc5o")
 theme_override_font_sizes/font_size = 140
-text = "[ E ] to empty"
+text = "[ E ] to fill"
+
+[node name="Label2" type="Label" parent="Control" unique_id=521010370]
+z_index = 100
+z_as_relative = false
+layout_mode = 0
+offset_left = -33.0
+offset_top = -31.0
+offset_right = 1038.0
+offset_bottom = 118.0
+scale = Vector2(0.1, 0.1)
+theme_override_colors/font_color = Color(0.641934, 0.641934, 0.641934, 1)
+theme_override_fonts/font = ExtResource("3_kpc5o")
+theme_override_font_sizes/font_size = 80
+text = "(holding fuel canister)"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

@@ -63,6 +63,7 @@ var dist_px: float = 0.0
 var _blocked: bool = false
 var _riders: Array = []
 var _back_riders: Array = []
+var _out_of_fuel: bool = false
 
 @export var coupling_px: float = 220.0
 @export var back_cart_path: NodePath
@@ -127,6 +128,10 @@ func _update_physics(delta: float) -> void:
 	var used: float = minf(burn, fuel)
 	fuel -= used
 	fuel_changed.emit(fuel, fuel / max_fuel)
+	
+	if fuel <= 0.0 and not _out_of_fuel:
+		_out_of_fuel = true
+		_out_of_fuel_game_over()
 
 	var has_fuel: bool = used >= burn * 0.99
 	if not has_fuel:
@@ -157,7 +162,18 @@ func _update_physics(delta: float) -> void:
 
 	speed_changed.emit(speed_ms, clampf(speed_ms / max_speed_ms, 0.0, 1.0))
 	rpm_changed.emit(rpm)
-	
+
+func _out_of_fuel_game_over() -> void:
+	fuel = 0.0
+	throttle_normalized = 0.0
+	speed_ms = 0.0
+	speed_changed.emit(0.0, 0.0)
+	set_physics_process(false)
+
+	var gameOver := get_tree().get_first_node_in_group("gameOver")
+	if gameOver:
+		gameOver.show_game_over("You ran out of fuel, remember to pick up and use fuel canisters to power the train!")
+		
 func add_fuel(amount: float) -> float:
 	var space: float = max_fuel - fuel
 	var taken: float = minf(amount, space)

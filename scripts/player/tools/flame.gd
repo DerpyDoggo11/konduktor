@@ -82,7 +82,7 @@ func _extinguish() -> void:
 	if _dead:
 		return
 	_dead = true
-	monitoring = false
+	set_deferred("monitoring", false)
 	set_physics_process(false)
 	var tween := create_tween()
 	tween.tween_property(sprite, "modulate:a", 0.0, 0.08)

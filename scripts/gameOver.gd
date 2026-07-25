@@ -14,7 +14,7 @@ extends CanvasLayer
 var _shown: bool = false
 
 func _ready() -> void:
-	add_to_group("game_over")
+	add_to_group("gameOver")
 	fade.color.a = 0.0
 	fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE

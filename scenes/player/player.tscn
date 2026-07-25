@@ -49,3 +49,6 @@ texture = SubResource("GradientTexture2D_24o6i")
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1193022151]
 stream = ExtResource("6_75vfm")
 parameters/looping = true
+
+[node name="CarryPoint" type="Node2D" parent="." unique_id=1118528723]
+position = Vector2(0, -13)
