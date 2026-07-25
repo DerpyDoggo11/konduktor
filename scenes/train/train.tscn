@@ -84,10 +84,10 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cbynk"]
-size = Vector2(33.112675, 5.0578766)
+size = Vector2(36.343178, 5.0578766)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7enap"]
-size = Vector2(7, 567)
+size = Vector2(7, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4y5rn"]
 size = Vector2(60, 63)
@@ -97,6 +97,9 @@ size = Vector2(82, 5.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0as2i"]
 size = Vector2(218, 7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p0g77"]
+size = Vector2(6, 192)
 
 [node name="train" type="Node2D" unique_id=1364655378 groups=["train"]]
 texture_filter = 1
@@ -293,6 +296,7 @@ seat_point = NodePath("../driverSeatPoint")
 exit_point = NodePath("../driverSeatExitPoint")
 
 [node name="TrainFloor" type="Sprite2D" parent="FrontTrainCart" unique_id=2007217115]
+z_index = -2
 position = Vector2(0, 1)
 texture = ExtResource("2_xqujb")
 
@@ -357,21 +361,37 @@ texture = ExtResource("12_n5jb8")
 position = Vector2(0, -580)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=1967262708]
-position = Vector2(-65, 179.11711)
+position = Vector2(-69, 179.11711)
 scale = Vector2(2.476393, 2.0234218)
 shape = SubResource("RectangleShape2D_cbynk")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=655116364]
-position = Vector2(66, 178.00002)
+position = Vector2(70, 179.00002)
 scale = Vector2(2.476393, 2.0234218)
 shape = SubResource("RectangleShape2D_cbynk")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=298484371]
-position = Vector2(-109.5, 457.5)
+position = Vector2(-108, 281)
 shape = SubResource("RectangleShape2D_7enap")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=923007962]
-position = Vector2(109, 452)
+position = Vector2(111, 281)
+shape = SubResource("RectangleShape2D_7enap")
+
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=515666859]
+position = Vector2(-110, 378)
+shape = SubResource("RectangleShape2D_7enap")
+
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=509409548]
+position = Vector2(109, 378)
+shape = SubResource("RectangleShape2D_7enap")
+
+[node name="CollisionShape2D16" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=490455209]
+position = Vector2(-109, 477)
+shape = SubResource("RectangleShape2D_7enap")
+
+[node name="CollisionShape2D17" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=2000876832]
+position = Vector2(110, 477)
 shape = SubResource("RectangleShape2D_7enap")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=2090764123]
@@ -410,13 +430,22 @@ shape = SubResource("RectangleShape2D_mgytl")
 position = Vector2(3, 737.5)
 shape = SubResource("RectangleShape2D_0as2i")
 
+[node name="CollisionShape2D18" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=48665219]
+position = Vector2(-109, 645)
+shape = SubResource("RectangleShape2D_p0g77")
+
+[node name="CollisionShape2D19" type="CollisionShape2D" parent="BackTrainCart/RigidBody2D2" unique_id=1553336991]
+position = Vector2(109, 645)
+shape = SubResource("RectangleShape2D_p0g77")
+
 [node name="Door2" type="Sprite2D" parent="BackTrainCart" unique_id=427296030]
-position = Vector2(-78, -251)
+position = Vector2(-82, -251)
 scale = Vector2(1, 1.0625)
 texture = ExtResource("14_sugde")
 
 [node name="Door" type="Sprite2D" parent="BackTrainCart" unique_id=876951108]
-position = Vector2(-76, -362)
+z_index = -1
+position = Vector2(-71, -361)
 texture = ExtResource("15_xqujb")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=820808964]

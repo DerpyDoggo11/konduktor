@@ -1,11 +1,15 @@
 [gd_scene format=3 uid="uid://c51ei41b0c87h"]
 
+[ext_resource type="Script" uid="uid://cuk5htmh3bj8p" path="res://scripts/train/interactions/fuelTank.gd" id="1_g7c02"]
 [ext_resource type="Texture2D" uid="uid://1elc7w2hvjom" path="res://assets/train/interactions/trainFuelTank.png" id="1_vpyrc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpyrc"]
 size = Vector2(38, 38)
 
 [node name="TrainFuelTank" type="Area2D" unique_id=1960291640]
+script = ExtResource("1_g7c02")
+frame_count = 1
+infinite = true
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=666252071]
 texture_filter = 1
@@ -33,3 +37,6 @@ offset_top = -36.0
 offset_right = 59.0
 offset_bottom = -13.0
 text = "[E] to fill"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

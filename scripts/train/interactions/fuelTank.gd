@@ -2,7 +2,7 @@ extends Area2D
 
 enum Mode { SUPPLY, DEPOSIT }
 
-@export var mode: int = Mode.SUPPLY
+@export var mode: Mode = Mode.SUPPLY
 @export var transfer_rate: float = 40.0
 @export var frame_count: int = 8
 @export var invert_frames: bool = false
