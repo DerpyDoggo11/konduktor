@@ -71,5 +71,5 @@ func _on_pressed() -> void:
 		timer.start()
 	)
 
-func _on_mouse_entered() -> void:
+func _on_focus_entered() -> void:
 	$AudioStreamPlayer.play() # HOVER SOUND
