@@ -1,12 +1,22 @@
 [gd_scene format=3 uid="uid://c83de8vfv1e0c"]
 
-[ext_resource type="Texture2D" uid="uid://clvbgoefu2rtu" path="res://assets/player/Player1.png" id="1_8afob"]
 [ext_resource type="Script" uid="uid://23lxtamfer3a" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="PackedScene" uid="uid://c2k5oxn1auduo" path="res://scenes/player/tools/wrench.tscn" id="2_gmlin"]
 [ext_resource type="PackedScene" uid="uid://dtxq06bet4084" path="res://scenes/player/tools/flamethrower.tscn" id="3_lvxji"]
+[ext_resource type="Texture2D" uid="uid://ddqsawq7tc8hg" path="res://assets/player/Player1-sheet.png" id="4_p47bc"]
+[ext_resource type="Texture2D" uid="uid://bri73pxmd1uxd" path="res://assets/player/flashlight.png" id="5_p47bc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8afob"]
 size = Vector2(26, 22)
+
+[sub_resource type="Gradient" id="Gradient_p47bc"]
+offsets = PackedFloat32Array(0, 0.72627735)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_24o6i"]
+gradient = SubResource("Gradient_p47bc")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
 
 [node name="Player" type="CharacterBody2D" unique_id=1912144935 groups=["player"]]
 motion_mode = 1
@@ -19,7 +29,16 @@ shape = SubResource("RectangleShape2D_8afob")
 
 [node name="Player1" type="Sprite2D" parent="." unique_id=1636335862 groups=["player"]]
 texture_filter = 1
-texture = ExtResource("1_8afob")
+texture = ExtResource("4_p47bc")
+hframes = 9
 
 [node name="Hand" type="Node2D" parent="." unique_id=1911546976 groups=["player"]]
 position = Vector2(8, -13)
+
+[node name="PointLight2D" type="PointLight2D" parent="." unique_id=288441397]
+texture = ExtResource("5_p47bc")
+offset = Vector2(0, -80)
+texture_scale = 0.1
+
+[node name="PointLight2D2" type="PointLight2D" parent="." unique_id=409263446]
+texture = SubResource("GradientTexture2D_24o6i")

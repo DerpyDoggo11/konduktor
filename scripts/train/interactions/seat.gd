@@ -53,10 +53,10 @@ func _enter_seat(player: Node) -> void:
 	var point: Node2D = seat_point if seat_point else self
 	player.sit(point)
 	
-	get_parent().get_parent().throttle.set_active(true)
-	get_parent().get_parent().speedometer.set_active(true)
-	get_parent().get_parent().brake.set_active(true)
-	get_parent().get_parent().switchPanel.set_active(true)
+	get_parent().get_parent().get_parent().throttle.set_active(true)
+	get_parent().get_parent().get_parent().speedometer.set_active(true)
+	get_parent().get_parent().get_parent().brake.set_active(true)
+	get_parent().get_parent().get_parent().switchPanel.set_active(true)
 	
 	var cam = _get_camera()
 	cam.set_target(camera_point, cam.seated_zoom, false)
@@ -68,10 +68,10 @@ func _exit_seat() -> void:
 	var point: Node2D = exit_point if exit_point else self
 	player.stand(point)
 	
-	get_parent().get_parent().throttle.set_active(false)
-	get_parent().get_parent().speedometer.set_active(false)
-	get_parent().get_parent().brake.set_active(false)
-	get_parent().get_parent().switchPanel.set_active(false)
+	get_parent().get_parent().get_parent().throttle.set_active(false)
+	get_parent().get_parent().get_parent().speedometer.set_active(false)
+	get_parent().get_parent().get_parent().brake.set_active(false)
+	get_parent().get_parent().get_parent().switchPanel.set_active(false)
 	
 	var cam = _get_camera()
 	cam.set_target(player, cam.walk_zoom, false) 

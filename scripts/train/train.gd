@@ -35,11 +35,11 @@ var _warned: bool = false
 @export var align_to_track: bool = true
 @export var ride_area_path: NodePath
 
-@onready var throttle: Area2D = $Throttle
-@onready var brake: Area2D = $brake
-@onready var speedometer: Area2D = $speedometer
-@onready var map: Area2D = $map
-@onready var switchPanel: Node2D = $SwitchPanel
+@onready var throttle: Area2D = $FrontTrainCart/Throttle
+@onready var brake: Area2D = $FrontTrainCart/brake
+@onready var speedometer: Area2D = $FrontTrainCart/speedometer
+@onready var map: Area2D = $FrontTrainCart/map
+@onready var switchPanel: Node2D = $FrontTrainCart/SwitchPanel
 
 var throttle_level: int = 0
 var throttle_normalized: float = 0.0
