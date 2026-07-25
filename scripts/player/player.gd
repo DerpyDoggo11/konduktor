@@ -22,8 +22,8 @@ var equipped_item: Node2D = null
 signal fuel_changed(fuel: float, normalized: float)
 
 @export var max_fuel: float = 100.0
-@export var fuel_frame_count: int = 8
-@export var invert_fuel_frames: bool = false
+@export var fuel_frame_count: int = 9
+@export var invert_fuel_frames: bool = true
 
 @onready var body_sprite: Sprite2D = $Player1
 

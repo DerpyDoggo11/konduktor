@@ -19,9 +19,6 @@
 [ext_resource type="Texture2D" uid="uid://bri73pxmd1uxd" path="res://assets/player/flashlight.png" id="17_ty2mg"]
 [ext_resource type="AudioStream" uid="uid://cgheo5awqibpg" path="res://assets/train/freesound_community-room-tone-empty-train-station-quiet-59827.mp3" id="18_7epb7"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mci2a"]
-size = Vector2(227, 575.5)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxk1r"]
 size = Vector2(8.5, 600.375)
 
@@ -84,6 +81,9 @@ gradient = SubResource("Gradient_p47bc")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mci2a"]
+size = Vector2(227, 575.5)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cbynk"]
 size = Vector2(36.343178, 5.0578766)
 
@@ -105,17 +105,8 @@ size = Vector2(6, 192)
 [node name="train" type="Node2D" unique_id=1364655378 groups=["train"]]
 texture_filter = 1
 script = ExtResource("1_4bqpq")
-ride_area_path = NodePath("RideArea")
-
-[node name="RideArea" type="Area2D" parent="." unique_id=23219139]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RideArea" unique_id=696598884]
-position = Vector2(0, -141.5)
-shape = SubResource("RectangleShape2D_mci2a")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="RideArea" unique_id=1037161544]
-position = Vector2(-0.5, 454.25)
-shape = SubResource("RectangleShape2D_mci2a")
+ride_area_path = NodePath("FrontTrainCart/FrontRideArea")
+back_cart_path = NodePath("BackTrainCart")
 
 [node name="FrontTrainCart" type="Node2D" parent="." unique_id=1605033337]
 
@@ -343,6 +334,24 @@ shadow_enabled = true
 texture = SubResource("GradientTexture2D_xqujb")
 texture_scale = 3.0
 
+[node name="PointLight2D" type="PointLight2D" parent="FrontTrainCart" unique_id=1547172852]
+position = Vector2(-67, -428)
+texture = ExtResource("17_ty2mg")
+offset = Vector2(0, -80)
+texture_scale = 0.1
+
+[node name="PointLight2D5" type="PointLight2D" parent="FrontTrainCart" unique_id=1711714653]
+position = Vector2(60, -429)
+texture = ExtResource("17_ty2mg")
+offset = Vector2(0, -80)
+texture_scale = 0.1
+
+[node name="FrontRideArea" type="Area2D" parent="FrontTrainCart" unique_id=23219139]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontTrainCart/FrontRideArea" unique_id=696598884]
+position = Vector2(0, -141.5)
+shape = SubResource("RectangleShape2D_mci2a")
+
 [node name="BackTrainCart" type="Sprite2D" parent="." unique_id=590406602]
 texture_filter = 1
 position = Vector2(0, 580)
@@ -445,40 +454,35 @@ scale = Vector2(1, 1.0625)
 texture = ExtResource("14_sugde")
 
 [node name="Door" type="Sprite2D" parent="BackTrainCart" unique_id=876951108]
-z_index = -1
 position = Vector2(-71, -361)
 texture = ExtResource("15_xqujb")
 
+[node name="BackRideArea" type="Area2D" parent="BackTrainCart" unique_id=850794129]
+position = Vector2(0, -580)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="BackTrainCart/BackRideArea" unique_id=1037161544]
+position = Vector2(-0.5, 454.25)
+shape = SubResource("RectangleShape2D_mci2a")
+
+[node name="PointLight2D5" type="PointLight2D" parent="BackTrainCart" unique_id=987612364]
+position = Vector2(4, -299)
+texture = SubResource("GradientTexture2D_xqujb")
+texture_scale = 3.0
+
+[node name="PointLight2D6" type="PointLight2D" parent="BackTrainCart" unique_id=604596993]
+position = Vector2(2, -123)
+texture = SubResource("GradientTexture2D_xqujb")
+texture_scale = 3.0
+
+[node name="PointLight2D7" type="PointLight2D" parent="BackTrainCart" unique_id=372940942]
+position = Vector2(-4, 56)
+texture = SubResource("GradientTexture2D_xqujb")
+texture_scale = 3.0
+
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="." unique_id=820808964]
+visible = false
 energy = 0.7
 blend_mode = 1
-
-[node name="PointLight2D5" type="PointLight2D" parent="." unique_id=987612364]
-position = Vector2(4, 281)
-texture = SubResource("GradientTexture2D_xqujb")
-texture_scale = 3.0
-
-[node name="PointLight2D6" type="PointLight2D" parent="." unique_id=604596993]
-position = Vector2(2, 457)
-texture = SubResource("GradientTexture2D_xqujb")
-texture_scale = 3.0
-
-[node name="PointLight2D7" type="PointLight2D" parent="." unique_id=372940942]
-position = Vector2(-4, 636)
-texture = SubResource("GradientTexture2D_xqujb")
-texture_scale = 3.0
-
-[node name="PointLight2D" type="PointLight2D" parent="." unique_id=1547172852]
-position = Vector2(-67, -428)
-texture = ExtResource("17_ty2mg")
-offset = Vector2(0, -80)
-texture_scale = 0.1
-
-[node name="PointLight2D2" type="PointLight2D" parent="." unique_id=1711714653]
-position = Vector2(60, -429)
-texture = ExtResource("17_ty2mg")
-offset = Vector2(0, -80)
-texture_scale = 0.1
 
 [node name="AudioStreamPlayer2D3" type="AudioStreamPlayer2D" parent="." unique_id=1789957105]
 position = Vector2(0, 378)
@@ -500,3 +504,6 @@ stream = ExtResource("18_7epb7")
 autoplay = true
 attenuation = 10.556034
 parameters/looping = true
+
+[connection signal="body_entered" from="BackTrainCart/BackRideArea" to="." method="_on_back_ride_area_body_entered"]
+[connection signal="body_exited" from="BackTrainCart/BackRideArea" to="." method="_on_back_ride_area_body_exited"]

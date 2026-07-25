@@ -62,6 +62,14 @@ var segment: TrackSegment = null
 var dist_px: float = 0.0
 var _blocked: bool = false
 var _riders: Array = []
+var _back_riders: Array = []
+
+@export var coupling_px: float = 220.0
+@export var back_cart_path: NodePath
+
+@onready var back_cart: Node2D = get_node_or_null(back_cart_path)
+
+var _history: Array = []
 
 func _ready() -> void:
 	add_to_group("train")
@@ -90,8 +98,13 @@ func _ready() -> void:
 	if segment == null:
 		push_error("start segment not found at %s" % start_segment_path)
 	_snap()
+		
 	if segment:
+		_history = [segment]
 		segment_changed.emit(segment)
+
+	if back_cart:
+		back_cart.top_level = true
 
 func _on_throttle_changed(level: int, normalized: float) -> void:
 	throttle_level = level
@@ -171,9 +184,12 @@ func _advance_track(delta: float) -> void:
 				_blocked = true
 				_crash()
 			break
-
+		
 		dist_px -= length
 		segment = next
+		_history.append(segment)
+		if _history.size() > 8:
+			_history.pop_front()
 		length = segment.curve.get_baked_length()
 		_blocked = false
 		segment_changed.emit(segment)
@@ -203,6 +219,7 @@ func _advance_track(delta: float) -> void:
 		junction_cleared.emit()
 		
 	_snap()
+	_update_back_cart(delta)
 	_carry_riders(global_position - prev_pos, global_rotation - prev_rot, prev_pos)
 
 @export var crash_speed_ms: float = 3.0
@@ -250,19 +267,20 @@ func _snap(delta: float = 0.0) -> void:
 	else:
 		global_rotation = lerp_angle(global_rotation, want, 1.0 - exp(-rotation_smoothing * delta))
 
-func _carry_riders(move: Vector2, turn: float, pivot: Vector2) -> void:
+func _carry_bodies(list: Array, move: Vector2, turn: float, pivot: Vector2) -> void:
 	if move == Vector2.ZERO and is_zero_approx(turn):
 		return
-	for body in _riders:
+	for body in list:
 		if not is_instance_valid(body):
 			continue
-		
 		if body.get("seated") == true:
 			continue
-			
 		var offset: Vector2 = body.global_position - pivot
 		body.global_position = pivot + offset.rotated(turn) + move
-	
+
+func _carry_riders(move: Vector2, turn: float, pivot: Vector2) -> void:
+	_carry_bodies(_riders, move, turn, pivot)
+
 	var cam := get_viewport().get_camera_2d()
 	if cam and cam.has_method("carry"):
 		cam.carry(move)
@@ -273,3 +291,52 @@ func _on_ride_entered(body: Node) -> void:
 
 func _on_ride_exited(body: Node) -> void:
 	_riders.erase(body)
+
+func _update_back_cart(delta: float) -> void:
+	if back_cart == null or segment == null:
+		return
+		
+	var prev_pos: Vector2 = back_cart.global_position
+	var prev_rot: float = back_cart.global_rotation
+
+	var back: float = coupling_px
+	var idx: int = _history.size() - 1
+	var d: float = dist_px
+
+	while back > d and idx > 0:
+		back -= d
+		idx -= 1
+		d = _history[idx].curve.get_baked_length()
+
+	var seg: TrackSegment = _history[idx]
+	var at: float = clampf(d - back, 0.0, seg.curve.get_baked_length())
+
+	back_cart.global_position = seg.to_global(seg.curve.sample_baked(at))
+
+	var length: float = seg.curve.get_baked_length()
+	var ahead: float = minf(at + heading_sample_px, length)
+	var behind: float = maxf(at - heading_sample_px, 0.0)
+	var p_a: Vector2 = seg.to_global(seg.curve.sample_baked(ahead))
+	var p_b: Vector2 = seg.to_global(seg.curve.sample_baked(behind))
+
+	if p_a.distance_squared_to(p_b) > 0.01:
+		var want: float = (p_a - p_b).angle() + deg_to_rad(90)
+		if delta <= 0.0 or rotation_smoothing <= 0.0:
+			back_cart.global_rotation = want
+		else:
+			back_cart.global_rotation = lerp_angle(
+				back_cart.global_rotation, want, 1.0 - exp(-rotation_smoothing * delta)
+			)
+
+	_carry_bodies(_back_riders,
+		back_cart.global_position - prev_pos,
+		back_cart.global_rotation - prev_rot,
+		prev_pos)
+
+func _on_back_ride_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and not _back_riders.has(body):
+		_back_riders.append(body)
+
+
+func _on_back_ride_area_body_exited(body: Node2D) -> void:
+	_back_riders.erase(body)
