@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://ditsk22k6qxer"]
+
+[ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="1_r4oei"]
+[ext_resource type="Script" uid="uid://datl184ejqbqk" path="res://scenes/credits.gd" id="2_iiocm"]
+[ext_resource type="FontFile" uid="uid://drwasg070kig1" path="res://assets/ui/PixelPurl.ttf" id="3_yxbqr"]
+
+[node name="Win" type="CanvasLayer" unique_id=886205136]
+
+[node name="Fade2" type="ColorRect" parent="." unique_id=1683385790]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.45186907, 0.5150725, 0.32689232, 1)
+
+[node name="Menu2" type="Control" parent="." unique_id=444978784]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="1" type="HBoxContainer" parent="Menu2" unique_id=940037036]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 20)
+alignment = 1
+
+[node name="2" type="VBoxContainer" parent="Menu2/1" unique_id=1535359266]
+layout_mode = 2
+size_flags_vertical = 0
+offset_transform_enabled = true
+theme_override_constants/separation = 5
+alignment = 1
+
+[node name="Reason2" type="Label" parent="Menu2/1/2" unique_id=1376814673]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 98
+text = "Konduktor"
+horizontal_alignment = 1
+
+[node name="---" type="Label" parent="Menu2/1/2/Reason2" unique_id=1955744495]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 50)
+theme_override_colors/font_color = Color(1, 1, 1, 0.48235294)
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 128
+text = "-------"
+horizontal_alignment = 1
+
+[node name="Reason2" type="Label" parent="Menu2/1/2/Reason2" unique_id=818714341]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 6)
+theme_override_colors/font_color = Color(1, 1, 1, 0.1764706)
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 98
+text = "Konduktor"
+horizontal_alignment = 1
+
+[node name="Reason3" type="Label" parent="Menu2/1/2/Reason2" unique_id=304079486]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 3)
+theme_override_colors/font_color = Color(1, 1, 1, 0.48235294)
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 98
+text = "Konduktor"
+horizontal_alignment = 1
+
+[node name="Reason" type="Label" parent="Menu2/1/2" unique_id=1584576902]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 64
+text = "You won!!"
+horizontal_alignment = 1
+
+[node name="Reason2" type="Label" parent="Menu2/1/2/Reason" unique_id=1334774046]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 3)
+theme_override_colors/font_color = Color(1, 1, 1, 0.1764706)
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 64
+text = "You won!!"
+horizontal_alignment = 1
+
+[node name="Credits" type="Control" parent="Menu2/1/2" unique_id=385565714]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Mask" type="Control" parent="Menu2/1/2/Credits" unique_id=1074087405]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_iiocm")
+
+[node name="Creditstext" type="Label" parent="Menu2/1/2/Credits/Mask" unique_id=360104325]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("3_yxbqr")
+theme_override_font_sizes/font_size = 32
+text = "text
+text
+text
+text
+eeeeeeee
+text
+text
+text
+text
+text
+text
+text
+text
+eeeeeeeeeee
+v
+text
+text
+
+text
+text
+text
+text"
+horizontal_alignment = 1
+vertical_alignment = 1
