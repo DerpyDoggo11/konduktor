@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://dssp05f1v2a65"]
+
+[ext_resource type="Script" uid="uid://cuk5htmh3bj8p" path="res://scripts/train/interactions/fuelTank.gd" id="1_qkwt4"]
+[ext_resource type="Texture2D" uid="uid://f5lt6wu4scfd" path="res://assets/map/fuelTank.png" id="1_y4qsc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y4qsc"]
+size = Vector2(38, 38)
+
+[node name="FuelTank" type="Area2D" unique_id=565628124]
+script = ExtResource("1_qkwt4")
+
+[node name="FuelTankSprite" type="Sprite2D" parent="." unique_id=856395103]
+texture_filter = 1
+texture = ExtResource("1_y4qsc")
+hframes = 15
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2134673352]
+shape = SubResource("RectangleShape2D_y4qsc")
+
+[node name="Control" type="Control" parent="." unique_id=971897429]
+z_index = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 35.0
+offset_bottom = 35.0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="Control" unique_id=357868014]
+layout_mode = 0
+offset_left = -49.0
+offset_top = -16.0
+offset_right = 45.0
+offset_bottom = 7.0
+text = "[E] to empty"

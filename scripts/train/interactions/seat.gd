@@ -55,7 +55,6 @@ func _enter_seat(player: Node) -> void:
 	
 	get_parent().get_parent().throttle.set_active(true)
 	get_parent().get_parent().speedometer.set_active(true)
-	get_parent().get_parent().map.set_active(true)
 	get_parent().get_parent().brake.set_active(true)
 	get_parent().get_parent().switchPanel.set_active(true)
 	
@@ -71,7 +70,6 @@ func _exit_seat() -> void:
 	
 	get_parent().get_parent().throttle.set_active(false)
 	get_parent().get_parent().speedometer.set_active(false)
-	get_parent().get_parent().map.set_active(false)
 	get_parent().get_parent().brake.set_active(false)
 	get_parent().get_parent().switchPanel.set_active(false)
 	

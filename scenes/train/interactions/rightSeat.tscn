@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://kanj4541feh4"]
 
+[ext_resource type="Script" uid="uid://ci3mk1juk2j1j" path="res://scripts/train/interactions/rightSeat.gd" id="1_id4qf"]
 [ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="2_irwia"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjfxe"]
-size = Vector2(62, 58)
+size = Vector2(36, 58)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xoh0e"]
 load_path = "res://.godot/imported/interactButtonDown.png-74bda32813be2c65eafc555e5915cac3.ctex"
 
 [node name="RightSeat" type="Area2D" unique_id=725261560]
+script = ExtResource("1_id4qf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=689202320]
 shape = SubResource("RectangleShape2D_tjfxe")

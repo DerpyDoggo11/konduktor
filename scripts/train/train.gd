@@ -5,13 +5,20 @@ signal rpm_changed(rpm: float)
 signal segment_changed(segment: TrackSegment)
 signal dead_end_reached()
 
+signal junction_approaching(segment: TrackSegment)
+signal junction_cleared()
+
+@export var junction_warn_px: float = 600.0
+
+var _warned: bool = false
+
 # engine
 @export var idle_rpm: float = 300.0
 @export var max_rpm: float = 1800.0
 @export var rpm_spool_rate: float = 400.0
 @export var max_tractive_force: float = 220000.0
 @export var mass: float = 180000.0
-@export var max_speed_ms: float = 20.0
+@export var max_speed_ms: float = 10.0
 
 # resistance
 @export var rolling_a: float = 2000.0
@@ -141,7 +148,21 @@ func _advance_track(delta: float) -> void:
 		length = segment.curve.get_baked_length()
 		_blocked = false
 		segment_changed.emit(segment)
+	
+	var remaining: float = segment.curve.get_baked_length() - dist_px
+	var has_choice: bool = (
+		segment.has_exit(TrackSegment.Dir.LEFT)
+		or segment.has_exit(TrackSegment.Dir.RIGHT)
+	)
 
+	if has_choice and remaining <= junction_warn_px:
+		if not _warned:
+			_warned = true
+			junction_approaching.emit(segment)
+	elif _warned:
+		_warned = false
+		junction_cleared.emit()
+		
 	_snap()
 	_carry_riders(global_position - prev_pos, global_rotation - prev_rot, prev_pos)
 
@@ -163,20 +184,32 @@ func _crash() -> void:
 	if gameOver:
 		gameOver.show_game_over("Stay on track, your train hit a barrier")
 		
-func _snap() -> void:
+@export var heading_sample_px: float = 24.0
+@export var rotation_smoothing: float = 12.0
+
+func _snap(delta: float = 0.0) -> void:
 	if segment == null or segment.curve == null:
 		return
 	var curve := segment.curve
-	var d: float = clampf(dist_px, 0.0, curve.get_baked_length())
+	var length: float = curve.get_baked_length()
+	var d: float = clampf(dist_px, 0.0, length)
 	global_position = segment.to_global(curve.sample_baked(d))
 
-	if align_to_track:
-		var ahead: float = minf(d + 4.0, curve.get_baked_length())
-		var behind: float = maxf(d - 4.0, 0.0)
-		var p_a: Vector2 = segment.to_global(curve.sample_baked(ahead))
-		var p_b: Vector2 = segment.to_global(curve.sample_baked(behind))
-		if p_a.distance_squared_to(p_b) > 0.01:
-			global_rotation = (p_a - p_b).angle() + deg_to_rad(90)
+	if not align_to_track:
+		return
+
+	var ahead: float = minf(d + heading_sample_px, length)
+	var behind: float = maxf(d - heading_sample_px, 0.0)
+	var p_a: Vector2 = segment.to_global(curve.sample_baked(ahead))
+	var p_b: Vector2 = segment.to_global(curve.sample_baked(behind))
+	if p_a.distance_squared_to(p_b) <= 0.01:
+		return
+
+	var want: float = (p_a - p_b).angle() + deg_to_rad(90)
+	if delta <= 0.0 or rotation_smoothing <= 0.0:
+		global_rotation = want
+	else:
+		global_rotation = lerp_angle(global_rotation, want, 1.0 - exp(-rotation_smoothing * delta))
 
 func _carry_riders(move: Vector2, turn: float, pivot: Vector2) -> void:
 	if move == Vector2.ZERO and is_zero_approx(turn):
@@ -184,10 +217,16 @@ func _carry_riders(move: Vector2, turn: float, pivot: Vector2) -> void:
 	for body in _riders:
 		if not is_instance_valid(body):
 			continue
+		
 		if body.get("seated") == true:
 			continue
+			
 		var offset: Vector2 = body.global_position - pivot
 		body.global_position = pivot + offset.rotated(turn) + move
+	
+	var cam := get_viewport().get_camera_2d()
+	if cam and cam.has_method("carry"):
+		cam.carry(move)
 
 func _on_ride_entered(body: Node) -> void:
 	if body.is_in_group("player") and not _riders.has(body):

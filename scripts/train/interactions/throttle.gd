@@ -30,9 +30,9 @@ func _on_mouse_entered() -> void:
 	hovered = true
 	_refresh()
 	
-	if active:
-		var cam = _get_camera()
-		cam.push_target(detailedIcon, cam.control_zoom, true)
+	#if active:
+		#var cam = _get_camera()
+		#cam.push_target(detailedIcon, cam.control_zoom, true)
 	
 func _on_mouse_exited() -> void:
 	hovered = false

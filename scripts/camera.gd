@@ -1,13 +1,13 @@
 extends Camera2D
 
 @export var default_target: Node2D
-@export var follow_speed: float = 5.0
+@export var follow_speed: float = 10.0
 @export var zoom_speed: float = 4.0
 @export var mouse_lead: float = 0.35
 
 @export var walk_zoom: Vector2 = Vector2(4, 4)
-@export var seated_zoom: Vector2 = Vector2(4, 4)      # same as walking = no zoom on sit
-@export var control_zoom: Vector2 = Vector2(10.5, 10.5) # hovering a lever/button
+@export var seated_zoom: Vector2 = Vector2(4, 4)
+@export var control_zoom: Vector2 = Vector2(4, 4) 
 
 var target: Node2D
 var target_zoom: Vector2
@@ -18,6 +18,8 @@ var _prev_zoom: Vector2
 var _prev_focus: bool = false
 
 func _ready() -> void:
+	process_physics_priority = 100
+	process_priority = 100
 	target = default_target
 	target_zoom = walk_zoom
 	zoom = walk_zoom
@@ -25,6 +27,11 @@ func _ready() -> void:
 	if target:
 		global_position = target.global_position
 
+func carry(move: Vector2) -> void:
+	global_position += move
+	if _prev_target == null and target == null:
+		return
+		
 func set_target(new_target: Node2D, new_zoom: Vector2 = Vector2.ZERO, focus: bool = false) -> void:
 	_prev_target = null
 	target = new_target

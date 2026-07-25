@@ -15,11 +15,36 @@ var selected: bool = false
 var available: bool = true
 var _pushed: bool = false
 
+@export var flash_color: Color = Color(2.0, 0.5, 0.5)
+@export var flash_hz: float = 3.0
+
+var flashing: bool = false
+var _flash_t: float = 0.0
+
 func _ready() -> void:
 	tempIcon.visible = true
 	detailedIcon.visible = false
+	set_process(false)
 	_refresh()
 
+
+func set_flashing(value: bool) -> void:
+	if flashing == value:
+		return
+	flashing = value
+	_flash_t = 0.0
+	set_process(flashing)
+	if not flashing:
+		_refresh()
+
+func _process(delta: float) -> void:
+	_flash_t += delta
+	var pulse: float = 0.5 + 0.5 * sin(_flash_t * TAU * flash_hz)
+	var base: Color = selected_color if selected else Color.WHITE
+	var tint: Color = base.lerp(flash_color, pulse)
+	detailedIcon.modulate = tint
+	tempIcon.modulate = tint
+	
 func _get_camera() -> Camera2D:
 	var cam := get_viewport().get_camera_2d()
 	if cam and cam.has_method("set_target"):
@@ -47,12 +72,12 @@ func _on_mouse_entered() -> void:
 		return
 	hovered = true
 	_refresh()
-	_push_cam()
+	#_push_cam()
 
 func _on_mouse_exited() -> void:
 	hovered = false
 	_refresh()
-	_pop_cam()
+	#_pop_cam()
 
 func set_active(value: bool) -> void:
 	active = value
@@ -72,6 +97,8 @@ func set_available(value: bool) -> void:
 func _refresh() -> void:
 	detailedIcon.visible = active and hovered
 	tempIcon.visible = not detailedIcon.visible
+	if flashing:
+		return
 
 	var tint: Color
 	if selected:

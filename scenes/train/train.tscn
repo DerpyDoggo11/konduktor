@@ -8,6 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://j6mmxrb1yhv7" path="res://scenes/train/interactions/mapInteraction.tscn" id="6_0drc4"]
 [ext_resource type="PackedScene" uid="uid://sojwb5dy0xsl" path="res://scenes/train/interactions/brake.tscn" id="7_xnb1e"]
 [ext_resource type="PackedScene" uid="uid://bfrid3q35ap2c" path="res://scenes/train/interactions/switchPanel.tscn" id="8_iuhv6"]
+[ext_resource type="PackedScene" uid="uid://kanj4541feh4" path="res://scenes/train/interactions/rightSeat.tscn" id="9_v58c7"]
+[ext_resource type="Texture2D" uid="uid://cvda0aqbep8wq" path="res://assets/train/BackVagon.png" id="10_dmmtq"]
+[ext_resource type="Texture2D" uid="uid://035sdtx27cdt" path="res://assets/train/TurretBase.png" id="11_nm3wd"]
+[ext_resource type="Texture2D" uid="uid://t8xq068fgcrr" path="res://assets/train/TurretTurretPart.png" id="12_n5jb8"]
+[ext_resource type="PackedScene" uid="uid://dssp05f1v2a65" path="res://scenes/train/interactions/fueltank.tscn" id="13_nm3wd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mci2a"]
+size = Vector2(227, 575.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxk1r"]
 size = Vector2(8.5, 600.375)
@@ -63,13 +71,35 @@ size = Vector2(61, 30)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pws7h"]
 size = Vector2(82, 8)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mci2a"]
-size = Vector2(230, 599)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cbynk"]
+size = Vector2(33.112675, 5.0578766)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7enap"]
+size = Vector2(7, 567)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4y5rn"]
+size = Vector2(60, 63)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mgytl"]
+size = Vector2(82, 5.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0as2i"]
+size = Vector2(218, 7)
 
 [node name="train" type="Node2D" unique_id=1364655378 groups=["train"]]
 texture_filter = 1
 script = ExtResource("1_4bqpq")
 ride_area_path = NodePath("RideArea")
+
+[node name="RideArea" type="Area2D" parent="." unique_id=23219139]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RideArea" unique_id=696598884]
+position = Vector2(0, -141.5)
+shape = SubResource("RectangleShape2D_mci2a")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="RideArea" unique_id=1037161544]
+position = Vector2(-0.5, 454.25)
+shape = SubResource("RectangleShape2D_mci2a")
 
 [node name="driverSeat" type="Node2D" parent="." unique_id=1376438207]
 position = Vector2(-32, -329.405)
@@ -91,123 +121,123 @@ exit_point = NodePath("../driverSeatExitPoint")
 texture_filter = 1
 texture = ExtResource("1_tnona")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="." unique_id=972321212]
+[node name="RigidBody2D" type="RigidBody2D" parent="Train" unique_id=972321212]
 freeze = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D" unique_id=1495186185]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1495186185]
 position = Vector2(-111.25, -140.1875)
 shape = SubResource("RectangleShape2D_fxk1r")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="RigidBody2D" unique_id=568759843]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=568759843]
 position = Vector2(110, -141)
 shape = SubResource("RectangleShape2D_fxk1r")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="RigidBody2D" unique_id=1136242334]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1136242334]
 position = Vector2(-0.4170523, -418)
 scale = Vector2(6.1000285, 1)
 shape = SubResource("RectangleShape2D_4bqpq")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="RigidBody2D" unique_id=1533151308]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1533151308]
 position = Vector2(-64, -257.5)
 shape = SubResource("RectangleShape2D_24o6i")
 
-[node name="CollisionShape2D5" type="CollisionShape2D" parent="RigidBody2D" unique_id=1301159803]
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1301159803]
 position = Vector2(64, -257.25)
 shape = SubResource("RectangleShape2D_24o6i")
 
-[node name="CollisionShape2D6" type="CollisionShape2D" parent="RigidBody2D" unique_id=1597813588]
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1597813588]
 position = Vector2(-77.5, -244.5)
 shape = SubResource("RectangleShape2D_c65h7")
 
-[node name="CollisionShape2D7" type="CollisionShape2D" parent="RigidBody2D" unique_id=360452697]
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=360452697]
 position = Vector2(77.25, -245)
 shape = SubResource("RectangleShape2D_c65h7")
 
-[node name="CollisionShape2D8" type="CollisionShape2D" parent="RigidBody2D" unique_id=977589942]
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=977589942]
 position = Vector2(-93.75, -232.25)
 shape = SubResource("RectangleShape2D_e5vab")
 
-[node name="CollisionShape2D9" type="CollisionShape2D" parent="RigidBody2D" unique_id=2081287560]
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=2081287560]
 position = Vector2(93.125, -233)
 shape = SubResource("RectangleShape2D_e5vab")
 
-[node name="CollisionShape2D10" type="CollisionShape2D" parent="RigidBody2D" unique_id=30463140]
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=30463140]
 position = Vector2(-0.5, -376.5)
 shape = SubResource("RectangleShape2D_iyjdg")
 
-[node name="CollisionShape2D11" type="CollisionShape2D" parent="RigidBody2D" unique_id=837442694]
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=837442694]
 position = Vector2(-84.5, -280)
 shape = SubResource("RectangleShape2D_uf8kq")
 
-[node name="CollisionShape2D14" type="CollisionShape2D" parent="RigidBody2D" unique_id=1273709143]
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1273709143]
 position = Vector2(84, -280)
 shape = SubResource("RectangleShape2D_uf8kq")
 
-[node name="CollisionShape2D12" type="CollisionShape2D" parent="RigidBody2D" unique_id=958213590]
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=958213590]
 position = Vector2(-93.5, -328.5)
 shape = SubResource("RectangleShape2D_m1dra")
 
-[node name="CollisionShape2D13" type="CollisionShape2D" parent="RigidBody2D" unique_id=904495648]
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=904495648]
 position = Vector2(93, -329)
 shape = SubResource("RectangleShape2D_m1dra")
 
-[node name="CollisionShape2D15" type="CollisionShape2D" parent="RigidBody2D" unique_id=190228360]
+[node name="CollisionShape2D15" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=190228360]
 position = Vector2(0, -141.5)
 shape = SubResource("RectangleShape2D_1g1hk")
 
-[node name="CollisionShape2D16" type="CollisionShape2D" parent="RigidBody2D" unique_id=1104000754]
+[node name="CollisionShape2D16" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1104000754]
 position = Vector2(-33, -77.5)
 shape = SubResource("RectangleShape2D_eupae")
 
-[node name="CollisionShape2D17" type="CollisionShape2D" parent="RigidBody2D" unique_id=94416407]
+[node name="CollisionShape2D17" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=94416407]
 position = Vector2(0, -74.5)
 shape = SubResource("RectangleShape2D_6hm5i")
 
-[node name="CollisionShape2D18" type="CollisionShape2D" parent="RigidBody2D" unique_id=1487727567]
+[node name="CollisionShape2D18" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1487727567]
 position = Vector2(-32, -326)
 shape = SubResource("RectangleShape2D_tecon")
 
-[node name="CollisionShape2D19" type="CollisionShape2D" parent="RigidBody2D" unique_id=2033106153]
+[node name="CollisionShape2D19" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=2033106153]
 position = Vector2(32, -326)
 shape = SubResource("RectangleShape2D_tecon")
 
-[node name="CollisionShape2D20" type="CollisionShape2D" parent="RigidBody2D" unique_id=1996590235]
+[node name="CollisionShape2D20" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1996590235]
 position = Vector2(-92.5, -27.5)
 shape = SubResource("RectangleShape2D_tslks")
 
-[node name="CollisionShape2D21" type="CollisionShape2D" parent="RigidBody2D" unique_id=769020903]
+[node name="CollisionShape2D21" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=769020903]
 position = Vector2(92, -34)
 shape = SubResource("RectangleShape2D_3g06l")
 
-[node name="CollisionShape2D22" type="CollisionShape2D" parent="RigidBody2D" unique_id=234007054]
+[node name="CollisionShape2D22" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=234007054]
 position = Vector2(-66, -9.5)
 shape = SubResource("RectangleShape2D_eed2q")
 
-[node name="CollisionShape2D24" type="CollisionShape2D" parent="RigidBody2D" unique_id=320530463]
+[node name="CollisionShape2D24" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=320530463]
 position = Vector2(66, -10)
 shape = SubResource("RectangleShape2D_eed2q")
 
-[node name="CollisionShape2D23" type="CollisionShape2D" parent="RigidBody2D" unique_id=1304339307]
+[node name="CollisionShape2D23" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1304339307]
 position = Vector2(-76.5, 59)
 shape = SubResource("RectangleShape2D_psjx0")
 
-[node name="CollisionShape2D25" type="CollisionShape2D" parent="RigidBody2D" unique_id=594390653]
+[node name="CollisionShape2D25" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=594390653]
 position = Vector2(76, 59)
 shape = SubResource("RectangleShape2D_psjx0")
 
-[node name="CollisionShape2D26" type="CollisionShape2D" parent="RigidBody2D" unique_id=631388333]
+[node name="CollisionShape2D26" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=631388333]
 position = Vector2(-76.5, 137)
 shape = SubResource("RectangleShape2D_qpryh")
 
-[node name="CollisionShape2D27" type="CollisionShape2D" parent="RigidBody2D" unique_id=1794764003]
+[node name="CollisionShape2D27" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1794764003]
 position = Vector2(77, 138)
 shape = SubResource("RectangleShape2D_qpryh")
 
-[node name="CollisionShape2D28" type="CollisionShape2D" parent="RigidBody2D" unique_id=1448978202]
+[node name="CollisionShape2D28" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=1448978202]
 position = Vector2(-66, 156)
 shape = SubResource("RectangleShape2D_pws7h")
 
-[node name="CollisionShape2D29" type="CollisionShape2D" parent="RigidBody2D" unique_id=324954554]
+[node name="CollisionShape2D29" type="CollisionShape2D" parent="Train/RigidBody2D" unique_id=324954554]
 position = Vector2(66, 155)
 shape = SubResource("RectangleShape2D_pws7h")
 
@@ -218,9 +248,10 @@ position = Vector2(0, -333)
 visible = false
 position = Vector2(-5, -372)
 
-[node name="map" parent="." unique_id=761399225 instance=ExtResource("6_0drc4")]
-visible = false
-position = Vector2(-84, -376)
+[node name="map" parent="." unique_id=761399225 node_paths=PackedStringArray("train") instance=ExtResource("6_0drc4")]
+position = Vector2(31.545, -376)
+train = NodePath("../Train")
+track_root_path = NodePath("..")
 
 [node name="brake" parent="." unique_id=1118501466 instance=ExtResource("7_xnb1e")]
 position = Vector2(-64, -332)
@@ -228,8 +259,96 @@ position = Vector2(-64, -332)
 [node name="SwitchPanel" parent="." unique_id=1792046410 groups=["switchPanel"] instance=ExtResource("8_iuhv6")]
 position = Vector2(-31, -367)
 
-[node name="RideArea" type="Area2D" parent="." unique_id=23219139]
+[node name="rightSeat" type="Node2D" parent="." unique_id=1917144822]
+position = Vector2(32, -330)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RideArea" unique_id=696598884]
-position = Vector2(0, -141.5)
-shape = SubResource("RectangleShape2D_mci2a")
+[node name="driverSeatPoint" type="Node2D" parent="rightSeat" unique_id=1268018718]
+
+[node name="driverSeatCameraPoint" type="Node2D" parent="rightSeat" unique_id=1121654268]
+position = Vector2(-19, -38)
+
+[node name="driverSeatExitPoint" type="Node2D" parent="rightSeat" unique_id=1256122369]
+position = Vector2(0, 38.345)
+
+[node name="RightSeat" parent="rightSeat" unique_id=725261560 node_paths=PackedStringArray("camera_point", "seat_point", "exit_point") instance=ExtResource("9_v58c7")]
+camera_point = NodePath("../driverSeatCameraPoint")
+seat_point = NodePath("../driverSeatPoint")
+exit_point = NodePath("../driverSeatExitPoint")
+
+[node name="TrainCart2" type="Sprite2D" parent="." unique_id=590406602]
+texture_filter = 1
+position = Vector2(0, 580)
+texture = ExtResource("10_dmmtq")
+
+[node name="TurretBase" type="Sprite2D" parent="TrainCart2" unique_id=1109883227]
+texture_filter = 1
+position = Vector2(0, 67)
+texture = ExtResource("11_nm3wd")
+
+[node name="TurretTurretPart" type="Sprite2D" parent="TrainCart2" unique_id=134736889]
+texture_filter = 1
+position = Vector2(1, 71)
+texture = ExtResource("12_n5jb8")
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="TrainCart2" unique_id=1942843688]
+position = Vector2(0, -580)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=1967262708]
+position = Vector2(-65, 179.11711)
+scale = Vector2(2.476393, 2.0234218)
+shape = SubResource("RectangleShape2D_cbynk")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=655116364]
+position = Vector2(66, 178.00002)
+scale = Vector2(2.476393, 2.0234218)
+shape = SubResource("RectangleShape2D_cbynk")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=298484371]
+position = Vector2(-109.5, 457.5)
+shape = SubResource("RectangleShape2D_7enap")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=923007962]
+position = Vector2(109, 452)
+shape = SubResource("RectangleShape2D_7enap")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=2090764123]
+position = Vector2(-76, 281)
+shape = SubResource("RectangleShape2D_4y5rn")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=309281821]
+position = Vector2(76, 282)
+shape = SubResource("RectangleShape2D_4y5rn")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=1931057069]
+position = Vector2(-76, 378)
+shape = SubResource("RectangleShape2D_4y5rn")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=377513181]
+position = Vector2(76, 379)
+shape = SubResource("RectangleShape2D_4y5rn")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=162586048]
+position = Vector2(-76, 476)
+shape = SubResource("RectangleShape2D_4y5rn")
+
+[node name="CollisionShape2D10" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=1475866351]
+position = Vector2(76, 477)
+shape = SubResource("RectangleShape2D_4y5rn")
+
+[node name="CollisionShape2D11" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=1634184471]
+position = Vector2(-66, 551.5)
+shape = SubResource("RectangleShape2D_mgytl")
+
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=1187818603]
+position = Vector2(65, 551.75)
+shape = SubResource("RectangleShape2D_mgytl")
+
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="TrainCart2/RigidBody2D2" unique_id=1280631106]
+position = Vector2(3, 737.5)
+shape = SubResource("RectangleShape2D_0as2i")
+
+[node name="FuelTank" parent="." unique_id=565628124 instance=ExtResource("13_nm3wd")]
+position = Vector2(-91, -29)
+
+[node name="FuelTank2" parent="." unique_id=1639326380 instance=ExtResource("13_nm3wd")]
+position = Vector2(88, -30)

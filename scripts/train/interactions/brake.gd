@@ -46,12 +46,12 @@ func _on_mouse_entered() -> void:
 		return
 	hovered = true
 	_refresh()
-	_push_cam()
+	#_push_cam()
 
 func _on_mouse_exited() -> void:
 	hovered = false
 	_refresh()
-	_pop_cam()
+	#_pop_cam()
 
 func set_active(value: bool) -> void:
 	active = value

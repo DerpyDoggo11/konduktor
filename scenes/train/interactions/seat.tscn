@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="2_tjfxe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjfxe"]
-size = Vector2(62, 58)
+size = Vector2(37, 58)
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_xoh0e"]
 load_path = "res://.godot/imported/interactButtonDown.png-74bda32813be2c65eafc555e5915cac3.ctex"
@@ -13,6 +13,7 @@ load_path = "res://.godot/imported/interactButtonDown.png-74bda32813be2c65eafc55
 script = ExtResource("1_bcky6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=689202320]
+position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_tjfxe")
 
 [node name="Control" type="Control" parent="." unique_id=537981343]
