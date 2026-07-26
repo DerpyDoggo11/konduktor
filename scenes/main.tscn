@@ -26,5 +26,6 @@ default_target = NodePath("../Player")
 position = Vector2(-10, -737)
 
 [node name="gameoverScreen" parent="." unique_id=113212214 instance=ExtResource("6_tefeu")]
+visible = false
 
 [node name="Gui" parent="." unique_id=150676867 instance=ExtResource("7_o6xl0")]
