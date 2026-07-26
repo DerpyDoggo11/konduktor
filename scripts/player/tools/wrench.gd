@@ -45,9 +45,14 @@ func _physics_process(delta: float) -> void:
 		_cooldown -= delta
 	if firing and not _swinging and _cooldown <= 0.0:
 		_swing()
+
 	if hit_area.monitoring:
 		for body in hit_area.get_overlapping_bodies():
 			_try_hit(body)
+		for area in hit_area.get_overlapping_areas():
+			var parent := area.get_parent()
+			if parent and parent.is_in_group("door"):
+				_try_hit(parent)
 
 func _set_swing_angle(angle: float) -> void:
 	rotation = angle

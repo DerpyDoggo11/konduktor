@@ -297,6 +297,7 @@ track_root_path = NodePath("../..")
 [node name="brake" parent="FrontTrainCart" unique_id=1118501466 instance=ExtResource("7_xnb1e")]
 z_index = 1
 position = Vector2(-64, -332)
+brake_sound = null
 
 [node name="SwitchPanel" parent="FrontTrainCart" unique_id=1792046410 groups=["switchPanel"] instance=ExtResource("8_iuhv6")]
 z_index = 1

@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bdxo13e44ku1y" path="res://assets/zombies/explosionwarnbeep.mp3" id="5_p4ex4"]
 [ext_resource type="AudioStream" uid="uid://dcgjvl6yxj5b0" path="res://assets/zombies/explosionboom1.mp3" id="6_7s1wu"]
 [ext_resource type="AudioStream" uid="uid://ds0np3ppnr7ek" path="res://assets/zombies/explosionboom2.mp3" id="7_1m5pk"]
+[ext_resource type="AudioStream" uid="uid://c7i2ocpbyvahb" path="res://assets/player/damage.mp3" id="8_7s1wu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_43mph"]
 size = Vector2(20, 19)
@@ -19,6 +20,11 @@ streams_count = 2
 stream_0/stream = ExtResource("6_7s1wu")
 stream_1/stream = ExtResource("7_1m5pk")
 stream_1/weight = 0.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1m5pk"]
+random_pitch = 1.0696088
+streams_count = 1
+stream_0/stream = ExtResource("8_7s1wu")
 
 [node name="Zombie" type="CharacterBody2D" unique_id=116774448 groups=["enemy"]]
 z_index = 1
@@ -56,6 +62,11 @@ stream = ExtResource("5_p4ex4")
 
 [node name="explosion1" type="AudioStreamPlayer2D" parent="." unique_id=1023420999]
 stream = SubResource("AudioStreamRandomizer_uvsnm")
+
+[node name="damageSound" type="AudioStreamPlayer2D" parent="." unique_id=1486864603]
+stream = SubResource("AudioStreamRandomizer_1m5pk")
+volume_db = -15.0
+pitch_scale = 4.0
 
 [connection signal="body_entered" from="DamageArea" to="." method="_on_damage_area_body_entered"]
 [connection signal="body_exited" from="DamageArea" to="." method="_on_damage_area_body_exited"]

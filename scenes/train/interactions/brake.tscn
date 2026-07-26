@@ -9,6 +9,7 @@ size = Vector2(27, 32)
 
 [node name="brake" type="Area2D" unique_id=1118501466]
 script = ExtResource("1_mgubu")
+invert_frames = false
 brake_sound = ExtResource("3_635bu")
 
 [node name="visibleIcon" type="Sprite2D" parent="." unique_id=546910586]

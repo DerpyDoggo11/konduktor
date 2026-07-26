@@ -20,7 +20,7 @@ var _won: bool = false
 @export var rpm_spool_rate: float = 400.0
 @export var max_tractive_force: float = 220000.0
 @export var mass: float = 180000.0
-@export var max_speed_ms: float = 5.0
+@export var max_speed_ms: float = 100.0 # 5.0
 @export var start_fuel: float = -1.0
 @export var arm_game_over_at: float = 1.0
 var _fuel_armed: bool = false
@@ -50,7 +50,7 @@ var _engine_volume: float = 0.0
 # fuel
 @export var max_fuel: float = 500.0
 @export var idle_burn: float = 0.4
-@export var full_burn: float = 12.0
+@export var full_burn: float = 0.0 # 12.0
 
 # track
 @export var start_segment_path: NodePath = ^"/root/Main/map/Track/seg_a"

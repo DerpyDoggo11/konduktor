@@ -3,7 +3,7 @@ extends Area2D
 signal brake_changed(level: int, normalized: float)
 
 @export var max_level: int = 7
-@export var invert_frames: bool = false
+@export var invert_frames: bool = true
 @export var glow_when_active: Color = Color(1.3, 1.3, 1.3)
 
 @onready var tempIcon: Sprite2D = $visibleIcon

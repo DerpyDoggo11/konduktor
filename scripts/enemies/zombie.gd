@@ -24,6 +24,9 @@ const STATS := {
 @export var shake_amount: float = 14.0
 @export var shake_time: float = 0.35
 
+@export var hit_pitch_range: Vector2 = Vector2(0.9, 1.15)
+@export var hit_sound_cooldown: float = 0.12
+
 @onready var sprite: Sprite2D = $zombo
 @onready var damage_area: Area2D = $DamageArea
 @onready var healthbar: TextureProgressBar = $Healthbar
@@ -35,8 +38,10 @@ var damage: int = 8
 
 var player: Node2D = null
 var target: Node2D = null
+
 var _touching: Array = []
 var _damage_timer: float = 0.0
+var _hit_sound_timer: float = 0.0
 var _knockback: Vector2 = Vector2.ZERO
 var _fuse: float = -1.0
 var _exploded: bool = false
@@ -82,6 +87,9 @@ func _pick_target() -> Node2D:
 	return best
 
 func _physics_process(delta: float) -> void:
+	if _hit_sound_timer > 0.0:
+		_hit_sound_timer -= delta
+
 	if player == null or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
 
@@ -89,8 +97,6 @@ func _physics_process(delta: float) -> void:
 	if target == null:
 		return
 
-	# Despawn is measured from the player, not the target, so a zombie
-	# chewing on a door still cleans up once the train pulls away.
 	if player and is_instance_valid(player):
 		if global_position.distance_to(player.global_position) > despawn_distance:
 			queue_free()
@@ -134,8 +140,10 @@ func _tick_fuse(delta: float, dist: float) -> void:
 	_fuse -= delta
 	var blink: float = 1.0 - (_fuse / fuse_time)
 	sprite.modulate = STATS[kind]["tint"].lerp(Color(2.0, 1.4, 0.6), absf(sin(blink * 24.0)))
-	if not $explosionwarning.playing:
+
+	if has_node("explosionwarning") and not $explosionwarning.playing:
 		$explosionwarning.play()
+
 	if _fuse <= 0.0:
 		_explode()
 
@@ -143,7 +151,7 @@ func _explode() -> void:
 	if _exploded:
 		return
 	_exploded = true
-	_detach_sound($explosion1)
+	_detach_sound(get_node_or_null("explosion1"))
 
 	var space := get_world_2d().direct_space_state
 
@@ -179,6 +187,17 @@ func take_damage(amount: float, hit_from = null) -> void:
 		healthbar.value = health
 		healthbar.visible = health < max_health
 
+	if health > 0:
+		if _hit_sound_timer <= 0.0:
+			var sfx := get_node_or_null("damageSound")
+			if sfx:
+				_hit_sound_timer = hit_sound_cooldown
+				sfx.pitch_scale = randf_range(hit_pitch_range.x, hit_pitch_range.y)
+				sfx.play()
+	else:
+		_detach_sound(get_node_or_null("damageSound"))
+		_detach_sound(get_node_or_null("deathSound"))
+
 	if hit_from != null:
 		var src: Vector2
 		if hit_from is Vector2:
@@ -213,10 +232,9 @@ func _detach_sound(sfx) -> void:
 		host = get_parent()
 
 	if host == null:
-		# Nothing safe to hand it to — play anyway and accept the cutoff.
 		sfx.play()
 		return
 
-	sfx.reparent(host)          # keeps global transform for AudioStreamPlayer2D
+	sfx.reparent(host)
 	sfx.finished.connect(sfx.queue_free)
 	sfx.play()

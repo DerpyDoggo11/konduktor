@@ -15,8 +15,6 @@ signal repaired()
 
 @onready var sprite_intact: Sprite2D = $Door
 @onready var sprite_broken: Sprite2D = get_node_or_null("Door2")
-@onready var shape: CollisionShape2D = $CollisionShape2D
-@onready var repair_shape: CollisionShape2D = get_node_or_null("RepairShape")
 @onready var healthbar: TextureProgressBar = get_node_or_null("Healthbar")
 
 var is_open: bool = false
@@ -44,16 +42,9 @@ func _ready() -> void:
 		is_open = true
 		position = _closed_pos + slide_offset
 
-func _refresh_sprites() -> void:
-	if sprite_intact:
-		sprite_intact.visible = not is_broken
-	if sprite_broken:
-		sprite_broken.visible = is_broken
-		
 func _physics_process(_delta: float) -> void:
 	if _moving:
 		return
-
 	var rest: Vector2 = _closed_pos + (slide_offset if is_open else Vector2.ZERO)
 	if position != rest:
 		position = rest
@@ -67,14 +58,13 @@ func set_open(open: bool) -> void:
 		return
 	is_open = open
 	state_changed.emit(is_open)
-	
-	if open == true:
-		
-		if $AudioStreamPlayer2D:
+
+	if is_open:
+		if has_node("AudioStreamPlayer2D"):
 			$AudioStreamPlayer2D.play()
 	else:
-		if $AudioStreamPlayer2D:
-			$AudioStreamPlayer2D2.play() # REVERSE
+		if has_node("AudioStreamPlayer2D2"):
+			$AudioStreamPlayer2D2.play()
 
 	if _tween and _tween.is_running():
 		_tween.kill()
@@ -90,7 +80,6 @@ func set_open(open: bool) -> void:
 		position = target
 		_moving = false
 	)
-
 
 func take_damage(amount: float, _hit_from = null) -> void:
 	if is_broken:
@@ -111,7 +100,7 @@ func repair(amount: int = -1) -> bool:
 	if is_broken and health > 0:
 		is_broken = false
 		_refresh_sprites()
-		shape.set_deferred("disabled", false)
+		_set_blocking(true)
 		repaired.emit()
 	return true
 
@@ -123,8 +112,19 @@ func _break() -> void:
 		return
 	is_broken = true
 	_refresh_sprites()
-	shape.set_deferred("disabled", true)
+	_set_blocking(false)
 	broke.emit()
+
+func _set_blocking(enabled: bool) -> void:
+	for c in get_children():
+		if c is CollisionShape2D or c is CollisionPolygon2D:
+			c.set_deferred("disabled", not enabled)
+
+func _refresh_sprites() -> void:
+	if sprite_intact:
+		sprite_intact.visible = not is_broken
+	if sprite_broken:
+		sprite_broken.visible = is_broken
 
 func _refresh_health() -> void:
 	if healthbar == null:
