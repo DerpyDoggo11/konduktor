@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dtxq06bet4084"]
 
-[ext_resource type="Texture2D" uid="uid://mfnq1wf6fv71" path="res://assets/player/tools/flamethrower.png" id="1_i4tht"]
 [ext_resource type="Script" uid="uid://cnavo3uiw8cog" path="res://scripts/player/tools/flamethrower.gd" id="1_mhnsl"]
 [ext_resource type="PackedScene" uid="uid://b7qgi34lfgjbs" path="res://scenes/player/tools/flame.tscn" id="2_7lppw"]
 [ext_resource type="Texture2D" uid="uid://bvo836cyxbxll" path="res://assets/particles/flame.png" id="3_7lppw"]
+[ext_resource type="Texture2D" uid="uid://cjtq0rasadujg" path="res://assets/player/tools/Flamethwer23Frames.png" id="3_tykhn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24o6i"]
 size = Vector2(20, 80)
@@ -17,8 +17,8 @@ block_margin = 0.1
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=734054931]
 z_index = 2
 texture_filter = 1
-texture = ExtResource("1_i4tht")
-hframes = 13
+texture = ExtResource("3_tykhn")
+hframes = 23
 
 [node name="Flames" type="Area2D" parent="." unique_id=759117073]
 visible = false
@@ -46,7 +46,7 @@ position = Vector2(1, -72)
 shape = SubResource("RectangleShape2D_24o6i")
 
 [node name="nozzle" type="Marker2D" parent="." unique_id=519384105]
-position = Vector2(0, -30)
+position = Vector2(-5.5, -30)
 
 [connection signal="body_entered" from="Flames" to="." method="_on_flames_body_entered"]
 [connection signal="body_exited" from="Flames" to="." method="_on_flames_body_exited"]

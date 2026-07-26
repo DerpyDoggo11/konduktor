@@ -3,7 +3,7 @@ extends Node2D
 @export var flame_scene: PackedScene
 @export var emit_rate: float = 28.0
 @export var fuelPerSecond: float = 9.0
-@export var frameCount: int = 13
+@export var frameCount: int = 23
 @export var invertFrames: bool = false
 @export var spool_up: float = 6.0
 

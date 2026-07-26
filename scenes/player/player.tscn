@@ -49,7 +49,7 @@ texture = ExtResource("4_p47bc")
 hframes = 9
 
 [node name="Hand" type="Node2D" parent="." unique_id=1911546976]
-position = Vector2(8, -13)
+position = Vector2(11.5, -12)
 
 [node name="PointLight2D" type="PointLight2D" parent="." unique_id=288441397]
 texture = ExtResource("5_p47bc")

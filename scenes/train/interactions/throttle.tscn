@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cdtle6aa7h5t6"]
 
-[ext_resource type="Texture2D" uid="uid://wxfayaejpq24" path="res://assets/train/interactions/throttle.png" id="1_k27mv"]
+[ext_resource type="Texture2D" uid="uid://dxpgsloegq2lg" path="res://assets/train/interactions/throttle.png" id="1_k27mv"]
 [ext_resource type="Script" uid="uid://d1hekmrep0npf" path="res://scripts/train/interactions/throttle.gd" id="1_v0442"]
 [ext_resource type="AudioStream" uid="uid://bfwek8amudl8d" path="res://assets/train/interactions/lever.mp3" id="2_y8tg0"]
 
@@ -14,18 +14,19 @@ brake_sound = ExtResource("2_y8tg0")
 [node name="visibleIcon" type="Sprite2D" parent="." unique_id=45099339]
 texture_filter = 1
 texture = ExtResource("1_k27mv")
-hframes = 8
+vframes = 7
 
 [node name="detailedIcon" type="Sprite2D" parent="." unique_id=371876260]
 texture_filter = 1
 texture = ExtResource("1_k27mv")
-hframes = 8
+vframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1120391455]
 shape = SubResource("RectangleShape2D_v0442")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1965897617]
 stream = ExtResource("2_y8tg0")
+pitch_scale = 0.5
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

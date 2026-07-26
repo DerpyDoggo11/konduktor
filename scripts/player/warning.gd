@@ -10,14 +10,21 @@ enum Step { PICK_UP, DEPOSIT, THROTTLE, ADVICE, DONE }
 @export var color_tutorial: Color = Color(0.6, 0.9, 1.0)
 @export var color_warn: Color = Color(1.0, 0.75, 0.2)
 @export var color_danger: Color = Color(1.0, 0.35, 0.3)
+@export var color_distance: Color = Color(0.75, 0.8, 0.85)
+
+@export var distance_update_interval: float = 0.25
+@export var arrived_distance_m: float = 40.0
 
 @onready var label: Label = $warningLabel
+@onready var distance_label: Label = $distanceLabel
 
 var step: int = Step.PICK_UP
 
 var _train: Node = null
 var _player: Node = null
+var _stations: Array = []
 var _advice_timer: float = 0.0
+var _distance_timer: float = 0.0
 var _low_fuel: bool = false
 var _junction: String = ""
 var _shown_text: String = ""
@@ -26,6 +33,9 @@ var _tween: Tween = null
 func _ready() -> void:
 	add_to_group("warning_hud")
 	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	distance_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	distance_label.modulate = color_distance
+	distance_label.text = ""
 	modulate.a = 0.0
 
 	get_viewport().size_changed.connect(_reposition)
@@ -47,13 +57,24 @@ func _ready() -> void:
 		if _train.throttle and _train.throttle.has_signal("throttle_changed"):
 			_train.throttle.throttle_changed.connect(_on_throttle_changed)
 
+	_collect_stations()
 	_refresh()
+	_update_distance()
+
+func _collect_stations() -> void:
+	_stations.clear()
+	for container in get_tree().get_nodes_in_group("fuel_stations"):
+		for c in container.get_children():
+			if c is Node2D:
+				_stations.append(c)
 
 func _reposition() -> void:
 	var view: Vector2 = get_viewport_rect().size
-	size = Vector2(view.x, 48)
+	size = Vector2(view.x, 80)
 	position = Vector2(0, top_margin)
-	label.size = size
+	label.size = Vector2(view.x, 32)
+	distance_label.position = Vector2(0, 34)
+	distance_label.size = Vector2(view.x, 28)
 
 func _process(delta: float) -> void:
 	if step == Step.ADVICE:
@@ -62,6 +83,42 @@ func _process(delta: float) -> void:
 			step = Step.DONE
 			_refresh()
 
+	_distance_timer -= delta
+	if _distance_timer <= 0.0:
+		_distance_timer = distance_update_interval
+		_update_distance()
+
+
+func _update_distance() -> void:
+	if _train == null or _stations.is_empty():
+		distance_label.text = ""
+		return
+
+	var origin: Vector2 = _train.global_position
+	var best: float = INF
+	for s in _stations:
+		if not is_instance_valid(s):
+			continue
+		best = minf(best, origin.distance_to(s.global_position))
+
+	if best == INF:
+		distance_label.text = ""
+		return
+
+	var metres: float = best / _train.pixels_per_meter
+
+	if metres <= arrived_distance_m:
+		distance_label.text = "Fuel depot, stop here"
+		distance_label.modulate = color_warn
+	elif metres >= 1000.0:
+		distance_label.text = "Nearest depot  %.1f km" % (metres / 1000.0)
+		distance_label.modulate = color_distance
+	else:
+		distance_label.text = "Nearest depot  %d m" % int(round(metres))
+		distance_label.modulate = color_distance
+
+	distance_label.modulate.a = 1.0
+	modulate.a = maxf(modulate.a, 1.0 if distance_label.text != "" else 0.0)
 
 func _on_inventory_changed(frame: int) -> void:
 	if step == Step.PICK_UP and frame == 3:
@@ -95,32 +152,33 @@ func _on_junction_cleared() -> void:
 	_junction = ""
 	_refresh()
 
+
 func _refresh() -> void:
 	var text: String = ""
 	var col: Color = color_warn
 
 	match step:
 		Step.PICK_UP:
-			text = "Pick up the fuel canister on the ground [E]"
+			text = "Pick up a fuel canister at the fuel station [E]"
 			col = color_tutorial
 		Step.DEPOSIT:
-			text = "Carry it to the engine and fill the tank [E]"
+			text = "Carry it to the engine room and fill the tank [E]"
 			col = color_tutorial
 		Step.THROTTLE:
-			text = "Load the other fuel canister, then sit at the driver's seat and raise the throttle"
+			text = "Sit at the driver's seat and raise the throttle [Scrollwheel]"
 			col = color_tutorial
 		Step.ADVICE:
-			text = "Stop at fuel depots to restock on fuel or else you'll run out"
+			text = "Stop at fuel depots to restock or else you'll run out"
 			col = color_tutorial
 		_:
 			if _junction == "dead_end":
-				text = "Dead end ahead switch the points or brake"
+				text = "Dead end ahead, select the correct direction or brake"
 				col = color_danger
 			elif _low_fuel:
 				text = "Low fuel"
 				col = color_danger
 			elif _junction == "choice":
-				text = "Junction ahead  choose a direction"
+				text = "Junction ahead, choose a direction"
 				col = color_warn
 
 	_show(text, col)
@@ -134,10 +192,12 @@ func _show(text: String, col: Color) -> void:
 		_tween.kill()
 	_tween = create_tween()
 
-	if text == "":
-		_tween.tween_property(self, "modulate:a", 0.0, fade_time)
-		return
-
 	label.text = text
-	label.modulate = col
-	_tween.tween_property(self, "modulate:a", 1.0, fade_time)
+	if text != "":
+		label.modulate = col
+		label.modulate.a = 1.0
+		_tween.tween_property(self, "modulate:a", 1.0, fade_time)
+	else:
+		label.modulate.a = 0.0
+		if distance_label.text == "":
+			_tween.tween_property(self, "modulate:a", 0.0, fade_time)

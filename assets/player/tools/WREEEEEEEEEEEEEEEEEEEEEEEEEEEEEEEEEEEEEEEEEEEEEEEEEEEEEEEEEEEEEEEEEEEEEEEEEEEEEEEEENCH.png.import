@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxpgsloegq2lg"
-path="res://.godot/imported/throttle.png-4500230c6398427d6643ee9a8e0f39c8.ctex"
+uid="uid://bsy5tvqd7oi2f"
+path="res://.godot/imported/WREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENCH.png-e8b0cf58b1c13ff925d1f4943674238c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/train/interactions/throttle.png"
-dest_files=["res://.godot/imported/throttle.png-4500230c6398427d6643ee9a8e0f39c8.ctex"]
+source_file="res://assets/player/tools/WREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENCH.png"
+dest_files=["res://.godot/imported/WREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEENCH.png-e8b0cf58b1c13ff925d1f4943674238c.ctex"]
 
 [params]
 

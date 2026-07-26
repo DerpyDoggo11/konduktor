@@ -106,6 +106,9 @@ func _flash() -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	for slot in range(1, item_scenes.size() + 1):
 		if event.is_action_pressed("equip_%d" % slot):
+			if is_carrying():
+				get_viewport().set_input_as_handled()
+				return
 			_equip(0 if equipped_slot == slot else slot)
 			get_viewport().set_input_as_handled()
 			return
@@ -197,6 +200,8 @@ func is_carrying() -> bool:
 func pick_up(item: Node2D) -> bool:
 	if is_carrying() or seated:
 		return false
+	if equipped_slot != 0:
+		_equip(0)
 	carried = item
 	_notify_inventory()
 	return true

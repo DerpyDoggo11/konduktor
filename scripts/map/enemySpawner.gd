@@ -2,8 +2,8 @@ extends Node2D
 
 @export var zombie_scene: PackedScene
 @export var spawn_interval: float = 3.0
-@export var min_spawn_interval: float = 0.8
-@export var max_alive: int = 14
+@export var min_spawn_interval: float = 2
+@export var max_alive: int = 100
 @export var min_distance: float = 500.0
 @export var max_distance: float = 1400.0
 @export var enabled: bool = true
