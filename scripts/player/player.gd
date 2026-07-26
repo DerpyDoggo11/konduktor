@@ -162,6 +162,8 @@ func _physics_process(delta: float) -> void:
 	else:
 		global_rotation = lerp_angle(global_rotation, target_angle, 1.0 - exp(-rotation_speed * delta))
 
+	$walkingparticles.emitting = true
+
 	move_and_slide()
 
 
