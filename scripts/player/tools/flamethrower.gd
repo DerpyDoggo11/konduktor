@@ -7,9 +7,11 @@ extends Node2D
 @export var invertFrames: bool = false
 @export var spool_up: float = 6.0
 
-var firing: bool = false
+var firing: bool = false : set = set_firing
 var intensity: float = 0.0
 var ownerPlayer: Node = null
+
+@onready var fire_sfx: AudioStreamPlayer2D = $AudioStreamPlayer2D
 
 var _emit_accum: float = 0.0
 
@@ -34,7 +36,13 @@ func _find_owner() -> Node:
 	return null
 
 func set_firing(value: bool) -> void:
+	if value == firing:
+		return
 	firing = value
+	if firing:
+		fire_sfx.play()
+	else:
+		fire_sfx.stop()
 
 func _forward() -> Vector2:
 	return Vector2(0, -1).rotated(global_rotation)
@@ -45,6 +53,12 @@ func _physics_process(delta: float) -> void:
 		var needed: float = fuelPerSecond * delta
 		if ownerPlayer.consume_fuel(needed) < needed * 0.99:
 			wants = false
+
+	if wants and not fire_sfx.playing:
+		fire_sfx.play()
+	elif not wants and fire_sfx.playing:
+		fire_sfx.stop()
+
 
 	intensity = move_toward(intensity, 1.0 if wants else 0.0, delta * spool_up)
 
