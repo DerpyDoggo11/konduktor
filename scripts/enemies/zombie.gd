@@ -3,9 +3,9 @@ extends CharacterBody2D
 enum Kind { BASIC, EXPLOSIVE, STRONG }
 
 const STATS := {
-	Kind.BASIC:     {"health": 20, "speed": 45.0,  "damage": 8,  "tint": Color(1.0, 0.55, 0.2)},
-	Kind.EXPLOSIVE: {"health": 12, "speed": 95.0,  "damage": 4,  "tint": Color(0.55, 0.1, 0.12)},
-	Kind.STRONG:    {"health": 70, "speed": 28.0,  "damage": 20, "tint": Color(0.3, 0.5, 1.0)},
+	Kind.BASIC:     {"health": 20, "speed": 30.0,  "damage": 8,  "tint": Color(1.0, 0.55, 0.2)},
+	Kind.EXPLOSIVE: {"health": 12, "speed": 65.0,  "damage": 4,  "tint": Color(0.55, 0.1, 0.12)},
+	Kind.STRONG:    {"health": 30, "speed": 20.0,  "damage": 12, "tint": Color(0.3, 0.5, 1.0)},
 }
 
 @export var kind: int = Kind.BASIC
@@ -15,7 +15,9 @@ const STATS := {
 @export var despawn_distance: float = 2500.0
 @export var rotation_speed: float = 8.0
 @export var sprite_angle_offset: float = 90.0
-@export var door_preference: float = 1.5   # <1 makes doors more attractive than the player
+@export var door_preference: float = 1.5
+
+@export var shove_recovery: float = 0.6
 
 @export var fuse_time: float = 0.7
 @export var trigger_range: float = 45.0
@@ -42,6 +44,7 @@ var target: Node2D = null
 var _touching: Array = []
 var _damage_timer: float = 0.0
 var _hit_sound_timer: float = 0.0
+var _shoved_timer: float = 0.0
 var _knockback: Vector2 = Vector2.ZERO
 var _fuse: float = -1.0
 var _exploded: bool = false
@@ -68,6 +71,12 @@ func configure(new_kind: int, difficulty: float = 1.0) -> void:
 		healthbar.max_value = max_health
 		healthbar.value = health
 
+func shove(direction: Vector2, force: float) -> void:
+	if direction == Vector2.ZERO:
+		return
+	_knockback = direction.normalized() * force
+	_shoved_timer = shove_recovery
+
 func _pick_target() -> Node2D:
 	var best: Node2D = null
 	var best_dist: float = INF
@@ -89,6 +98,8 @@ func _pick_target() -> Node2D:
 func _physics_process(delta: float) -> void:
 	if _hit_sound_timer > 0.0:
 		_hit_sound_timer -= delta
+	if _shoved_timer > 0.0:
+		_shoved_timer -= delta
 
 	if player == null or not is_instance_valid(player):
 		player = get_tree().get_first_node_in_group("player")
@@ -105,7 +116,7 @@ func _physics_process(delta: float) -> void:
 	var to_target: Vector2 = target.global_position - global_position
 	var dist: float = to_target.length()
 
-	if _knockback.length() > 5.0:
+	if _knockback.length() > 5.0 or _shoved_timer > 0.0:
 		_knockback = _knockback.lerp(Vector2.ZERO, delta * 8.0)
 		velocity = _knockback
 	else:
@@ -198,7 +209,7 @@ func take_damage(amount: float, hit_from = null) -> void:
 		_detach_sound(get_node_or_null("damageSound"))
 		_detach_sound(get_node_or_null("deathSound"))
 
-	if hit_from != null:
+	if hit_from != null and _shoved_timer <= 0.0:
 		var src: Vector2
 		if hit_from is Vector2:
 			src = hit_from

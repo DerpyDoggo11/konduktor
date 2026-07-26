@@ -84,7 +84,7 @@ size = Vector2(7, 65)
 size = Vector2(7, 35)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mci2a"]
-size = Vector2(227, 621.1875)
+size = Vector2(227, 583)
 
 [sub_resource type="Gradient" id="Gradient_inu50"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
@@ -93,6 +93,9 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 gradient = SubResource("Gradient_inu50")
 fill = 1
 fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l8kdm"]
+size = Vector2(226, 51)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cbynk"]
 size = Vector2(36.343178, 4.16407)
@@ -122,6 +125,7 @@ start_fuel = 0.0
 back_cart_path = NodePath("BackTrainCart")
 ride_area_path = NodePath("FrontTrainCart/FrontRideArea")
 back_ride_area_path = NodePath("BackTrainCart/BackRideArea")
+crush_area_paths = Array[NodePath]([NodePath("FrontTrainCart/CrushArea")])
 
 [node name="FrontTrainCart" type="Node2D" parent="." unique_id=1605033337]
 
@@ -281,6 +285,7 @@ map_node = NodePath("../../map")
 [node name="Throttle" parent="FrontTrainCart" unique_id=1170980154 instance=ExtResource("4_4bqpq")]
 z_index = 1
 position = Vector2(0, -333)
+invert_frames = false
 
 [node name="speedometer" parent="FrontTrainCart" unique_id=1643755587 instance=ExtResource("5_b0oxr")]
 visible = false
@@ -297,6 +302,7 @@ track_root_path = NodePath("../..")
 [node name="brake" parent="FrontTrainCart" unique_id=1118501466 instance=ExtResource("7_xnb1e")]
 z_index = 1
 position = Vector2(-64, -332)
+invert_frames = true
 brake_sound = null
 
 [node name="SwitchPanel" parent="FrontTrainCart" unique_id=1792046410 groups=["switchPanel"] instance=ExtResource("8_iuhv6")]
@@ -331,7 +337,7 @@ texture = ExtResource("3_ty2mg")
 [node name="FrontRideArea" type="Area2D" parent="FrontTrainCart" unique_id=23219139]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontTrainCart/FrontRideArea" unique_id=696598884]
-position = Vector2(0, -126.59375)
+position = Vector2(0, -107.5)
 shape = SubResource("RectangleShape2D_mci2a")
 
 [node name="Lighting" type="Node2D" parent="FrontTrainCart" unique_id=754144338]
@@ -448,17 +454,25 @@ slide_offset = Vector2(-60, 0)
 [node name="FuelTank" parent="FrontTrainCart" unique_id=565628124 instance=ExtResource("13_nm3wd")]
 position = Vector2(90, -30)
 
+[node name="CrushArea" type="Area2D" parent="FrontTrainCart" unique_id=272203731]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FrontTrainCart/CrushArea" unique_id=1409591407]
+position = Vector2(-1, -423.5)
+shape = SubResource("RectangleShape2D_l8kdm")
+
 [node name="BackTrainCart" type="Sprite2D" parent="." unique_id=590406602]
 texture_filter = 1
 position = Vector2(0, 590)
 texture = ExtResource("10_dmmtq")
 
 [node name="TurretBase" type="Sprite2D" parent="BackTrainCart" unique_id=1109883227]
+visible = false
 texture_filter = 1
 position = Vector2(0, 67)
 texture = ExtResource("11_nm3wd")
 
 [node name="TurretTurretPart" type="Sprite2D" parent="BackTrainCart" unique_id=134736889]
+visible = false
 texture_filter = 1
 position = Vector2(1, 71)
 texture = ExtResource("12_n5jb8")

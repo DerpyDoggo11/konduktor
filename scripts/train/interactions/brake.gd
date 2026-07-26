@@ -15,7 +15,7 @@ var _playback: AudioStreamPlaybackPolyphonic
 
 func _ready() -> void:
 	var poly := AudioStreamPolyphonic.new()
-	poly.polyphony = 8  # max simultaneous voices
+	poly.polyphony = 8
 	$AudioStreamPlayer2D.stream = poly
 	$AudioStreamPlayer2D.play()
 	_playback = $AudioStreamPlayer2D.get_stream_playback()
@@ -23,7 +23,7 @@ func _ready() -> void:
 	detailedIcon.visible = false
 	_apply_frames()
 
-var level: int = 0
+var level: int = 7
 var active: bool = false
 var hovered: bool = false
 var _pushed: bool = false
