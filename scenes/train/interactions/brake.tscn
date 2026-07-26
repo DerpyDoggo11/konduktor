@@ -2,12 +2,14 @@
 
 [ext_resource type="Script" uid="uid://bt2xomwj7xarw" path="res://scripts/train/interactions/brake.gd" id="1_mgubu"]
 [ext_resource type="Texture2D" uid="uid://c1a27jcoal53u" path="res://assets/train/interactions/brake.png" id="2_mgubu"]
+[ext_resource type="AudioStream" uid="uid://bfwek8amudl8d" path="res://assets/train/interactions/lever.mp3" id="3_635bu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mgubu"]
 size = Vector2(27, 32)
 
 [node name="brake" type="Area2D" unique_id=1118501466]
 script = ExtResource("1_mgubu")
+brake_sound = ExtResource("3_635bu")
 
 [node name="visibleIcon" type="Sprite2D" parent="." unique_id=546910586]
 texture_filter = 1
@@ -21,6 +23,9 @@ hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=255074982]
 shape = SubResource("RectangleShape2D_mgubu")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=859842559]
+stream = ExtResource("3_635bu")
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

@@ -67,6 +67,11 @@ func set_open(open: bool) -> void:
 		return
 	is_open = open
 	state_changed.emit(is_open)
+	
+	if open == true:
+		$AudioStreamPlayer2D.play()
+	else:
+		$AudioStreamPlayer2D2.play() # REVERSE
 
 	if _tween and _tween.is_running():
 		_tween.kill()

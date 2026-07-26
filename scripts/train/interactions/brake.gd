@@ -9,15 +9,24 @@ signal brake_changed(level: int, normalized: float)
 @onready var tempIcon: Sprite2D = $visibleIcon
 @onready var detailedIcon: Sprite2D = $detailedIcon
 
+@export var brake_sound: AudioStream
+
+var _playback: AudioStreamPlaybackPolyphonic
+
+func _ready() -> void:
+	var poly := AudioStreamPolyphonic.new()
+	poly.polyphony = 8  # max simultaneous voices
+	$AudioStreamPlayer2D.stream = poly
+	$AudioStreamPlayer2D.play()
+	_playback = $AudioStreamPlayer2D.get_stream_playback()
+	tempIcon.visible = true
+	detailedIcon.visible = false
+	_apply_frames()
+
 var level: int = 0
 var active: bool = false
 var hovered: bool = false
 var _pushed: bool = false
-
-func _ready() -> void:
-	tempIcon.visible = true
-	detailedIcon.visible = false
-	_apply_frames()
 
 func _get_camera() -> Camera2D:
 	var cam := get_viewport().get_camera_2d()
@@ -85,7 +94,9 @@ func _set_level(value: int) -> void:
 		return
 	level = new_level
 	_apply_frames()
+	_playback.play_stream(brake_sound, 0.0, 0.0, pow(2.0, -level * 2.0 / 30.0))
 	brake_changed.emit(level, float(level) / float(max_level))
+
 
 func _apply_frames() -> void:
 	detailedIcon.frame = (max_level - level) if invert_frames else level

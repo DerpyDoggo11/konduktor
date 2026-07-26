@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://6urgkt0iicki" path="res://scripts/train/interactions/seat.gd" id="1_bcky6"]
 [ext_resource type="Texture2D" uid="uid://ei1ikjyalh88" path="res://assets/ui/interactButtonUp.png" id="2_tjfxe"]
+[ext_resource type="AudioStream" uid="uid://en4h04paa07b" path="res://assets/train/interactions/seat.mp3" id="3_xoh0e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tjfxe"]
 size = Vector2(37, 58)
@@ -41,6 +42,11 @@ offset_top = -22.0
 offset_right = 19.0
 offset_bottom = 18.0
 texture = SubResource("CompressedTexture2D_xoh0e")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=496758278]
+stream = ExtResource("3_xoh0e")
+volume_db = 18.223
+autoplay = true
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_body_exited"]

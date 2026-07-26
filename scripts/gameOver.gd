@@ -28,10 +28,10 @@ func show_game_over(reason: String = "", title: String = "") -> void:
 		return
 	_shown = true
 
-	title_label.text = default_title if title == "" else title
-	reason_label.text = reason
-	reason2_label.text = reason
-	reason3_label.text = reason
+	title_label.text = reason
+	reason_label.text = title
+	reason2_label.text = title
+	reason3_label.text = title
 #	reason_label.visible = reason != ""
 
 	var tween := create_tween()
