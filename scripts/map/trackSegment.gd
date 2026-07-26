@@ -4,7 +4,7 @@ extends Path2D
 enum Dir { LEFT, STRAIGHT, RIGHT }
 
 @export var exits: Array[NodePath] = []
-@export var straight_tolerance_deg: float = 25.0
+@export var straight_tolerance_deg: float = 5.0
 
 var _by_dir: Dictionary = {}
 

@@ -23,6 +23,7 @@ position = Vector2(-1, -221.255)
 default_target = NodePath("../Player")
 
 [node name="train" parent="." unique_id=49399859 instance=ExtResource("3_jyhfs")]
+position = Vector2(-10, -737)
 
 [node name="gameoverScreen" parent="." unique_id=113212214 instance=ExtResource("6_tefeu")]
 

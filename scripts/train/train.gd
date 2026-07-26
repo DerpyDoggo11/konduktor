@@ -16,7 +16,7 @@ signal fuel_changed(fuel: float, normalized: float)
 @export var rpm_spool_rate: float = 400.0
 @export var max_tractive_force: float = 220000.0
 @export var mass: float = 180000.0
-@export var max_speed_ms: float = 10.0
+@export var max_speed_ms: float = 5.0
 
 # resistance
 @export var rolling_a: float = 2000.0
@@ -30,7 +30,7 @@ signal fuel_changed(fuel: float, normalized: float)
 # fuel
 @export var max_fuel: float = 500.0
 @export var idle_burn: float = 0.4
-@export var full_burn: float = 6.0
+@export var full_burn: float = 12.0
 
 # track
 @export var start_segment_path: NodePath = ^"/root/Main/map/Track/seg_a"
