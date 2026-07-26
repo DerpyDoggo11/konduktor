@@ -2134,6 +2134,12 @@ _data = {
 }
 point_count = 3
 
+[sub_resource type="Curve2D" id="Curve2D_58ndj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 704, -10794, 0, 0, 0, 0, 699, -11145)
+}
+point_count = 2
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24o6i"]
 size = Vector2(4397.1074, 154)
 
@@ -2234,6 +2240,12 @@ metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 
 [node name="TrackSegment11" type="Path2D" parent="Track" unique_id=190344260]
 curve = SubResource("Curve2D_e07uo")
+script = ExtResource("2_a2pkv")
+exits = Array[NodePath]([NodePath("../TrackSegment12")])
+metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
+
+[node name="TrackSegment12" type="Path2D" parent="Track" unique_id=1771277198]
+curve = SubResource("Curve2D_58ndj")
 script = ExtResource("2_a2pkv")
 is_finish = true
 metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
