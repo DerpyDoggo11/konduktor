@@ -158,8 +158,12 @@ func _physics_process(delta: float) -> void:
 		_knockback = Vector2.ZERO
 		if input_dir != Vector2.ZERO:
 			velocity = velocity.move_toward(input_dir * speed, acceleration * delta)
+			if $walkSound.playing == false:
+				$walkSound.playing = true
 		else:
 			velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+			if $walkSound.playing == true:
+				$walkSound.playing = false
 
 	var target_angle := global_position.angle_to_point(get_global_mouse_position()) + deg_to_rad(90)
 	if rotation_speed <= 0.0:
@@ -168,7 +172,7 @@ func _physics_process(delta: float) -> void:
 		global_rotation = lerp_angle(global_rotation, target_angle, 1.0 - exp(-rotation_speed * delta))
 
 	$walkingparticles.emitting = true
-
+	
 	move_and_slide()
 
 

@@ -3684,7 +3684,7 @@ metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 [node name="TrackSegment" type="Path2D" parent="Track" unique_id=1012429587]
 curve = SubResource("Curve2D_04w0f")
 script = ExtResource("2_a2pkv")
-exits = Array[NodePath]([NodePath("../TrackSegment2"), NodePath("")])
+exits = Array[NodePath]([NodePath("../TrackSegment2"), NodePath("../TrackSegment3")])
 metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 
 [node name="TrackSegment2" type="Path2D" parent="Track" unique_id=2011920767]
@@ -3700,11 +3700,13 @@ metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 [node name="TrackSegment7" type="Path2D" parent="Track" unique_id=1862602331]
 curve = SubResource("Curve2D_cumk7")
 script = ExtResource("2_a2pkv")
+exits = Array[NodePath]([NodePath("../TrackSegment8"), NodePath("../TrackSegment11")])
 metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 
 [node name="TrackSegment3" type="Path2D" parent="Track" unique_id=652184724]
 curve = SubResource("Curve2D_vvrx0")
 script = ExtResource("2_a2pkv")
+exits = Array[NodePath]([NodePath("../TrackSegment4"), NodePath("../TrackSegment5")])
 metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 
 [node name="TrackSegment4" type="Path2D" parent="Track" unique_id=1155244513]
@@ -3715,6 +3717,7 @@ metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 [node name="TrackSegment5" type="Path2D" parent="Track" unique_id=1871654980]
 curve = SubResource("Curve2D_b56te")
 script = ExtResource("2_a2pkv")
+exits = Array[NodePath]([NodePath("../TrackSegment8"), NodePath("../TrackSegment11")])
 metadata/_custom_type_script = "uid://wi6uhqlsdw4a"
 
 [node name="TrackSegment9" type="Path2D" parent="Track" unique_id=519376201]

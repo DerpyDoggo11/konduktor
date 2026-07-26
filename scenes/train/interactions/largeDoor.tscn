@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://clpufjb1hc15q" path="res://assets/zombies/BarMpty.png" id="3_i184c"]
 [ext_resource type="Texture2D" uid="uid://bxei2ajdvbqt2" path="res://assets/train/brokenDoor.png" id="3_p1bmn"]
 [ext_resource type="Texture2D" uid="uid://c2dqoek656lfs" path="res://assets/zombies/BarrFull.png" id="4_p1bmn"]
-[ext_resource type="AudioStream" uid="uid://dcichud1aibcs" path="res://assets/train/interactions/doorclose2.mp3" id="6_s3y48"]
-[ext_resource type="AudioStream" uid="uid://c512mn4o6p6iq" path="res://assets/train/interactions/doorclose.mp3" id="7_s3y48"]
+[ext_resource type="AudioStream" uid="uid://dlxidbdoyqgh0" path="res://assets/train/interactions/dooropen.mp3" id="7_it5e4"]
+[ext_resource type="AudioStream" uid="uid://dfdq560wrp67r" path="res://assets/train/interactions/doorclose.mp3" id="7_s3y48"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3kir"]
 size = Vector2(7, 64)
@@ -45,8 +45,11 @@ texture_progress = ExtResource("4_p1bmn")
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_n3kir")
 
-[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="." unique_id=765123076]
-stream = ExtResource("6_s3y48")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=368208578]
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="." unique_id=933039061]
 stream = ExtResource("7_s3y48")
+volume_db = -10.0
+pitch_scale = 0.6
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="." unique_id=1997969743]
+stream = ExtResource("7_it5e4")
+pitch_scale = 2.0
