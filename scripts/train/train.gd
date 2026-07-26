@@ -427,6 +427,10 @@ func _win() -> void:
 	fuel = maxf(fuel, 1.0)
 	speed_changed.emit(0.0, 0.0)
 	set_physics_process(false)
+	
+	for node in get_tree().get_nodes_in_group("hud"):
+		if node is CanvasItem or node is CanvasLayer:
+			node.visible = false
 
 	var winScreen := get_tree().get_first_node_in_group("winScreen")
 	if winScreen:

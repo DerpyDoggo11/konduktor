@@ -3,6 +3,7 @@
 [ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="1_r4oei"]
 [ext_resource type="Script" uid="uid://r7gqndxe3vnx" path="res://scenes/win.gd" id="1_yxbqr"]
 [ext_resource type="Script" uid="uid://datl184ejqbqk" path="res://scenes/credits.gd" id="2_iiocm"]
+[ext_resource type="Texture2D" uid="uid://dy23pythhox4w" path="res://assets/ui/Useless.....png" id="2_tylv2"]
 [ext_resource type="FontFile" uid="uid://drwasg070kig1" path="res://assets/ui/PixelPurl.ttf" id="3_yxbqr"]
 
 [node name="Win" type="CanvasLayer" unique_id=886205136 groups=["winScreen"]]
@@ -23,6 +24,15 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Menu2" unique_id=499315511]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_tylv2")
 
 [node name="1" type="HBoxContainer" parent="Menu2" unique_id=940037036]
 layout_mode = 1

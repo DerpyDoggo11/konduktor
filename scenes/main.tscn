@@ -32,7 +32,7 @@ position = Vector2(-2, -733)
 
 [node name="Gui" parent="." unique_id=150676867 instance=ExtResource("7_o6xl0")]
 
-[node name="Hud" type="CanvasLayer" parent="." unique_id=171953299]
+[node name="Hud" type="CanvasLayer" parent="." unique_id=171953299 groups=["hud"]]
 layer = 10
 
 [node name="Inventory" parent="Hud" unique_id=2130007932 instance=ExtResource("8_tipki")]
