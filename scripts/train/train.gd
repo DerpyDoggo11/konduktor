@@ -9,6 +9,10 @@ signal junction_approaching(good_dirs: Array, bad_dirs: Array)
 signal junction_cleared()
 
 signal fuel_changed(fuel: float, normalized: float)
+signal fuel_added(amount: float)
+signal finished()
+
+var _won: bool = false
 
 # engine
 @export var idle_rpm: float = 300.0
@@ -72,14 +76,13 @@ var _blocked: bool = false
 var _out_of_fuel: bool = false
 var _history: Array = []
 
-# Which cart is carrying each body: { body: "front" | "back" }
 var _carrier_of: Dictionary = {}
 
 func _ready() -> void:
 	add_to_group("train")
 	add_to_group("train_marker")
 
-	fuel = max_fuel
+	fuel = 1
 	rpm = idle_rpm
 
 	throttle.throttle_changed.connect(_on_throttle_changed)
@@ -94,11 +97,15 @@ func _ready() -> void:
 	if front_area:
 		front_area.body_entered.connect(_on_ride_entered)
 		front_area.body_exited.connect(_on_ride_exited)
+		front_area.area_entered.connect(_on_ride_entered)
+		front_area.area_exited.connect(_on_ride_exited)
 
 	var back_area := get_node_or_null(back_ride_area_path) as Area2D
 	if back_area:
 		back_area.body_entered.connect(_on_back_ride_entered)
 		back_area.body_exited.connect(_on_back_ride_exited)
+		back_area.area_entered.connect(_on_back_ride_entered)
+		back_area.area_exited.connect(_on_back_ride_exited)
 
 	await get_tree().process_frame
 	segment = get_node_or_null(start_segment_path) as TrackSegment
@@ -175,6 +182,8 @@ func add_fuel(amount: float) -> float:
 	var taken: float = minf(amount, space)
 	fuel += taken
 	fuel_changed.emit(fuel, fuel / max_fuel)
+	if taken > 0.0:
+		fuel_added.emit(taken)
 	return taken
 
 func consume_fuel(amount: float) -> float:
@@ -214,6 +223,7 @@ func _crash() -> void:
 	if gameOver:
 		gameOver.show_game_over("Stay on track, your train hit a barrier")
 
+
 func _advance_track(delta: float) -> void:
 	if segment == null or segment.curve == null:
 		return
@@ -243,8 +253,14 @@ func _advance_track(delta: float) -> void:
 		length = segment.curve.get_baked_length()
 		_blocked = false
 		segment_changed.emit(segment)
+	
+	var seg_len: float = segment.curve.get_baked_length()
+	if segment.is_finish and not _won and dist_px >= seg_len - 1.0:
+		_won = true
+		_win()
+		return
 
-	var remaining: float = segment.curve.get_baked_length() - dist_px
+	var remaining: float = seg_len - dist_px
 	var has_choice: bool = (
 		segment.has_exit(TrackSegment.Dir.LEFT)
 		or segment.has_exit(TrackSegment.Dir.RIGHT)
@@ -352,7 +368,17 @@ func _update_back_cart(delta: float) -> void:
 		prev_pos
 	)
 
+func _win() -> void:
+	finished.emit()
+	throttle_normalized = 0.0
+	speed_ms = 0.0
+	speed_changed.emit(0.0, 0.0)
+	set_physics_process(false)
 
+	var winScreen := get_tree().get_first_node_in_group("winScreen")
+	if winScreen:
+		winScreen.show_win("You've reached the end", "You Won!")
+		
 func _carry_bodies(list: Array, move: Vector2, turn: float, pivot: Vector2) -> void:
 	if move == Vector2.ZERO and is_zero_approx(turn):
 		return
@@ -361,9 +387,13 @@ func _carry_bodies(list: Array, move: Vector2, turn: float, pivot: Vector2) -> v
 			continue
 		if body.get("seated") == true:
 			continue
+		if body.get("carrier") != null:
+			continue
+
 		var offset: Vector2 = body.global_position - pivot
 		body.global_position = pivot + offset.rotated(turn) + move
 
+		# Camera rides with whichever cart holds the player.
 		if body.is_in_group("player"):
 			var cam := get_viewport().get_camera_2d()
 			if cam and cam.has_method("carry"):
@@ -377,7 +407,7 @@ func _bodies_for(cart: String) -> Array:
 	return out
 
 func _claim(body: Node, cart: String) -> void:
-	if not body.is_in_group("player"):
+	if not (body.is_in_group("player") or body.is_in_group("fuel_canister")):
 		return
 	_carrier_of[body] = cart
 
@@ -388,10 +418,13 @@ func _release(body: Node, cart: String) -> void:
 func _in_any_ride_area(body: Node) -> bool:
 	var front := get_node_or_null(ride_area_path) as Area2D
 	var back := get_node_or_null(back_ride_area_path) as Area2D
-	if front and front.get_overlapping_bodies().has(body):
-		return true
-	if back and back.get_overlapping_bodies().has(body):
-		return true
+	for area in [front, back]:
+		if area == null:
+			continue
+		if area.get_overlapping_bodies().has(body):
+			return true
+		if area.get_overlapping_areas().has(body):
+			return true
 	return false
 
 func _on_ride_entered(body: Node) -> void:
@@ -405,3 +438,4 @@ func _on_back_ride_entered(body: Node) -> void:
 
 func _on_back_ride_exited(body: Node) -> void:
 	_release(body, "back")
+	

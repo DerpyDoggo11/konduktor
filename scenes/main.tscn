@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://d04gj1kmjv3my" path="res://scenes/map/map.tscn" id="3_tbgi4"]
 [ext_resource type="PackedScene" uid="uid://otjom6kgqfim" path="res://scenes/gameoverScreen.tscn" id="6_tefeu"]
 [ext_resource type="PackedScene" uid="uid://d1hvqtq5cf7eb" path="res://assets/ui/gui.tscn" id="7_o6xl0"]
+[ext_resource type="PackedScene" uid="uid://lngh6x4ox7fk" path="res://scenes/player/inventory.tscn" id="8_tipki"]
+[ext_resource type="PackedScene" uid="uid://deeis37l4aijj" path="res://scenes/player/warning.tscn" id="9_85g3d"]
 
 [node name="Main" type="Node2D" unique_id=2071199095]
 texture_filter = 1
@@ -17,15 +19,22 @@ position = Vector2(0, 1)
 
 [node name="Player" parent="." unique_id=1053001766 instance=ExtResource("1_o5qli")]
 z_index = 1
-position = Vector2(-1, -221.255)
+position = Vector2(400, -219.725)
 
 [node name="Camera" parent="." unique_id=1725386832 node_paths=PackedStringArray("default_target") instance=ExtResource("3_sugp2")]
 default_target = NodePath("../Player")
 
 [node name="train" parent="." unique_id=49399859 instance=ExtResource("3_jyhfs")]
-position = Vector2(-10, -737)
+position = Vector2(-2, -733)
 
 [node name="gameoverScreen" parent="." unique_id=113212214 instance=ExtResource("6_tefeu")]
 visible = false
 
 [node name="Gui" parent="." unique_id=150676867 instance=ExtResource("7_o6xl0")]
+
+[node name="Hud" type="CanvasLayer" parent="." unique_id=171953299]
+layer = 10
+
+[node name="Inventory" parent="Hud" unique_id=2130007932 instance=ExtResource("8_tipki")]
+
+[node name="Warning" parent="Hud" unique_id=93980849 instance=ExtResource("9_85g3d")]

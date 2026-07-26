@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 signal fuel_changed(fuel: float, normalized: float)
+signal inventory_changed(frame: int)
 
 @export var walk_speed: float = 150.0
 @export var sprint_multiplier: float = 1.1
@@ -107,7 +108,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			_equip(0 if equipped_slot == slot else slot)
 			get_viewport().set_input_as_handled()
 			return
-
+			
 func _equip(slot: int) -> void:
 	if equipped_item != null:
 		equipped_item.queue_free()
@@ -115,13 +116,16 @@ func _equip(slot: int) -> void:
 	equipped_slot = slot
 	if slot <= 0 or slot > item_scenes.size():
 		equipped_slot = 0
+		_notify_inventory()
 		return
 	var scene := item_scenes[slot - 1]
 	if scene == null:
 		equipped_slot = 0
+		_notify_inventory()
 		return
 	equipped_item = scene.instantiate()
 	hand.add_child(equipped_item)
+	_notify_inventory()
 
 
 func _physics_process(delta: float) -> void:
@@ -184,13 +188,26 @@ func stand(point: Node2D) -> void:
 func is_carrying() -> bool:
 	return carried != null and is_instance_valid(carried)
 
+
 func pick_up(item: Node2D) -> bool:
 	if is_carrying() or seated:
 		return false
 	carried = item
+	_notify_inventory()
 	return true
-
+	
 func release() -> Node2D:
 	var item := carried
 	carried = null
+	_notify_inventory()
 	return item
+	
+func inventory_frame() -> int:
+	if is_carrying():
+		return 3
+	if equipped_slot >= 1 and equipped_slot <= 2:
+		return equipped_slot
+	return 0
+
+func _notify_inventory() -> void:
+	inventory_changed.emit(inventory_frame())

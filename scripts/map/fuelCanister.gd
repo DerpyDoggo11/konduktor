@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var fuel_amount: float = 200.0
+@export var fuel_amount: float = 250.0
 @export var frame_count: int = 1
 @export var invert_frames: bool = true
 @export var follow_speed: float = 22.0
@@ -14,21 +14,12 @@ var player_in_range: Node = null
 
 func _ready() -> void:
 	add_to_group("fuel_canister")
+	top_level = true
 	sprite.hframes = frame_count
 	sprite.vframes = 1
 	_apply_frame(1.0)
 	prompt.visible = false
 	set_physics_process(false)
-
-func _on_body_entered(body: Node) -> void:
-	if body.is_in_group("player") and carrier == null:
-		player_in_range = body
-		prompt.visible = true
-
-func _on_body_exited(body: Node) -> void:
-	if body == player_in_range:
-		player_in_range = null
-		prompt.visible = false
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not event.is_action_pressed("interact"):
@@ -50,7 +41,6 @@ func _pick_up(player: Node2D) -> void:
 	carrier = player
 	prompt.visible = false
 	player_in_range = null
-	top_level = true
 	shape.set_deferred("disabled", true)
 	global_position = player.carry_point.global_position
 	global_rotation = player.global_rotation
@@ -80,3 +70,14 @@ func _physics_process(delta: float) -> void:
 func _apply_frame(normalized: float) -> void:
 	var idx: int = clampi(int(round(clampf(normalized, 0.0, 1.0) * (frame_count - 1))), 0, frame_count - 1)
 	sprite.frame = (frame_count - 1 - idx) if invert_frames else idx
+
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and carrier == null:
+		player_in_range = body
+		prompt.visible = true
+
+
+func _on_body_exited(body: Node2D) -> void:
+	if body == player_in_range:
+		player_in_range = null
+		prompt.visible = false

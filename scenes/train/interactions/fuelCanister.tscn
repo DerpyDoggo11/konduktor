@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://c51ei41b0c87h"]
 
 [ext_resource type="Script" uid="uid://ym7ss65pfjc5" path="res://scripts/map/fuelCanister.gd" id="1_0tjdu"]
-[ext_resource type="Texture2D" uid="uid://1elc7w2hvjom" path="res://assets/train/interactions/trainFuelTank.png" id="2_rsqw1"]
+[ext_resource type="Texture2D" uid="uid://pq54r3p0i8x6" path="res://assets/map/FuelCanister.png" id="2_0tjdu"]
 [ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="3_j5uxy"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vpyrc"]
-size = Vector2(36, 76)
+size = Vector2(29, 31)
 
 [node name="TrainFuelTank" type="Area2D" unique_id=1960291640]
 script = ExtResource("1_0tjdu")
@@ -13,11 +13,10 @@ script = ExtResource("1_0tjdu")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=666252071]
 z_index = 2
 texture_filter = 1
-position = Vector2(-1, 6)
-texture = ExtResource("2_rsqw1")
+position = Vector2(-2, 0)
+texture = ExtResource("2_0tjdu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=371777349]
-position = Vector2(-1, -4)
 shape = SubResource("RectangleShape2D_vpyrc")
 
 [node name="Control" type="Control" parent="." unique_id=1540128018]
@@ -34,10 +33,10 @@ metadata/_edit_use_anchors_ = true
 z_index = 100
 z_as_relative = false
 layout_mode = 0
-offset_left = -38.0
-offset_top = -28.0
-offset_right = 660.0
-offset_bottom = 132.0
+offset_left = -35.0
+offset_top = -34.0
+offset_right = 663.0
+offset_bottom = 126.0
 scale = Vector2(0.1, 0.1)
 theme_override_fonts/font = ExtResource("3_j5uxy")
 theme_override_font_sizes/font_size = 150

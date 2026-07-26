@@ -8,7 +8,7 @@ extends Node2D
 @export var max_distance: float = 1400.0
 @export var enabled: bool = true
 
-@export var ramp_seconds: float = 240.0
+@export var ramp_seconds: float = 60.0
 @export var max_difficulty: float = 3.5
 
 var _points: Array = []

@@ -6,7 +6,7 @@
 [ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="4_aslf1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_24o6i"]
-size = Vector2(40.5, 70)
+size = Vector2(39.25, 52)
 
 [node name="DoorButton" type="Area2D" unique_id=474871628]
 script = ExtResource("1_x6nf2")
@@ -25,7 +25,7 @@ scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_8tf0n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1862912475]
-position = Vector2(0, -22)
+position = Vector2(-0.625, -13)
 shape = SubResource("RectangleShape2D_24o6i")
 
 [node name="Control" type="Control" parent="." unique_id=1997865346]

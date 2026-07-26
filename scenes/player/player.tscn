@@ -8,8 +8,6 @@
 [ext_resource type="AudioStream" uid="uid://i2b6haukw1cm" path="res://assets/train/freesound_community-metal-footsteps-14727.mp3" id="6_75vfm"]
 [ext_resource type="Texture2D" uid="uid://qvd6n13nrj8g" path="res://assets/player/Dot1.png" id="7_0owmy"]
 [ext_resource type="AudioStream" uid="uid://c7i2ocpbyvahb" path="res://assets/player/damage.mp3" id="8_qek5x"]
-[ext_resource type="Texture2D" uid="uid://bcbqmpe1uvoat" path="res://assets/player/UiTHingGameGamejam.png" id="9_5gtgg"]
-[ext_resource type="Script" uid="uid://dim0k8llklwsg" path="res://scenes/player/texture_rect.gd" id="10_h17s1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8afob"]
 size = Vector2(22, 17)
@@ -96,33 +94,3 @@ color_ramp = SubResource("Gradient_qvi6r")
 
 [node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="." unique_id=330130138]
 stream = SubResource("AudioStreamRandomizer_uvsnm")
-
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=110386465]
-layer = 128
-follow_viewport_enabled = true
-
-[node name="Control" type="Control" parent="CanvasLayer" unique_id=1155808582]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control" unique_id=458772033]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -48.0
-offset_top = -384.0
-offset_right = 48.0
-grow_horizontal = 2
-grow_vertical = 0
-texture = ExtResource("9_5gtgg")
-stretch_mode = 3
-script = ExtResource("10_h17s1")

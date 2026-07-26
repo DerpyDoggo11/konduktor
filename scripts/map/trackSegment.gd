@@ -5,6 +5,7 @@ enum Dir { LEFT, STRAIGHT, RIGHT }
 
 @export var exits: Array[NodePath] = []
 @export var straight_tolerance_deg: float = 5.0
+@export var is_finish: bool = false
 
 var _by_dir: Dictionary = {}
 
