@@ -30,6 +30,13 @@ var _fuel_armed: bool = false
 @export var rolling_b: float = 300.0
 @export var drag_c: float = 45.0
 
+# engine audio
+@export var min_engine_pitch: float = 0.6
+@export var max_engine_pitch: float = 1.6
+
+@onready var engine_audio_a: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var engine_audio_b: AudioStreamPlayer2D = $AudioStreamPlayer2D2
+
 # braking
 @export var brake_force: float = 900000.0
 @export var brake_cuts_power: bool = true
@@ -88,6 +95,10 @@ func _ready() -> void:
 	fuel = max_fuel if start_fuel < 0.0 else clampf(start_fuel, 0.0, max_fuel)
 	_fuel_armed = fuel > arm_game_over_at
 	rpm = idle_rpm
+	
+	for player in [engine_audio_a, engine_audio_b]:
+		if player and not player.playing:
+			player.play()
 
 	throttle.throttle_changed.connect(_on_throttle_changed)
 	brake.brake_changed.connect(_on_brake_changed)
@@ -137,7 +148,16 @@ func _on_brake_changed(level: int, normalized: float) -> void:
 func _physics_process(delta: float) -> void:
 	_update_physics(delta)
 	_advance_track(delta)
-
+	
+	_update_engine_audio()
+	
+func _update_engine_audio() -> void:
+	var t: float = clampf(speed_ms / max_speed_ms, 0.0, 1.0)
+	var pitch: float = lerpf(min_engine_pitch, max_engine_pitch, t)
+	if engine_audio_a:
+		engine_audio_a.pitch_scale = pitch
+	if engine_audio_b:
+		engine_audio_b.pitch_scale = pitch
 
 func _update_physics(delta: float) -> void:
 	var target_rpm: float = lerpf(idle_rpm, max_rpm, throttle_normalized)
