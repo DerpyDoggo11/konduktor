@@ -12,18 +12,15 @@ signal fuel_changed(fuel: float, normalized: float)
 signal fuel_added(amount: float)
 signal finished()
 
-var _won: bool = false
-
 # engine
 @export var idle_rpm: float = 300.0
 @export var max_rpm: float = 1800.0
 @export var rpm_spool_rate: float = 400.0
 @export var max_tractive_force: float = 220000.0
 @export var mass: float = 180000.0
-@export var max_speed_ms: float = 100.0 # 5.0
+@export var max_speed_ms: float = 5.0
 @export var start_fuel: float = -1.0
 @export var arm_game_over_at: float = 1.0
-var _fuel_armed: bool = false
 
 # resistance
 @export var rolling_a: float = 2000.0
@@ -36,13 +33,6 @@ var _fuel_armed: bool = false
 @export var engine_cutoff_ms: float = 0.05
 @export var engine_fade_speed: float = 4.0
 
-@onready var engine_audio_a: AudioStreamPlayer2D = $AudioStreamPlayer2D
-@onready var engine_audio_b: AudioStreamPlayer2D = $AudioStreamPlayer2D2
-
-var _engine_players: Array[AudioStreamPlayer2D] = []
-var _engine_base_db: Array[float] = []
-var _engine_volume: float = 0.0
-
 # braking
 @export var brake_force: float = 900000.0
 @export var brake_cuts_power: bool = true
@@ -50,7 +40,7 @@ var _engine_volume: float = 0.0
 # fuel
 @export var max_fuel: float = 500.0
 @export var idle_burn: float = 0.4
-@export var full_burn: float = 0.0 # 12.0
+@export var full_burn: float = 12.0
 
 # track
 @export var start_segment_path: NodePath = ^"/root/Main/map/Track/seg_a"
@@ -66,6 +56,17 @@ var _engine_volume: float = 0.0
 @export var back_cart_path: NodePath
 @export var ride_area_path: NodePath
 @export var back_ride_area_path: NodePath
+
+# crushing enemies
+@export var crush_area_paths: Array[NodePath] = []
+@export var crush_min_speed_ms: float = 1.5
+@export var crush_damage_per_ms: float = 12.0
+@export var crush_interval: float = 0.25
+@export var crush_shove_force: float = 420.0
+@export var side_bias: float = 0.85          # 0 = straight ahead, 1 = fully sideways
+
+@onready var engine_audio_a: AudioStreamPlayer2D = $AudioStreamPlayer2D
+@onready var engine_audio_b: AudioStreamPlayer2D = $AudioStreamPlayer2D2
 
 @onready var throttle: Area2D = $FrontTrainCart/Throttle
 @onready var brake: Area2D = $FrontTrainCart/brake
@@ -87,12 +88,20 @@ var distance_m: float = 0.0
 var segment: TrackSegment = null
 var dist_px: float = 0.0
 
+var _won: bool = false
 var _warned: bool = false
 var _blocked: bool = false
 var _out_of_fuel: bool = false
+var _fuel_armed: bool = false
 var _history: Array = []
-
 var _carrier_of: Dictionary = {}
+
+var _engine_players: Array[AudioStreamPlayer2D] = []
+var _engine_base_db: Array[float] = []
+var _engine_volume: float = 0.0
+
+var _crush_areas: Array = []
+var _crush_timer: float = 0.0
 
 func _ready() -> void:
 	add_to_group("train")
@@ -101,12 +110,12 @@ func _ready() -> void:
 	fuel = max_fuel if start_fuel < 0.0 else clampf(start_fuel, 0.0, max_fuel)
 	_fuel_armed = fuel > arm_game_over_at
 	rpm = idle_rpm
-	
-	for player in [engine_audio_a, engine_audio_b]:
-		if player:
-			_engine_players.append(player)
-			_engine_base_db.append(player.volume_db)
-			player.stop()
+
+	for p in [engine_audio_a, engine_audio_b]:
+		if p:
+			_engine_players.append(p)
+			_engine_base_db.append(p.volume_db)
+			p.stop()
 
 	throttle.throttle_changed.connect(_on_throttle_changed)
 	brake.brake_changed.connect(_on_brake_changed)
@@ -129,11 +138,16 @@ func _ready() -> void:
 		back_area.body_exited.connect(_on_back_ride_exited)
 		back_area.area_entered.connect(_on_back_ride_entered)
 		back_area.area_exited.connect(_on_back_ride_exited)
-	
+
+	for p in crush_area_paths:
+		var a := get_node_or_null(p) as Area2D
+		if a:
+			_crush_areas.append(a)
+
 	if back_cart:
 		coupling_px = global_position.distance_to(back_cart.global_position)
 		back_cart.top_level = true
-		
+
 	await get_tree().process_frame
 	segment = get_node_or_null(start_segment_path) as TrackSegment
 	if segment == null:
@@ -143,7 +157,6 @@ func _ready() -> void:
 	if segment:
 		_history = [segment]
 		segment_changed.emit(segment)
-
 
 func _on_throttle_changed(level: int, normalized: float) -> void:
 	throttle_level = level
@@ -156,9 +169,9 @@ func _on_brake_changed(level: int, normalized: float) -> void:
 func _physics_process(delta: float) -> void:
 	_update_physics(delta)
 	_advance_track(delta)
-
 	_update_engine_audio(delta)
-	
+	_crush_enemies(delta)
+
 func _update_engine_audio(delta: float) -> void:
 	var target: float = 1.0 if speed_ms > engine_cutoff_ms else 0.0
 	_engine_volume = move_toward(_engine_volume, target, engine_fade_speed * delta)
@@ -176,6 +189,7 @@ func _update_engine_audio(delta: float) -> void:
 			p.play()
 		p.pitch_scale = pitch
 		p.volume_db = _engine_base_db[i] + linear_to_db(_engine_volume)
+
 
 func _update_physics(delta: float) -> void:
 	var target_rpm: float = lerpf(idle_rpm, max_rpm, throttle_normalized)
@@ -238,6 +252,48 @@ func consume_fuel(amount: float) -> float:
 	fuel_changed.emit(fuel, fuel / max_fuel)
 	return used
 
+func _crush_enemies(delta: float) -> void:
+	if _crush_areas.is_empty() or speed_ms < crush_min_speed_ms:
+		return
+
+	_crush_timer -= delta
+	if _crush_timer > 0.0:
+		return
+	_crush_timer = crush_interval
+
+	var dmg: int = int(round(speed_ms * crush_damage_per_ms))
+	if dmg <= 0:
+		return
+
+	for area in _crush_areas:
+		if not is_instance_valid(area):
+			continue
+
+		var fwd: Vector2 = Vector2(0, -1).rotated(area.global_rotation)
+		var side: Vector2 = fwd.orthogonal()
+
+		for body in area.get_overlapping_bodies():
+			if not is_instance_valid(body):
+				continue
+			if not body.is_in_group("enemy") or not body.has_method("take_damage"):
+				continue
+
+			body.take_damage(dmg, global_position)
+
+			if body.has_method("shove"):
+				var local_x: float = (body.global_position - area.global_position).dot(side)
+				var sign_x: float = signf(local_x)
+				if is_zero_approx(sign_x):
+					sign_x = 1.0 if randf() < 0.5 else -1.0
+
+				var push: Vector2 = (side * sign_x * side_bias + fwd * (1.0 - side_bias)).normalized()
+				body.shove(push, crush_shove_force + speed_ms * 20.0)
+
+func _hide_hud() -> void:
+	for node in get_tree().get_nodes_in_group("hud"):
+		if node is CanvasItem or node is CanvasLayer:
+			node.visible = false
+
 func _out_of_fuel_game_over() -> void:
 	if _won:
 		return
@@ -246,6 +302,7 @@ func _out_of_fuel_game_over() -> void:
 	speed_ms = 0.0
 	speed_changed.emit(0.0, 0.0)
 	set_physics_process(false)
+	_hide_hud()
 
 	var gameOver := get_tree().get_first_node_in_group("gameOver")
 	if gameOver:
@@ -258,7 +315,6 @@ func _crash() -> void:
 	if _won:
 		return
 	dead_end_reached.emit()
-	
 
 	if speed_ms < crash_speed_ms:
 		speed_ms = 0.0
@@ -269,11 +325,24 @@ func _crash() -> void:
 	throttle_normalized = 0.0
 	speed_changed.emit(0.0, 0.0)
 	set_physics_process(false)
+	_hide_hud()
 
 	var gameOver := get_tree().get_first_node_in_group("gameOver")
 	if gameOver:
 		gameOver.show_game_over("Your train hit a barrier", "Stay on track!")
 
+func _win() -> void:
+	finished.emit()
+	throttle_normalized = 0.0
+	speed_ms = 0.0
+	fuel = maxf(fuel, 1.0)
+	speed_changed.emit(0.0, 0.0)
+	set_physics_process(false)
+	_hide_hud()
+
+	var winScreen := get_tree().get_first_node_in_group("winScreen")
+	if winScreen:
+		winScreen.show_game_win()
 
 func _advance_track(delta: float) -> void:
 	if segment == null or segment.curve == null:
@@ -283,6 +352,11 @@ func _advance_track(delta: float) -> void:
 	var prev_rot: float = global_rotation
 
 	dist_px += speed_ms * pixels_per_meter * delta
+
+	if segment.is_finish and not _won and dist_px >= segment.curve.get_baked_length() - 1.0:
+		_won = true
+		_win()
+		return
 
 	var length: float = segment.curve.get_baked_length()
 	while dist_px >= length:
@@ -298,21 +372,20 @@ func _advance_track(delta: float) -> void:
 
 		dist_px -= length
 		segment = next
+
+		if segment.is_finish:
+			_won = true
+			_win()
+			return
+
 		_history.append(segment)
 		if _history.size() > 8:
 			_history.pop_front()
 		length = segment.curve.get_baked_length()
 		_blocked = false
 		segment_changed.emit(segment)
-	
-	var seg_len: float = segment.curve.get_baked_length()
-	if segment.is_finish and not _won and dist_px >= seg_len - 1.0:
-		_won = true
-		_win()
-		print("won!")
-		return
 
-	var remaining: float = seg_len - dist_px
+	var remaining: float = segment.curve.get_baked_length() - dist_px
 	var has_choice: bool = (
 		segment.has_exit(TrackSegment.Dir.LEFT)
 		or segment.has_exit(TrackSegment.Dir.RIGHT)
@@ -420,22 +493,7 @@ func _update_back_cart(delta: float) -> void:
 		prev_pos
 	)
 
-func _win() -> void:
-	finished.emit()
-	throttle_normalized = 0.0
-	speed_ms = 0.0
-	fuel = maxf(fuel, 1.0)
-	speed_changed.emit(0.0, 0.0)
-	set_physics_process(false)
-	
-	for node in get_tree().get_nodes_in_group("hud"):
-		if node is CanvasItem or node is CanvasLayer:
-			node.visible = false
 
-	var winScreen := get_tree().get_first_node_in_group("winScreen")
-	if winScreen:
-		winScreen.show_game_win()
-		
 func _carry_bodies(list: Array, move: Vector2, turn: float, pivot: Vector2) -> void:
 	if move == Vector2.ZERO and is_zero_approx(turn):
 		return
@@ -494,4 +552,3 @@ func _on_back_ride_entered(body: Node) -> void:
 
 func _on_back_ride_exited(body: Node) -> void:
 	_release(body, "back")
-	

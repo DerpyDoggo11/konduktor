@@ -32,3 +32,17 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("2_esmx7")
 theme_override_font_sizes/font_size = 30
+
+[node name="fuelLabel" type="Label" parent="." unique_id=777078305]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("2_esmx7")
+theme_override_font_sizes/font_size = 30
+text = "10/500 gallons
+"
+horizontal_alignment = 2

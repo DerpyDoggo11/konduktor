@@ -76,13 +76,13 @@ func _on_input_event(_viewport, event: InputEvent, _shape_idx: int) -> void:
 
 	match event.button_index:
 		MOUSE_BUTTON_LEFT:
-			_set_level(level - 1)
+			_set_level(level + 1)
 		MOUSE_BUTTON_RIGHT:
-			_set_level(level + 1)
-		MOUSE_BUTTON_WHEEL_UP:
 			_set_level(level - 1)
-		MOUSE_BUTTON_WHEEL_DOWN:
+		MOUSE_BUTTON_WHEEL_UP:
 			_set_level(level + 1)
+		MOUSE_BUTTON_WHEEL_DOWN:
+			_set_level(level - 1)
 
 
 func _set_level(value: int) -> void:

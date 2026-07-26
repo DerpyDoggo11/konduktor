@@ -18,6 +18,10 @@ enum Step { PICK_UP, DEPOSIT, THROTTLE, ADVICE, DONE }
 @onready var label: Label = $warningLabel
 @onready var distance_label: Label = $distanceLabel
 
+@export var canisters_required: int = 2
+
+var _deposits: int = 0
+
 var step: int = Step.PICK_UP
 
 var _train: Node = null
@@ -122,19 +126,21 @@ func _update_distance() -> void:
 
 func _on_inventory_changed(frame: int) -> void:
 	if step == Step.PICK_UP and frame == 3:
-		step = Step.DEPOSIT
-		_refresh()
+		_set_step(Step.DEPOSIT)
 
 func _on_fuel_added(_amount: float) -> void:
-	if step == Step.DEPOSIT:
-		step = Step.THROTTLE
-		_refresh()
+	if step != Step.DEPOSIT:
+		return
+	_deposits += 1
+	if _deposits >= canisters_required:
+		_set_step(Step.THROTTLE)
+	else:
+		_set_step(Step.PICK_UP)
 
 func _on_throttle_changed(level: int, _n: float) -> void:
 	if step == Step.THROTTLE and level > 0:
-		step = Step.ADVICE
 		_advice_timer = advice_seconds
-		_refresh()
+		_set_step(Step.ADVICE)
 
 func _on_fuel_changed(_f: float, normalized: float) -> void:
 	var low: bool = normalized <= low_fuel_ratio
@@ -165,10 +171,10 @@ func _refresh() -> void:
 			text = "Carry it to the engine room and fill the tank [E]"
 			col = color_tutorial
 		Step.THROTTLE:
-			text = "Sit at the driver's seat and raise the throttle [Scrollwheel]"
+			text = "Sit at the driver seat and raise the brake and throttle [Scrollwheel]"
 			col = color_tutorial
 		Step.ADVICE:
-			text = "Stop at fuel depots to restock or else you'll run out"
+			text = "Stop at fuel depots to restock or else you will run out"
 			col = color_tutorial
 		_:
 			if _junction == "dead_end":
@@ -183,6 +189,12 @@ func _refresh() -> void:
 
 	_show(text, col)
 
+
+func _set_step(new_step: int) -> void:
+	step = new_step
+	_shown_text = ""
+	_refresh()
+	
 func _show(text: String, col: Color) -> void:
 	if text == _shown_text:
 		return
