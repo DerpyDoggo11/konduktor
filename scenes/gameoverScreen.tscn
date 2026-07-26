@@ -55,7 +55,7 @@ offset_transform_enabled = true
 offset_transform_position = Vector2(0, -23)
 theme_override_fonts/font = ExtResource("2_a7lv1")
 theme_override_font_sizes/font_size = 98
-text = "Konduktor"
+text = "Chuggin"
 horizontal_alignment = 1
 
 [node name="---" type="Label" parent="Menu/1/2/Reason" unique_id=1896086998]
@@ -85,7 +85,7 @@ offset_transform_position = Vector2(0, 6)
 theme_override_colors/font_color = Color(1, 1, 1, 0.1764706)
 theme_override_fonts/font = ExtResource("2_a7lv1")
 theme_override_font_sizes/font_size = 98
-text = "Konduktor"
+text = "Chuggin"
 horizontal_alignment = 1
 
 [node name="Reason3" type="Label" parent="Menu/1/2/Reason" unique_id=949091609]
@@ -100,7 +100,7 @@ offset_transform_position = Vector2(0, 3)
 theme_override_colors/font_color = Color(1, 1, 1, 0.48235294)
 theme_override_fonts/font = ExtResource("2_a7lv1")
 theme_override_font_sizes/font_size = 98
-text = "Konduktor"
+text = "Chuggin"
 horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="Menu/1/2" unique_id=2031653716]

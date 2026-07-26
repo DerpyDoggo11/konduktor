@@ -56,7 +56,7 @@ alignment = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_r4oei")
 theme_override_font_sizes/font_size = 98
-text = "Konduktor"
+text = "Chuggin'"
 horizontal_alignment = 1
 
 [node name="---" type="Label" parent="Menu2/1/2/Reason2" unique_id=1955744495]
@@ -86,7 +86,7 @@ offset_transform_position = Vector2(0, 6)
 theme_override_colors/font_color = Color(1, 1, 1, 0.1764706)
 theme_override_fonts/font = ExtResource("1_r4oei")
 theme_override_font_sizes/font_size = 98
-text = "Konduktor"
+text = "Chuggin'"
 horizontal_alignment = 1
 
 [node name="Reason3" type="Label" parent="Menu2/1/2/Reason2" unique_id=304079486]
@@ -101,7 +101,7 @@ offset_transform_position = Vector2(0, 3)
 theme_override_colors/font_color = Color(1, 1, 1, 0.48235294)
 theme_override_fonts/font = ExtResource("1_r4oei")
 theme_override_font_sizes/font_size = 98
-text = "Konduktor"
+text = "Chuggin'"
 horizontal_alignment = 1
 
 [node name="Reason" type="Label" parent="Menu2/1/2" unique_id=1584576902]
