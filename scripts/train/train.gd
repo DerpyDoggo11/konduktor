@@ -33,9 +33,15 @@ var _fuel_armed: bool = false
 # engine audio
 @export var min_engine_pitch: float = 0.6
 @export var max_engine_pitch: float = 1.6
+@export var engine_cutoff_ms: float = 0.05
+@export var engine_fade_speed: float = 4.0
 
 @onready var engine_audio_a: AudioStreamPlayer2D = $AudioStreamPlayer2D
 @onready var engine_audio_b: AudioStreamPlayer2D = $AudioStreamPlayer2D2
+
+var _engine_players: Array[AudioStreamPlayer2D] = []
+var _engine_base_db: Array[float] = []
+var _engine_volume: float = 0.0
 
 # braking
 @export var brake_force: float = 900000.0
@@ -97,8 +103,10 @@ func _ready() -> void:
 	rpm = idle_rpm
 	
 	for player in [engine_audio_a, engine_audio_b]:
-		if player and not player.playing:
-			player.play()
+		if player:
+			_engine_players.append(player)
+			_engine_base_db.append(player.volume_db)
+			player.stop()
 
 	throttle.throttle_changed.connect(_on_throttle_changed)
 	brake.brake_changed.connect(_on_brake_changed)
@@ -148,16 +156,26 @@ func _on_brake_changed(level: int, normalized: float) -> void:
 func _physics_process(delta: float) -> void:
 	_update_physics(delta)
 	_advance_track(delta)
+
+	_update_engine_audio(delta)
 	
-	_update_engine_audio()
-	
-func _update_engine_audio() -> void:
+func _update_engine_audio(delta: float) -> void:
+	var target: float = 1.0 if speed_ms > engine_cutoff_ms else 0.0
+	_engine_volume = move_toward(_engine_volume, target, engine_fade_speed * delta)
+
 	var t: float = clampf(speed_ms / max_speed_ms, 0.0, 1.0)
 	var pitch: float = lerpf(min_engine_pitch, max_engine_pitch, t)
-	if engine_audio_a:
-		engine_audio_a.pitch_scale = pitch
-	if engine_audio_b:
-		engine_audio_b.pitch_scale = pitch
+
+	for i in _engine_players.size():
+		var p: AudioStreamPlayer2D = _engine_players[i]
+		if _engine_volume <= 0.001:
+			if p.playing:
+				p.stop()
+			continue
+		if not p.playing:
+			p.play()
+		p.pitch_scale = pitch
+		p.volume_db = _engine_base_db[i] + linear_to_db(_engine_volume)
 
 func _update_physics(delta: float) -> void:
 	var target_rpm: float = lerpf(idle_rpm, max_rpm, throttle_normalized)
@@ -230,7 +248,7 @@ func _out_of_fuel_game_over() -> void:
 	var gameOver := get_tree().get_first_node_in_group("gameOver")
 	if gameOver:
 		gameOver.show_game_over(
-			"Remember to pick up and use fuel canisters to power the train",
+			"Stop & use fuel canisters to power the train",
 			"You ran out of fuel"
 		)
 
@@ -249,7 +267,7 @@ func _crash() -> void:
 
 	var gameOver := get_tree().get_first_node_in_group("gameOver")
 	if gameOver:
-		gameOver.show_game_over("Stay on track, your train hit a barrier")
+		gameOver.show_game_over("Your train hit a barrier", "Stay on track!")
 
 
 func _advance_track(delta: float) -> void:
