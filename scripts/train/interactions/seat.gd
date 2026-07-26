@@ -55,6 +55,8 @@ func _enter_seat(player: Node) -> void:
 	if exit_tip:
 		exit_tip.show_tip()
 	_press_feedback()
+	
+	$AudioStreamPlayer2D.play()
 
 	var point: Node2D = seat_point if seat_point else self
 	player.sit(point)

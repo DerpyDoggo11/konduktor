@@ -134,7 +134,8 @@ func _tick_fuse(delta: float, dist: float) -> void:
 	_fuse -= delta
 	var blink: float = 1.0 - (_fuse / fuse_time)
 	sprite.modulate = STATS[kind]["tint"].lerp(Color(2.0, 1.4, 0.6), absf(sin(blink * 24.0)))
-
+	if not $explosionwarning.playing:
+		$explosionwarning.play()
 	if _fuse <= 0.0:
 		_explode()
 
@@ -142,8 +143,10 @@ func _explode() -> void:
 	if _exploded:
 		return
 	_exploded = true
+	_detach_sound($explosion1)
 
 	var space := get_world_2d().direct_space_state
+
 	var query := PhysicsShapeQueryParameters2D.new()
 	var circle := CircleShape2D.new()
 	circle.radius = blast_radius
@@ -200,3 +203,20 @@ func _on_damage_area_body_entered(body: Node2D) -> void:
 
 func _on_damage_area_body_exited(body: Node2D) -> void:
 	_touching.erase(body)
+
+func _detach_sound(sfx) -> void:
+	if sfx == null or not is_instance_valid(sfx):
+		return
+
+	var host: Node = get_tree().current_scene
+	if host == null:
+		host = get_parent()
+
+	if host == null:
+		# Nothing safe to hand it to — play anyway and accept the cutoff.
+		sfx.play()
+		return
+
+	sfx.reparent(host)          # keeps global transform for AudioStreamPlayer2D
+	sfx.finished.connect(sfx.queue_free)
+	sfx.play()

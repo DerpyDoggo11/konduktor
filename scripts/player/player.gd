@@ -80,6 +80,7 @@ func take_damage(amount: float, hit_from = null) -> void:
 		return
 	_invuln = invuln_time
 	_train.consume_fuel(amount)
+	$AudioStreamPlayer2D2.play()
 
 	_flash()
 
