@@ -239,6 +239,8 @@ func consume_fuel(amount: float) -> float:
 	return used
 
 func _out_of_fuel_game_over() -> void:
+	if _won:
+		return
 	fuel = 0.0
 	throttle_normalized = 0.0
 	speed_ms = 0.0
@@ -253,7 +255,10 @@ func _out_of_fuel_game_over() -> void:
 		)
 
 func _crash() -> void:
+	if _won:
+		return
 	dead_end_reached.emit()
+	
 
 	if speed_ms < crash_speed_ms:
 		speed_ms = 0.0
@@ -304,6 +309,7 @@ func _advance_track(delta: float) -> void:
 	if segment.is_finish and not _won and dist_px >= seg_len - 1.0:
 		_won = true
 		_win()
+		print("won!")
 		return
 
 	var remaining: float = seg_len - dist_px
@@ -418,6 +424,7 @@ func _win() -> void:
 	finished.emit()
 	throttle_normalized = 0.0
 	speed_ms = 0.0
+	fuel = maxf(fuel, 1.0)
 	speed_changed.emit(0.0, 0.0)
 	set_physics_process(false)
 

@@ -4,7 +4,6 @@ extends CanvasLayer
 @export var fade_time: float = 0.6
 @export var text_fade_time: float = 0.5
 @export var hold_time: float = 1.4
-@export var default_title: String = "Game over"
 
 @onready var fade: ColorRect = $Fade2
 @onready var text: Control = $Menu2
@@ -12,7 +11,6 @@ extends CanvasLayer
 var _shown: bool = false
 
 func _ready() -> void:
-	add_to_group("gameOver")
 	fade.color.a = 0.0
 	fade.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	text.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -20,6 +18,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func show_game_win() -> void:
+	print("show win")
 	if _shown:
 		return
 	_shown = true

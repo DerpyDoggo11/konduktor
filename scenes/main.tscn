@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://d1hvqtq5cf7eb" path="res://assets/ui/gui.tscn" id="7_o6xl0"]
 [ext_resource type="PackedScene" uid="uid://lngh6x4ox7fk" path="res://scenes/player/inventory.tscn" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://deeis37l4aijj" path="res://scenes/player/warning.tscn" id="9_85g3d"]
+[ext_resource type="PackedScene" uid="uid://ditsk22k6qxer" path="res://scenes/win.tscn" id="10_choun"]
 
 [node name="Main" type="Node2D" unique_id=2071199095]
 texture_filter = 1
@@ -37,3 +38,5 @@ layer = 10
 [node name="Inventory" parent="Hud" unique_id=2130007932 instance=ExtResource("8_tipki")]
 
 [node name="Warning" parent="Hud" unique_id=93980849 instance=ExtResource("9_85g3d")]
+
+[node name="Win" parent="." unique_id=886205136 instance=ExtResource("10_choun")]

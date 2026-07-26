@@ -421,7 +421,7 @@ door = NodePath("../LargeDoor6")
 z_index = 4
 position = Vector2(-1, 155.5)
 rotation = -1.5707964
-slide_offset = Vector2(60, 0)
+slide_offset = Vector2(-60, 0)
 
 [node name="DoorButton14" parent="FrontTrainCart/Doors" unique_id=688532074 node_paths=PackedStringArray("door") instance=ExtResource("16_7epb7")]
 position = Vector2(30, -15)
@@ -432,7 +432,7 @@ door = NodePath("../LargeDoor7")
 z_index = 4
 position = Vector2(1, -9)
 rotation = 4.712389
-slide_offset = Vector2(60, 0)
+slide_offset = Vector2(-60, 0)
 
 [node name="DoorButton15" parent="FrontTrainCart/Doors" unique_id=855575240 node_paths=PackedStringArray("door") instance=ExtResource("16_7epb7")]
 position = Vector2(30, -263)
@@ -443,7 +443,7 @@ door = NodePath("../LargeDoor8")
 z_index = 4
 position = Vector2(1, -257)
 rotation = 1.5707964
-slide_offset = Vector2(60, 0)
+slide_offset = Vector2(-60, 0)
 
 [node name="FuelTank" parent="FrontTrainCart" unique_id=565628124 instance=ExtResource("13_nm3wd")]
 position = Vector2(90, -30)
@@ -576,7 +576,6 @@ door = NodePath("../LargeDoor")
 [node name="LargeDoor" parent="BackTrainCart/Doors" unique_id=191049358 instance=ExtResource("17_8iy32")]
 z_index = 4
 position = Vector2(-110.025, -362.175)
-slide_offset = Vector2(0, 60)
 
 [node name="DoorButton9" parent="BackTrainCart/Doors" unique_id=1888579277 node_paths=PackedStringArray("door") instance=ExtResource("16_7epb7")]
 position = Vector2(-46, -395)
@@ -592,7 +591,6 @@ slide_offset = Vector2(60, 0)
 [node name="LargeDoor2" parent="BackTrainCart/Doors" unique_id=539775717 instance=ExtResource("17_8iy32")]
 z_index = 4
 position = Vector2(109.99999, -363)
-slide_offset = Vector2(0, 60)
 
 [node name="DoorButton2" parent="BackTrainCart/Doors" unique_id=1204161328 node_paths=PackedStringArray("door") instance=ExtResource("16_7epb7")]
 position = Vector2(105.555, -337.24)
@@ -606,12 +604,10 @@ door = NodePath("../LargeDoor3")
 [node name="LargeDoor3" parent="BackTrainCart/Doors" unique_id=1068358476 instance=ExtResource("17_8iy32")]
 z_index = 4
 position = Vector2(-110, -56.174988)
-slide_offset = Vector2(0, 60)
 
 [node name="LargeDoor4" parent="BackTrainCart/Doors" unique_id=1167930986 instance=ExtResource("17_8iy32")]
 z_index = 4
 position = Vector2(110.024994, -57)
-slide_offset = Vector2(0, 60)
 
 [node name="DoorButton8" parent="BackTrainCart/Doors" unique_id=1525457262 node_paths=PackedStringArray("door") instance=ExtResource("16_7epb7")]
 position = Vector2(104, -67)
