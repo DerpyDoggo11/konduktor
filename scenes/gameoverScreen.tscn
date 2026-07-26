@@ -39,7 +39,7 @@ alignment = 1
 [node name="2" type="VBoxContainer" parent="Menu/1" unique_id=920915663]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 15
+theme_override_constants/separation = 30
 alignment = 1
 
 [node name="Title" type="Label" parent="Menu/1/2" unique_id=532667685]
@@ -51,6 +51,8 @@ text = "You died"
 
 [node name="Reason" type="Label" parent="Menu/1/2" unique_id=1001510245]
 layout_mode = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, -23)
 theme_override_fonts/font = ExtResource("2_a7lv1")
 theme_override_font_sizes/font_size = 98
 text = "Konduktor"
@@ -104,6 +106,7 @@ horizontal_alignment = 1
 [node name="Button" type="Button" parent="Menu/1/2" unique_id=2031653716]
 layout_mode = 2
 size_flags_horizontal = 4
+offset_transform_enabled = true
 theme_override_fonts/font = ExtResource("3_b5rsy")
 theme_override_font_sizes/font_size = 50
 text = "  Try again?  "
