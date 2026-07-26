@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var frame_count: int = 15
+@export var frame_count: int = 19
 @export var invert_frames: bool = true
 
 @onready var sprite: Sprite2D = $Sprite2D

@@ -1,21 +1,23 @@
 [gd_scene format=3 uid="uid://dssp05f1v2a65"]
 
 [ext_resource type="Script" uid="uid://cuk5htmh3bj8p" path="res://scripts/train/interactions/fuelGauge.gd" id="1_qkwt4"]
-[ext_resource type="Texture2D" uid="uid://f5lt6wu4scfd" path="res://assets/map/fuelTank.png" id="1_y4qsc"]
+[ext_resource type="Texture2D" uid="uid://bggdnqkwhacl4" path="res://assets/train/interactions/FuelThing.png" id="2_kpc5o"]
 [ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="3_kpc5o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4qsc"]
-size = Vector2(38, 38)
+size = Vector2(38, 82)
 
 [node name="FuelTank" type="Area2D" unique_id=565628124]
 script = ExtResource("1_qkwt4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=856395103]
 texture_filter = 1
-texture = ExtResource("1_y4qsc")
-hframes = 15
+position = Vector2(1, -23)
+texture = ExtResource("2_kpc5o")
+hframes = 19
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2134673352]
+position = Vector2(0, -22)
 shape = SubResource("RectangleShape2D_y4qsc")
 
 [node name="Control" type="Control" parent="." unique_id=971897429]
@@ -32,10 +34,10 @@ metadata/_edit_use_anchors_ = true
 z_index = 100
 z_as_relative = false
 layout_mode = 0
-offset_left = -27.0
-offset_top = -44.0
-offset_right = 521.0
-offset_bottom = 105.0
+offset_left = -77.0
+offset_top = -20.0
+offset_right = 471.0
+offset_bottom = 129.0
 scale = Vector2(0.1, 0.1)
 theme_override_fonts/font = ExtResource("3_kpc5o")
 theme_override_font_sizes/font_size = 140
@@ -45,10 +47,10 @@ text = "[ E ] to fill"
 z_index = 100
 z_as_relative = false
 layout_mode = 0
-offset_left = -33.0
-offset_top = -31.0
-offset_right = 1038.0
-offset_bottom = 118.0
+offset_left = -83.0
+offset_top = -7.0
+offset_right = 988.0
+offset_bottom = 142.0
 scale = Vector2(0.1, 0.1)
 theme_override_colors/font_color = Color(0.641934, 0.641934, 0.641934, 1)
 theme_override_fonts/font = ExtResource("3_kpc5o")

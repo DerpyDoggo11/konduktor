@@ -21,6 +21,9 @@ var _won: bool = false
 @export var max_tractive_force: float = 220000.0
 @export var mass: float = 180000.0
 @export var max_speed_ms: float = 5.0
+@export var start_fuel: float = -1.0
+@export var arm_game_over_at: float = 1.0
+var _fuel_armed: bool = false
 
 # resistance
 @export var rolling_a: float = 2000.0
@@ -82,7 +85,8 @@ func _ready() -> void:
 	add_to_group("train")
 	add_to_group("train_marker")
 
-	fuel = 1
+	fuel = max_fuel if start_fuel < 0.0 else clampf(start_fuel, 0.0, max_fuel)
+	_fuel_armed = fuel > arm_game_over_at
 	rpm = idle_rpm
 
 	throttle.throttle_changed.connect(_on_throttle_changed)
@@ -106,7 +110,11 @@ func _ready() -> void:
 		back_area.body_exited.connect(_on_back_ride_exited)
 		back_area.area_entered.connect(_on_back_ride_entered)
 		back_area.area_exited.connect(_on_back_ride_exited)
-
+	
+	if back_cart:
+		coupling_px = global_position.distance_to(back_cart.global_position)
+		back_cart.top_level = true
+		
 	await get_tree().process_frame
 	segment = get_node_or_null(start_segment_path) as TrackSegment
 	if segment == null:
@@ -117,9 +125,6 @@ func _ready() -> void:
 		_history = [segment]
 		segment_changed.emit(segment)
 
-	if back_cart:
-		coupling_px = global_position.distance_to(back_cart.global_position)
-		back_cart.top_level = true
 
 func _on_throttle_changed(level: int, normalized: float) -> void:
 	throttle_level = level
@@ -143,7 +148,10 @@ func _update_physics(delta: float) -> void:
 	fuel -= used
 	fuel_changed.emit(fuel, fuel / max_fuel)
 
-	if fuel <= 0.0 and not _out_of_fuel:
+	if fuel > arm_game_over_at:
+		_fuel_armed = true
+
+	if fuel <= 0.0 and _fuel_armed and not _out_of_fuel:
 		_out_of_fuel = true
 		_out_of_fuel_game_over()
 		return
@@ -377,7 +385,7 @@ func _win() -> void:
 
 	var winScreen := get_tree().get_first_node_in_group("winScreen")
 	if winScreen:
-		winScreen.show_win("You've reached the end", "You Won!")
+		winScreen.show_game_win()
 		
 func _carry_bodies(list: Array, move: Vector2, turn: float, pivot: Vector2) -> void:
 	if move == Vector2.ZERO and is_zero_approx(turn):
@@ -393,7 +401,6 @@ func _carry_bodies(list: Array, move: Vector2, turn: float, pivot: Vector2) -> v
 		var offset: Vector2 = body.global_position - pivot
 		body.global_position = pivot + offset.rotated(turn) + move
 
-		# Camera rides with whichever cart holds the player.
 		if body.is_in_group("player"):
 			var cam := get_viewport().get_camera_2d()
 			if cam and cam.has_method("carry"):

@@ -1,10 +1,12 @@
 [gd_scene format=3 uid="uid://ditsk22k6qxer"]
 
 [ext_resource type="FontFile" uid="uid://cpeb3dxntafu4" path="res://assets/ui/Pixelta.ttf" id="1_r4oei"]
+[ext_resource type="Script" uid="uid://r7gqndxe3vnx" path="res://scenes/win.gd" id="1_yxbqr"]
 [ext_resource type="Script" uid="uid://datl184ejqbqk" path="res://scenes/credits.gd" id="2_iiocm"]
 [ext_resource type="FontFile" uid="uid://drwasg070kig1" path="res://assets/ui/PixelPurl.ttf" id="3_yxbqr"]
 
 [node name="Win" type="CanvasLayer" unique_id=886205136]
+script = ExtResource("1_yxbqr")
 
 [node name="Fade2" type="ColorRect" parent="." unique_id=1683385790]
 anchors_preset = 15

@@ -116,6 +116,7 @@ size = Vector2(229, 591)
 [node name="train" type="Node2D" unique_id=1364655378 groups=["train"]]
 texture_filter = 1
 script = ExtResource("1_4bqpq")
+start_fuel = 0.0
 back_cart_path = NodePath("BackTrainCart")
 ride_area_path = NodePath("FrontTrainCart/FrontRideArea")
 back_ride_area_path = NodePath("BackTrainCart/BackRideArea")
@@ -324,12 +325,6 @@ texture = ExtResource("2_xqujb")
 position = Vector2(0, 1)
 texture = ExtResource("3_ty2mg")
 
-[node name="FuelTank" parent="FrontTrainCart" unique_id=565628124 instance=ExtResource("13_nm3wd")]
-position = Vector2(-91, -29)
-
-[node name="FuelTank2" parent="FrontTrainCart" unique_id=1639326380 instance=ExtResource("13_nm3wd")]
-position = Vector2(88, -30)
-
 [node name="FrontRideArea" type="Area2D" parent="FrontTrainCart" unique_id=23219139]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FrontTrainCart/FrontRideArea" unique_id=696598884]
@@ -446,6 +441,9 @@ z_index = 4
 position = Vector2(1, -257)
 rotation = 1.5707964
 slide_offset = Vector2(60, 0)
+
+[node name="FuelTank" parent="FrontTrainCart" unique_id=565628124 instance=ExtResource("13_nm3wd")]
+position = Vector2(90, -30)
 
 [node name="BackTrainCart" type="Sprite2D" parent="." unique_id=590406602]
 texture_filter = 1

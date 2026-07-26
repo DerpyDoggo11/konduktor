@@ -29,6 +29,7 @@ window/size/viewport_height=600
 player=""
 enemy=""
 exit_tip=""
+winScreen=""
 
 [input]
 
