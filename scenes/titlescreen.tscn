@@ -40,7 +40,7 @@ theme_override_constants/separation = 20
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_v6ms7")
 theme_override_font_sizes/font_size = 128
-text = "Chuggin'"
+text = "Chuggin"
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="CanvasLayer/HBoxContainer/VBoxContainer/Label" unique_id=1029015100]
@@ -64,7 +64,7 @@ offset_transform_position = Vector2(0, 6)
 theme_override_colors/font_color = Color(1, 1, 1, 0.1764706)
 theme_override_fonts/font = ExtResource("2_v6ms7")
 theme_override_font_sizes/font_size = 128
-text = "Chuggin'   "
+text = "Chuggin    "
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -75,7 +75,7 @@ offset_transform_position = Vector2(0, 3)
 theme_override_colors/font_color = Color(1, 1, 1, 0.48235294)
 theme_override_fonts/font = ExtResource("2_v6ms7")
 theme_override_font_sizes/font_size = 128
-text = "Chuggin'"
+text = "Chuggin"
 horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="CanvasLayer/HBoxContainer/VBoxContainer" unique_id=2096533036]
