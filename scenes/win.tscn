@@ -116,11 +116,45 @@ theme_override_font_sizes/font_size = 64
 text = "You won!!"
 horizontal_alignment = 1
 
-[node name="Credits" type="Control" parent="Menu2/1/2" unique_id=385565714]
+[node name="Reason4" type="Label" parent="Menu2/1/2" unique_id=733508207]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 48
+text = "
+Made by Yehor, Alec & Vaughn
+for GMTK Game Jam 2026
+& Hack Club Jame Gam"
+horizontal_alignment = 1
+
+[node name="Reason2" type="Label" parent="Menu2/1/2/Reason4" unique_id=2110665290]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 3)
+theme_override_colors/font_color = Color(1, 1, 1, 0.1764706)
+theme_override_fonts/font = ExtResource("1_r4oei")
+theme_override_font_sizes/font_size = 48
+text = "
+Made by Yehor, Alec & Vaughn
+for GMTK Game Jam 2026
+& Hack Club Jame Gam"
+horizontal_alignment = 1
+
+[node name="Credits" type="Control" parent="." unique_id=385565714]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 418.0
+offset_top = 184.0
+offset_right = 781.0
+offset_bottom = 184.0
 size_flags_horizontal = 3
 
-[node name="Mask" type="Control" parent="Menu2/1/2/Credits" unique_id=1074087405]
+[node name="Mask" type="Control" parent="Credits" unique_id=1074087405]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -130,7 +164,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_iiocm")
 
-[node name="Creditstext" type="Label" parent="Menu2/1/2/Credits/Mask" unique_id=360104325]
+[node name="Creditstext" type="Label" parent="Credits/Mask" unique_id=360104325]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
